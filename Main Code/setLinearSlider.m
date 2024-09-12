@@ -1,5 +1,5 @@
 function setLinearSlider(speed_preset, target_position)
-    % Speed Preset: Takes integer [1,] with 8 max speed and 1 min speed.
+    % Speed Preset: Takes integer [1,8] with 8 max speed and 1 min speed.
     % Target Position: Position to move linear slider to.
 
     % Connect to the device. 
