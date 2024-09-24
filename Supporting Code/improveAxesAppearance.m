@@ -1,4 +1,4 @@
-function improveAxesAppearance(axesObj)
+function improveAxesAppearance(axesObj, YYAxis, LineWidth)
     % Improve the appearance of axes in MATLAB App Designer and optionally save the figure
     % axesObj: handle to the UIAxes object
     
@@ -15,6 +15,16 @@ function improveAxesAppearance(axesObj)
     % Adjust box and axis line properties
     axesObj.Box = 'on';
     axesObj.LineWidth = 1.5;
+
+    % Modify linewidth properties for the left and right yyaxis
+    if strcmp(YYAxis, 'true')
+        yyaxis(axesObj, 'left');  % Switch to left axis
+        modifyLineWidth(axesObj, LineWidth);    
+        yyaxis(axesObj, 'right'); % Switch to right axis
+        modifyLineWidth(axesObj, LineWidth);
+    else
+        modifyLineWidth(axesObj, LineWidth);
+    end
     
     % Enhance legend appearance (if present)
     if ~isempty(axesObj.Legend)
@@ -40,6 +50,17 @@ function improveAxesAppearance(axesObj)
         if ~isempty(xData) && ~isempty(yData)
             axesObj.XLim = [min(xData), max(xData)];
             axesObj.YLim = [min(yData), max(yData)];
+        end
+    end
+end
+
+function modifyLineWidth(axesObj, LineWidth)
+    % Helper function to adjust line properties
+    if ~isempty(axesObj.Children)
+        for i = 1:length(axesObj.Children)
+            if isprop(axesObj.Children(i), 'LineWidth')
+                axesObj.Children(i).LineWidth = LineWidth;  % Adjust this value for desired thickness
+            end
         end
     end
 end
