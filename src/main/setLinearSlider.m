@@ -7,7 +7,7 @@ function setLinearSlider(speedPreset, targetPosition)
     %                 the minimum speed
     % targetPosition: Position to move linear slider into.
 
-    % Connect to the device. 
+    % Connect to the device.
     LinearSlider = tcpclient('192.168.0.100', 1206);
     LinearSlider.ByteOrder = 'little-endian';
 
