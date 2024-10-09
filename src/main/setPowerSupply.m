@@ -1,6 +1,6 @@
 function setPowerSupply(PowerSupply, supplyMode, supplyVoltage)
     % This function configures a programmable power supply by selecting a 
-    % specific mode and setting the output voltage. 
+    % specific mode and setting the output voltage.
     %
     % Parameters
     % PowerSupply:   Handle representing the power supply object. The
