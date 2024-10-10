@@ -1,4 +1,4 @@
-function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing)
+function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing, GainFile)
     % This function calculates the gain of a test antenna in decibels relative 
     % to an isotropic radiator (dBi) based on the input frequency, S-parameters, 
     % and spacing between the antennas. It assumes that both the test antennas 
@@ -29,11 +29,15 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing)
     friis_factor = (lambda ./ (4*pi*Spacing)).^2;
 
     % Calculate gain in linear 
-    antenna_gain = sqrt(sParameter ./ friis_factor);  
+    if ~isempty(GainFile)
+        referenceGain = loadData(GainFile);
+        antenna_gain = sParameter^2 ./ (referenceGain .* friis_factor);
+    else
+        antenna_gain = sqrt(sParameter ./ friis_factor);  
+    end
 
     % Calculate gain in dBi
     antennaGain_dBi = 10 * log10(antenna_gain);
-    
     % Ensure the gain data is of type double
     antennaGain_dBi = double(antennaGain_dBi);
 end
