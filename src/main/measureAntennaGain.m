@@ -29,11 +29,11 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing)
     friis_factor = (lambda ./ (4*pi*Spacing)).^2;
 
     % Calculate gain in linear 
-    antenna_gain = sqrt(sParameter ./ friis_factor);    
+    antenna_gain = sqrt(sParameter ./ friis_factor);  
 
     % Calculate gain in dBi
     antennaGain_dBi = 10 * log10(antenna_gain);
-
+    
     % Ensure the gain data is of type double
     antennaGain_dBi = double(antennaGain_dBi);
 end

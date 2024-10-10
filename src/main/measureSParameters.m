@@ -1,6 +1,6 @@
 function [sData,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq)
-    % This function measures the 2-port or 3-port S-Parameters of a VNA
-    % system. 
+    % This function measures the 2-port or 3-port S-Parameters in (dB) of a
+    % VNA instrument. 
     %
     % 2-Port measured sParameters = {'S11', 'S21', 'S22'};
     % 3-Port measured sParameters = {'S11', 'S22', 'S33', 'S21', 'S31', 'S32'};
