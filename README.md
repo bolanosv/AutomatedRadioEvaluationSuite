@@ -29,7 +29,7 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 * Create tutorials
 * Measurement progress bars
 * App personalization settings
-
+* Error handling, print out error messages
 
 ## Install
 ### Download
@@ -42,6 +42,16 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 * [MATLAB Instrument Control Toolbox](https://www.mathworks.com/products/instrument.html) for the VISA control functions
 * [Keysight Connection Expert](https://www.keysight.com/us/en/lib/software-detail/computer-software/io-libraries-suite-downloads-2175637.html) for the VISA drivers
 * [NI VISA Driver](https://www.ni.com/en/support/downloads/drivers/download.ni-visa.html#548367)
+
+### Connections
+* Connect to the lab WiFi or a Virtual LAN enabled ethernet port.
+* Ensure your IP address matches the following settings to connect to instruments by LAN
+  * IPV4 address starts with 192.168.0.XXX (Where XXX is a number between
+  * Gateway is router IP 192.168.1.1
+  * Subnet Mask is 255.255.0.0
+  * DNS Server is 128.210.11.5 and alternate 128.210.11.57 
+
+
 ## Usage
 ### PA Measurement Tutorial
 Coming Soon...
@@ -54,7 +64,11 @@ Coming Soon...
 The instrument control code can be used for reference in custom scripts. It can be found in the [src/main](src/main) and [src/support](src/support) folders.
 
 
+Sample data can be found in the [data](./data) folder to plot sample measurements.
+
 ## Compatibility
+The app is compatible with the following instruments:
+
 * Keysight PNA-L N5235B 4-Port Network Analyzer
 * Agilient E3634A DC Power Supply
 * ETS Lindgren EMCenter Position Controller
