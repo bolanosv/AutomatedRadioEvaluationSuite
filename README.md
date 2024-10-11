@@ -32,11 +32,16 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 
 
 ## Install
+### Download
 * Install the [latest release](https://github.com/bolanosv/AutomatedRadioEvaluationSuite/releases) choosing from the available versions
   * For MATLAB Apps, follow [Packaging and Installing MATLAB Apps
 ](https://www.mathworks.com/videos/packaging-and-installing-matlab-apps-70404.html)
 
-
+### Requirements
+* [MATLAB](https://www.mathworks.com/products/matlab.html) to run the app
+* [MATLAB Instrument Control Toolbox](https://www.mathworks.com/products/instrument.html) for the VISA control functions
+* [Keysight Connection Expert](https://www.keysight.com/us/en/lib/software-detail/computer-software/io-libraries-suite-downloads-2175637.html) for the VISA drivers
+* [NI VISA Driver](https://www.ni.com/en/support/downloads/drivers/download.ni-visa.html#548367)
 ## Usage
 ### PA Measurement Tutorial
 Coming Soon...
