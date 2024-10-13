@@ -8,17 +8,20 @@ function saveData(combinedData, combinedNames)
     %                variables. Example: {testFreq, testGain, ...}
     % combinedNames: Cell array containing the titles of the measurement
     %                variables. Example: {'Frequency Hz', 'Gain dB', ...}
-    
+
     dataTable = array2table(combinedData, 'VariableNames', combinedNames);
-    
-    switch ext
-        case '.csv'
-            writetable(dataTable, filename);
-            disp(['Data saved to ', filename]);
-        case {'.xls', '.xlsx'}
-            writetable(dataTable, filename);
-            disp(['Data saved to ', filename]);
-        otherwise
-            error('Unsupported file type.');
+
+    % Prompt the user to save the data into either CSV or Excel file
+    [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)'; ...
+                                   '*.xls;*.xlsx', 'Excel Files (*.xls, *.xlsx)'}, ...
+                                   'Save Data As');
+
+    % Hadle the user cancelling the prompt
+    if isequal(filename, 0) || isequal(path, 0)
+        return;
     end
+
+    fullFilename = fullfile(path, filename);
+    writetable(dataTable, fullFilename);
+    disp(['Data saved to ', fullFilename]);
 end
