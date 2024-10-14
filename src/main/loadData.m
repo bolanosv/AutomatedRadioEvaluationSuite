@@ -7,8 +7,10 @@ function combinedData = loadData(component)
     %             measurement is being loaded.
     
     [file, path, ~] = uigetfile({'*.csv;*.xls;*.xlsx', 'Data Files (*.csv, *.xls, *.xlsx)'});
-    filename = fullfile(path, file);
-    FileData = importdata(filename);
+    FileName = fullfile(path, file);
+    FileData = importdata(FileName);
+
+    assignin('base', 'loadedFilePath', FileName);
 
     if strcmp(component, 'PA')
         if isfield(FileData, 'textdata') && isfield(FileData, 'data')
