@@ -1,0 +1,31 @@
+function saveData(combinedData, combinedNames)
+    % This function saves data from the application into either a CSV or
+    % Excel file. The user passes in the combined test data and combined 
+    % test variable names, the function saves and organizes the data.
+    %
+    % Parameters
+    % combinedData:  Cell array containing the data for all measurement
+    %                variables. Example: {testFreq, testGain, ...}
+    % combinedNames: Cell array containing the titles of the measurement
+    %                variables. Example: {'Frequency Hz', 'Gain dB', ...}
+    
+    dataTable = array2table(combinedData, 'VariableNames', combinedNames);
+
+    [filename, path] = uiputfile({'*.csv;*.xls;*.xlsx', 'Excel and CSV Files (*.csv, *.xls, *.xlsx)'; ...
+                                   '*.csv', 'CSV Files (*.csv)'; ...
+                                   '*.xls;*.xlsx', 'Excel Files (*.xls, *.xlsx)'}, ...
+                                   'Save Data As');
+    
+    if isequal(filename, 0) || isequal(path, 0)
+        disp('User canceled the file save.');
+        return;
+    end
+    
+    % Combine path and filename
+    fullFilename = fullfile(path, filename);
+
+    % Write the table to the chosen file format
+    writetable(dataTable, fullFilename);
+    disp(['Data saved to ', fullFilename]);
+    
+end
