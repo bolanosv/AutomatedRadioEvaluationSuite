@@ -1,4 +1,4 @@
-function [sData,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq)
+function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq)
     % This function measures the 2-port or 3-port S-Parameters in (dB) of a
     % VNA instrument. 
     %
@@ -50,13 +50,13 @@ function [sData,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFr
     writeline(VNA, '*WAI');
     
     % Read S-Parameters
-    sData = cell(1, length(sParameters));
+    sParameters = cell(1, length(sParameters));
     for i = 1:length(sParameters)
         writeline(VNA, sprintf('CALC1:PAR:SEL "Meas%d"', i));
         writeline(VNA, 'CALC1:DATA? SDATA');
         data = readbinblock(VNA, 'double');
         complexData = data(1:2:end) + 1i*data(2:2:end);
-        sData{i} = 20 * log10(abs(complexData));
+        sParameters{i} = 20 * log10(abs(complexData));
         flush(VNA);
     end
     
