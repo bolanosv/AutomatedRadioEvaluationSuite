@@ -43,7 +43,7 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
     sParameter = 10.^(sParameter_dB / 20);   
 
     % Calculate the complex exponential factor
-    friis_factor = (lambda ./ (4*pi*Spacing)).^2;
+    friis_factor = (lambda / (4*pi*Spacing)).^2;
 
     if ~isempty(GainFile) % Non-identical Antennas
         referenceGain = loadData(GainFile);
