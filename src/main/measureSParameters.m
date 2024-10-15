@@ -17,6 +17,10 @@ function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq,
     %   freqValues: Frequency values of the sweep.
 
     sweepPts = 2501;
+
+    % Clear the error status register
+    writeline(VNA, '*CLS');
+    %pause(3);
     
     % Delete all existing measurements
     writeline(VNA, 'CALC:PAR:DEL:ALL');
