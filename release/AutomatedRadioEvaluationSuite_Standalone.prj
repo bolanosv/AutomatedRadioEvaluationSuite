@@ -1,11 +1,11 @@
 <deployment-project plugin="plugin.webdeploy" plugin-version="1.0">
-  <configuration file="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\main\AutomatedRadioEvaluationSuite.prj" location="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\main" name="AutomatedRadioEvaluationSuite" target="target.webdeploy" target-name="Web App Compiler">
+  <configuration file="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\release\AutomatedRadioEvaluationSuite_Standalone.prj" location="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\release" name="AutomatedRadioEvaluationSuite_Standalone" target="target.webdeploy" target-name="Web App Compiler">
     <param.appname>AutomatedRadioEvaluationSuite</param.appname>
-    <param.intermediate>${PROJECT_ROOT}\AutomatedRadioEvaluationSuite</param.intermediate>
-    <param.files.only>${PROJECT_ROOT}\AutomatedRadioEvaluationSuite</param.files.only>
+    <param.intermediate>${PROJECT_ROOT}\AutomatedRadioEvaluationSuite_Standalone</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\AutomatedRadioEvaluationSuite_Standalone</param.files.only>
     <param.output />
     <param.checkbox>false</param.checkbox>
-    <param.logdir>${PROJECT_ROOT}\AutomatedRadioEvaluationSuite</param.logdir>
+    <param.logdir>${PROJECT_ROOT}\AutomatedRadioEvaluationSuite_Standalone</param.logdir>
     <param.target.type>subtarget.web.app</param.target.type>
     <param.user.defined.mcr.options />
     <param.support.packages />
@@ -20,17 +20,28 @@
       <param.support.packages />
     </unset>
     <fileset.web.main>
-      <file>${PROJECT_ROOT}\ARES.mlapp</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\ARES.mlapp</file>
     </fileset.web.main>
     <fileset.resources />
-    <fileset.depfun />
+    <fileset.depfun>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\docs\ARES logo.jpg</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\dBm2W.m</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\improveAxesAppearance.m</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\loadData.m</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\measureAntennaGain.m</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\measureRFOutput.m</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\measureRFParameters.m</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\measureSParameters.m</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\saveData.m</file>
+      <file>C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\support\waitForInstrument.m</file>
+    </fileset.depfun>
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\AutomatedRadioEvaluationSuite" name="AutomatedRadioEvaluationSuite.ctf" optional="false">C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\main\AutomatedRadioEvaluationSuite\AutomatedRadioEvaluationSuite.ctf</file>
+      <file location="${PROJECT_ROOT}\AutomatedRadioEvaluationSuite_Standalone" name="AutomatedRadioEvaluationSuite.ctf" optional="false">C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\release\AutomatedRadioEvaluationSuite_Standalone\AutomatedRadioEvaluationSuite.ctf</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2024a</root>
+      <root>C:\Program Files\MATLAB\R2024b</root>
       <toolboxes>
         <toolbox name="matlabcoder" />
         <toolbox name="gpucoder" />

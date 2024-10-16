@@ -39,23 +39,16 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
     % Wavelength (m)
     lambda = c ./ Frequency; 
 
-    % Convert S-parameter from dB to linear
-    sParameter = 10.^(sParameter_dB / 20);   
-
-    % Calculate the complex exponential factor
-    friis_factor = (lambda / (4*pi*Spacing)).^2;
+    % Calculate the Free Space Path Loss
     FSPL_dB = 20*log10(lambda/(4*pi*Spacing));
 
     if ~isempty(GainFile) % Non-identical Antennas
-        referenceGain = loadData(GainFile);
-        antenna_gain = sParameter^2 ./ (referenceGain .* friis_factor);
-    else % Identical Antennas
-        % antenna_gain = sqrt(sParameter ./ friis_factor);  
-        antennaGain_dBi = (sParameter_dB-FSPL_dB)/2;
+        % referenceGain = loadData(GainFile); % Boresight gain from file
+        antennaGain_dBi = sParameter_dB - FSPL_dB; %  - referenceGain
+    else % Identical Antennas (Two-antenna gain 
+        antennaGain_dBi = (sParameter_dB/2-FSPL_dB)/2;
     end
 
-    % Calculate gain in dBi
-    % antennaGain_dBi = 10 * log10(antenna_gain);
     % Ensure the gain data is of type double
     antennaGain_dBi = double(antennaGain_dBi);
 end
