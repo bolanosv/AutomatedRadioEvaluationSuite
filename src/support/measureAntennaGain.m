@@ -1,4 +1,4 @@
-function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing, GainFile)
+function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing, RefGain, RefFreq)
     % This function calculates the gain of a test antenna in decibels relative 
     % to an isotropic radiator (dBi) based on the input frequency, S-parameters, 
     % and spacing between the antennas. If both antennas are identical the
@@ -21,16 +21,8 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
     %                  of the test antenna, over all specified frequencies.
 
     if nargin < 4
-        GainFile = [];
-    elseif ~isempty(GainFile)
-        [~, ~, ext] = fileparts(GainFile);
-        if ~ismember(lower(ext), {'.csv', '.xls', '.xlsx'})
-            error('GainFile must be a CSV or Excel file.');
-        end
-    end
-
-    if length(Frequency) ~= length(sParameter_dB)
-        error('Frequency and S-Parameter (dB) must have the same length.');
+        RefGain = [];
+        RefFreq = [];
     end
 
     % Speed of light (m/s)  
@@ -39,13 +31,13 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
     % Wavelength (m)
     lambda = c ./ Frequency; 
 
-    % Calculate the Free Space Path Loss
+    % Calculate the Free Space Path Loss in (dB)
     FSPL_dB = 20*log10(lambda/(4*pi*Spacing));
 
-    if ~isempty(GainFile) % Non-identical Antennas
-        % referenceGain = loadData(GainFile); % Boresight gain from file
-        antennaGain_dBi = sParameter_dB - FSPL_dB; %  - referenceGain
-    else % Identical Antennas (Two-antenna gain 
+    if ~isempty(RefGain)  % Non-identical Antenna Gain (dBi)
+        interpolatedRefGain = interp1(RefFreq, RefGain, Frequency, 'linear', 'extrap');
+        antennaGain_dBi = sParameter_dB - FSPL_dB - interpolatedRefGain;
+    else                  % Identical Antennas Gain (dBi)
         antennaGain_dBi = (sParameter_dB-FSPL_dB)/2;
     end
 
