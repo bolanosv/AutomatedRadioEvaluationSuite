@@ -16,7 +16,7 @@ function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq,
     %   sData:      S-Parameters as explained above.
     %   freqValues: Frequency values of the sweep.
 
-    sweepPts = 2501;
+    sweepPts = 201;
 
     % Clear the error status register
     writeline(VNA, '*CLS');

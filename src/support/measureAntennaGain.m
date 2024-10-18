@@ -46,7 +46,7 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
         % referenceGain = loadData(GainFile); % Boresight gain from file
         antennaGain_dBi = sParameter_dB - FSPL_dB; %  - referenceGain
     else % Identical Antennas (Two-antenna gain 
-        antennaGain_dBi = (sParameter_dB/2-FSPL_dB)/2;
+        antennaGain_dBi = (sParameter_dB-FSPL_dB)/2;
     end
 
     % Ensure the gain data is of type double
