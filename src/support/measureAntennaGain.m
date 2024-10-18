@@ -7,14 +7,15 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
     % antenna gain.
     %
     % Parameters
+    %
     % Frequency:     A scalar or vector of frequency values (in Hz) at
     %                which the antenna gain is measured. 
     % sParameter_dB: S-parameters (in dB) representing the magnitude of the 
     %                power transfer between two antennas.
     % Spacing:       The distance (in meters) between the two antennas used
     %                in the test setup.
-    % GainFile:      (Optional) Path to a CSV or Excel file containing 
-    %                boresight gain data.
+    % RefGain:       Refernce Antenna Gain
+    % RefFreq:       Reference Antenna Frequency Range 
     %
     % Returns
     % antennaGain_dBi: Numerical vector containing the antenna gain (dBi)
@@ -24,6 +25,9 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
         RefGain = [];
         RefFreq = [];
     end
+
+    Frequency = Frequency(:);
+    sParameter_dB = sParameter_dB(:);
 
     % Speed of light (m/s)  
     c = 3E8;  
@@ -35,6 +39,8 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
     FSPL_dB = 20*log10(lambda/(4*pi*Spacing));
 
     if ~isempty(RefGain)  % Non-identical Antenna Gain (dBi)
+        RefFreq = RefFreq(:);
+        RefGain = RefGain(:);
         interpolatedRefGain = interp1(RefFreq, RefGain, Frequency, 'linear', 'extrap');
         antennaGain_dBi = sParameter_dB - FSPL_dB - interpolatedRefGain;
     else                  % Identical Antennas Gain (dBi)
