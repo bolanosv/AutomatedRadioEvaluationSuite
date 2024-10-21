@@ -15,20 +15,20 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
   - Drain Efficiency
   - Power Added Efficiency
 - Multi-frequency PA measurements
-- Measure boresight antenna gain characteristics by Gain Comparison Method (i.e., Two-Antenna Method)
+- Measure antenna gain characteristics by Gain Comparison Method (i.e., Two-Antenna Method) and Gain Transfer Method (i.e., Comparison Antenna Method) using a reference gain file
 - Measure antenna return loss
 - Save and recall measurements in standardized file formats
 - Plot measurement results
 
 ## TODO
 
-- Generate Gain vs. Frequency "model.gain" csv file from Gain Comparison Method results
-- Calculate antenna gain by Gain Transfer Method (i.e., Comparison Antenna Method) using the .gain file
+- Faster antenna scanning by measuring the positive angles first and returning to the origin at the end of the measurement.
 - Extend the PA DC supplies to enable 1 to 4 supplies with sweeps
 - Create tutorials
+- Error handling, printing out error messages
+- Callback for automatic plotting when changing parameters
 - Measurement progress bars
 - App personalization settings
-- Error handling, print out error messages
 
 ## Install
 
