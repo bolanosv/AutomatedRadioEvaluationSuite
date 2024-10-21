@@ -1,18 +1,31 @@
-function combinedData = loadData(component)
+function combinedData = loadData(RFcomponent)
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function loads data in from a CSV or Excel file containing a 
     % single or sweep PA test measurement, or an Antenna test measurement. 
     %
-    % Parameters
-    % componenet: Either 'PA' or 'Antenna' depending on which type of 
-    %             measurement is being loaded.
+    % PARAMETERS
+    % RFcomponenet: Either 'PA' or 'Antenna' depending on which type of 
+    %               measurement is being loaded.
+    %
+    % RETURNS
+    % combinedData: A struct containing all the data from each column of 
+    %               the loaded file. User can acces specific data by 
+    %               accesing the array's fields.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     [file, path, ~] = uigetfile({'*.csv;*.xls;*.xlsx', 'Data Files (*.csv, *.xls, *.xlsx)'});
+    
+    if isequal(file, 0) || isequal(path, 0)
+        combinedData = [];
+        return
+    end
+
     FileName = fullfile(path, file);
     FileData = importdata(FileName);
 
     assignin('base', 'loadedFilePath', FileName);
 
-    if strcmp(component, 'PA')
+    if strcmp(RFcomponent, 'PA')
         if isfield(FileData, 'textdata') && isfield(FileData, 'data')
             headers = FileData.textdata(1, :);
         
@@ -40,7 +53,7 @@ function combinedData = loadData(component)
                 end
             end
         end
-    elseif strcmp(component, 'Antenna')
+    elseif strcmp(RFcomponent, 'Antenna')
         if isfield(FileData, 'textdata') && isfield(FileData, 'data')
             headers = FileData.textdata(1, :);
         

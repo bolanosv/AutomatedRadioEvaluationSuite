@@ -1,25 +1,26 @@
-function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing, RefGain, RefFreq)
+function antennaGain = measureAntennaGain(TestFreq, sParameter, Spacing, RefGain, RefFreq)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function calculates the gain of a test antenna in decibels 
     % relative to an isotropic radiator (dBi) based on the input frequency,
-    % S-parameters, and spacing between the antennas. If both antennas are
-    % identical the function uses the two antenna method (Friis 
-    % Transmission Equation), else the DUT antenna gain is calculated using
-    % the provided reference antenna gain.
+    % S-parameters, and spacing between the antennas. The function offers 
+    % two ways of caluclating antenna gain. If both test antennas are 
+    % identical the function uses the Two-Antenna method (Friss Equation), 
+    % else the Comparison Antenna Method is used, using the provided
+    % reference gain and frequency.
     %
     % PARAMETERS
-    % Frequency:     A scalar or vector of frequency values (in Hz) at
-    %                which the antenna gain is measured. 
-    % sParameter_dB: S21 (dB) representing the magnitude of the 
-    %                power transfer between two antennas.
-    % Spacing:       The distance (m) between the two antennas used
-    %                in the test setup.
-    % RefGain:       Refernce Antenna Gain
-    % RefFreq:       Reference Antenna Frequency Range 
+    % TestFreq:    A scalar or vector of frequency values (in Hz) at which
+    %              the antenna gain is measured. 
+    % sParameter:  A scalar or vector of S21 (dB) values representing the 
+    %              magnitude of power transfer between two antennas.
+    % Spacing:     A scalar, the distance (m) between the two antennas 
+    %              being tested.
+    % RefGain:     A scalar or vector containing the refernce antenna gain
+    % RefFreq:     A scalar or vector containing the reference frequencies 
     %
-    % OUTPUTS
-    % antennaGain_dBi: Numerical vector containing the antenna gain (dBi)
-    %                  of the test antenna, over all specified frequencies.
+    % RETURNS
+    % antennaGain: Vector containing the antenna gain in (dBi) of the test 
+    %              antenna.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if nargin < 4
@@ -31,19 +32,17 @@ function antennaGain_dBi = measureAntennaGain(Frequency, sParameter_dB, Spacing,
     c = 3E8;  
 
     % Wavelength (m)
-    lambda = c ./ Frequency; 
+    lambda = c ./ TestFreq; 
 
     % Free Space Path Loss (dB)
     FSPL_dB = 20*log10(lambda/(4*pi*Spacing));
 
-    if ~isempty(RefGain)  % Non-identical Antenna Gain (dBi)
-        %interpolatedRefGain = interp1(RefFreq, RefGain, Frequency, 'linear', 'extrap'); 
-        %interpolatedRefGain = interp1(RefFreq, RefGain, Frequency, 'spline', 'extrap');
-        interpolatedRefGain = interp1(RefFreq, RefGain, Frequency, 'pchip', 'extrap');
-        antennaGain_dBi = sParameter_dB - FSPL_dB - interpolatedRefGain;
+    if ~isempty(RefGain)  % Non-identical Antenna Gain (dBi) 
+        interpolatedRefGain = interp1(RefFreq, RefGain, TestFreq, 'spline');
+        antennaGain = sParameter - FSPL_dB - interpolatedRefGain;
     else                  % Identical Antennas Gain (dBi)
-        antennaGain_dBi = (sParameter_dB-FSPL_dB)/2;
+        antennaGain = (sParameter-FSPL_dB)/2;
     end
 
-    antennaGain_dBi = double(antennaGain_dBi);
+    antennaGain = double(antennaGain);
 end
