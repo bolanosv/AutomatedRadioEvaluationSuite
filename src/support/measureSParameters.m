@@ -1,22 +1,20 @@
-function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq)
+function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq, sweepPts)
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function measures the 2-port or 3-port S-Parameters in (dB) of a
     % VNA instrument. 
     %
-    % 2-Port measured sParameters = {'S11', 'S21', 'S22'};
-    % 3-Port measured sParameters = {'S11', 'S22', 'S33', 'S21', 'S31', 'S32'};
+    % PARAMETERS
+    % VNA:       The instrument object representing the spectrum vector
+    %            network analyzer, used to measure the S-Parameters.
+    % numPorts:  The number of ports of the VNA to be used.
+    % startFreq: First frequency of the frequency range.
+    % endFreq:   Last frequency of the frequency range.
+    % sweepPts:  Number of points for the VNA frequency sweep.
     %
-    % Parameters
-    %   VNA:       The instrument object representing the spectrum vector
-    %              network analyzer, used to measure the S-Parameters.
-    %   numPorts:  The number of ports of the VNA to be used.
-    %   startFreq: First frequency of the frequency range
-    %   endFreq:   Last frequency of the frequency range 
-    %
-    % Returns
-    %   sData:      S-Parameters as explained above.
-    %   freqValues: Frequency values of the sweep.
-
-    sweepPts = 201;
+    % RETURNS
+    % sParameters: S-Parameters as explained above.
+    % freqValues:  Frequency values of the sweep.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Clear the error status register
     writeline(VNA, '*CLS');
