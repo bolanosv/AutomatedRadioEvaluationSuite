@@ -12,23 +12,31 @@ function combinedData = loadData(RFcomponent)
     %               the loaded file. User can acces specific data by 
     %               accesing the array's fields.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
+    combinedData = struct();
     
     [file, path, ~] = uigetfile({'*.csv;*.xls;*.xlsx', 'Data Files (*.csv, *.xls, *.xlsx)'});
     
+    % Check if the user cancel the file selection
     if isequal(file, 0) || isequal(path, 0)
-        combinedData = [];
-        return
+        return;
     end
 
     FileName = fullfile(path, file);
     FileData = importdata(FileName);
 
+    % Check if the imported data is empty
+    if isempty(FileData) 
+        return;
+    end
+
+    % Store the file path in the base workspace, so user can acces it if
+    % needed.
     assignin('base', 'loadedFilePath', FileName);
 
     if strcmp(RFcomponent, 'PA')
         if isfield(FileData, 'textdata') && isfield(FileData, 'data')
             headers = FileData.textdata(1, :);
-        
             numColumns = size(FileData.data, 2);
             numHeaders = min(length(headers), numColumns); 
             headerValues = cell(numHeaders, 2);
@@ -38,8 +46,6 @@ function combinedData = loadData(RFcomponent)
                 headerValues{i, 1} = header;
                 headerValues{i, 2} = FileData.data(:, i);
             end
-        
-            combinedData = struct();
         
             for i = 1:numHeaders
                 header = headers{i};
@@ -56,7 +62,6 @@ function combinedData = loadData(RFcomponent)
     elseif strcmp(RFcomponent, 'Antenna')
         if isfield(FileData, 'textdata') && isfield(FileData, 'data')
             headers = FileData.textdata(1, :);
-        
             numColumns = size(FileData.data, 2);
             numHeaders = min(length(headers), numColumns); 
             headerValues = cell(numHeaders, 2);
@@ -66,8 +71,6 @@ function combinedData = loadData(RFcomponent)
                 headerValues{i, 1} = header;
                 headerValues{i, 2} = FileData.data(:, i);
             end
-        
-            combinedData = struct();
         
             for i = 1:numHeaders
                 header = headers{i};
