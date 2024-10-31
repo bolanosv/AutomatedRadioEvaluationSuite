@@ -47,7 +47,7 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 
 ### Connections
 
-- Connect to the lab WiFi or a Virtual LAN enabled ethernet port.
+- Connect to the lab WiFi or a Virtual LAN-enabled ethernet port.
 - Ensure your IP address matches the following settings to connect to instruments by LAN
   - IPV4 address starts with 192.168.0.XXX (Where XXX is a number between
   - Gateway is router IP 192.168.1.1
@@ -83,11 +83,11 @@ Sample data can be found in the [data](./data) folder to plot sample measurement
 The app is compatible with the following instruments:
 
 - Keysight PNA-L N5235B 4-Port Network Analyzer
-- Agilient E3634A DC Power Supply
+- Agilent E3634A DC Power Supply
 - ETS Lindgren EMCenter Position Controller
 - ETS Lindgren Linear Slide
 - Coming Next: Keysight E3634A Dual Output DC Power Supply
-- Comming Next: Keysight PNA-X 4-Power Network Analyzer
+- Coming Next: Keysight PNA-X 4-Power Network Analyzer
 - Coming Next: Keysight CXA/PXA Signal Analyzer
 
 ## License
