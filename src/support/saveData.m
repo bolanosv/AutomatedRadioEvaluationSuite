@@ -1,4 +1,4 @@
-function saveData(combinedData, combinedNames)
+function saveData(combinedData, combinedNames, passedExcelLimit)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function saves data from the application into either a CSV or
     % Excel file. The user passes in the combined test data and combined 
@@ -6,29 +6,24 @@ function saveData(combinedData, combinedNames)
     %
     % PARAMETERS
     % combinedData:  Cell array containing the data for all measurement
-    %                variables. Example: {testFreq, testGain, ...}
+    %                variables. Example: {testFrequency, testGain, ...}
     % combinedNames: Cell array containing the titles of the measurement
     %                variables. Example: {'Frequency Hz', 'Gain dB', ...}
-    % passedLimit:   
-    %
+    % ExcelLimit:    Boolean flag, signaling if the data to be stored is
+    %                bigger than what Excel can handle for a column.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     dataTable = array2table(combinedData, 'VariableNames', combinedNames);
 
-    % if passedLimit
-    %     % Prompt the user to save the data into a CSV file
-    %     [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)';}, 'Save Data As');
-    % else
-    %     % Prompt the user to save the data into either CSV or Excel file
-    %     [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)'; ...
-    %                                    '*.xlsx', 'Excel Files (*.xlsx)'}, ...
-    %                                    'Save Data As');
-    % end
-    [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)'; ...
-                                       '*.xlsx', 'Excel Files (*.xlsx)'}, ...
-                                       'Save Data As');
+    if passedExcelLimit
+        % Prompt the user to save the data into a CSV file
+        [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)';}, 'Save Data As');
+    else
+        % Prompt the user to save the data into a CSV or Excel file
+        [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)';'*.xlsx', 'Excel Files (*.xlsx)'}, 'Save Data As');
+    end
 
-    % Hadle the user cancelling the prompt
+    % Handle the user cancelling the prompt
     if isequal(filename, 0) || isequal(path, 0)
         return;
     end
