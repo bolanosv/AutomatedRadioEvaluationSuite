@@ -32,7 +32,7 @@ function combinedData = loadData(RFcomponent)
 
     % Store the file path in the base workspace, so user can acces it if
     % needed.
-    assignin('base', 'loadedFilePath', FileName);
+    assignin('base', 'loadedFilePath', file);
 
     if strcmp(RFcomponent, 'PA')
         if isfield(FileData, 'textdata') && isfield(FileData, 'data')
