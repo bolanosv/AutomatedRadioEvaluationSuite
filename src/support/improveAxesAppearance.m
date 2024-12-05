@@ -69,8 +69,24 @@ function improveAxesAppearance(axesObj, varargin)
             end
         end
         if ~isempty(xData) && ~isempty(yData)
-            axesObj.XLim = [min(xData), max(xData)];
-            axesObj.YLim = [min(yData), max(yData)];
+            xMin = min(xData);
+            xMax = max(xData);
+            yMin = min(yData);
+            yMax = max(yData);
+            
+            % Check for valid range and set default if invalid
+            if xMin == xMax
+                xMin = xMin - 1; 
+                xMax = xMax + 1;
+            end
+            if yMin == yMax
+                yMin = yMin - 1; 
+                yMax = yMax + 1;
+            end
+            
+            % Set axis limits
+            axesObj.XLim = [xMin, xMax];
+            axesObj.YLim = [yMin, yMax];
         end
     end
 end
