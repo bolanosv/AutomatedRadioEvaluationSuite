@@ -83,7 +83,7 @@ You can find the detailed tutorial for performing antenna measurements using ARE
 The instrument control code can be used for reference in custom scripts. It can be found in the [src/main](src/main) and [src/support](src/support) folders.
 
 
-The instrument control code, including support scripts for the main application, can be found in the `[src](src)` folder for the `.mlapp` file and the `[src/support](src/support)` folder for supporting `.m` files. These can be referenced for custom scripts.  
+The instrument control code, including support scripts for the main application, can be found in the [src](src) folder for the `.mlapp` file and the [src/support](src/support) folder for supporting `.m` files. These can be referenced for custom scripts.  
 
 Sample data can be found in the [data](./data) folder to plot sample measurements.
 
