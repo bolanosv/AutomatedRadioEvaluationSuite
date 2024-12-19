@@ -67,10 +67,15 @@ Coming Soon...
 ### Antenna Measurement Tutorial
 
 <p align="center">
-  <img src="/docs/assets/AntennaDemo.PNG" width="720"/>
+  <img src="/docs/assets/AntennaDemo1.PNG" width="720"/>
 <p \>
 
-Coming Soon...
+<p align="center">
+  <img src="/docs/assets/AntennaDemo2.PNG" width="720"/>
+<p \>
+ 
+You can find the detailed tutorial for performing antenna measurements using ARES [here](docs/Antenna_Measurement_Tutorial.pdf).
+
 
 ### Reference Code
 
