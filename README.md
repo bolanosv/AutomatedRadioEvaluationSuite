@@ -73,8 +73,8 @@ Coming Soon...
 <p align="center">
   <img src="/docs/assets/AntennaDemo2.PNG" width="720"/>
 <p \>
-
-Coming Soon...
+ 
+You can find the detailed tutorial for performing antenna measurements using ARES [here](docs/AntennaMeasurementTutorial.md).
 
 ### Reference Code
 
