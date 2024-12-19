@@ -80,7 +80,7 @@ You can find the detailed tutorial for performing antenna measurements using ARE
 
 ### Reference Code
 
-The instrument control code, including support scripts for the main application, can be found in the [src](src) directory for the ARES '.mlapp' file and the [src/support](src/support) folder for supporting `.m` files. These can be referenced for custom scripts.  
+The instrument control code, including support scripts for the main application, can be found in the [src](src) directory for the ARES `.mlapp` file and the [src/support](src/support) folder for supporting `.m` files. These can be referenced for custom scripts.  
 
 Sample data can be found in the [data](./data) folder to plot sample measurements.
 
