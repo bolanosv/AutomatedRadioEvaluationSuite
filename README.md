@@ -48,12 +48,12 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 
 ### Connections
 
-- Connect to the lab WiFi or a Virtual LAN-enabled ethernet port.
-- Ensure your IP address matches the following settings to connect to instruments by LAN
-  - IPV4 address starts with 192.168.0.XXX (Where XXX is a number between
-  - Gateway is router IP 192.168.1.1
-  - Subnet Mask is 255.255.0.0
-  - DNS Server is 128.210.11.5 and alternate 128.210.11.57
+- Connect to the lab WiFi or an ethernet port enabled for Virtual LAN (VLAN) access.
+- Ensure your device's IP address is configured with the following settings to connect to instruments via LAN:
+  - IPV4 address: Starts with 192.168.0.XXX, where XXX is a number between 1 and 254.
+  - Gateway: Router IP address 192.168.1.1
+  - Subnet Mask: 255.255.0.0
+  - DNS Servers: Primary 128.210.11.5 and Alternate 128.210.11.57.
 
 ## Usage
 
