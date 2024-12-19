@@ -34,10 +34,10 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 
 ### Download
 
-- Download the latest release of the Automated Radio Evaluation Suite from the [latest release](/releases)
-  - For MATLAB App: To install the app in MATLAB, follow the instructions in the [Packaging and Installing MATLAB Apps
+- Download the latest release of the Automated Radio Evaluation Suite from the [latest release](AutomatedRadioEvaluationSuite/releases)
+  - For the MATLAB App: Follow the instructions in the [Packaging and Installing MATLAB Apps Guide
     ](https://www.mathworks.com/videos/packaging-and-installing-matlab-apps-70404.html)
-  - For Standalone Desktop Application: Download the appropriate version for your system and follow the included installation instructions.
+  - For the Standalone Desktop Application: Download the appropriate version for your system and follow the included installation instructions.
 
 ### Requirements
 
