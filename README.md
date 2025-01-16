@@ -49,7 +49,7 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 ### Connections
 
 - Connect to the lab WiFi or an ethernet port enabled for Virtual LAN (VLAN) access.
-- Ensure your device's IP address is configured with the following settings to connect to instruments via LAN:
+- Ensure your device's IP address is configured with the following settings to connect to the instruments:
   - IPV4 address: Starts with 192.168.0.XXX, where XXX is a number between 1 and 254.
   - Gateway: Router IP address 192.168.1.1
   - Subnet Mask: 255.255.0.0
@@ -80,9 +80,9 @@ You can find the detailed tutorial for performing antenna measurements using ARE
 
 ### Reference Code
 
-The instrument control code can be used for reference in custom scripts. It can be found in the [src/main](src/main) and [src/support](src/support) folders.
+The instrument control code, including support scripts for the main application, can be found in the [src](src) directory for the ARES `.mlapp` file and the [src/support](src/support) folder for supporting `.m` files. These can be referenced for custom scripts.  
 
-Sample data can be found in the [data](./data) folder to plot sample measurements.
+Sample data for plotting measurements is available in the [data](./data) directory.
 
 ## Compatibility
 
