@@ -1,14 +1,16 @@
 function improveAxesAppearance(axesObj, varargin)
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Improve the appearance of axes in MATLAB App Designer, handles plots
     % containing two graphs one on the left y axis and the other on the
     % right y axis, sharing the same x axis.
     %
-    % Parameters
-    % axesObj:       Handle to the UIAxes object
+    % INPUT PARAMETERS
+    % axesObj:       Handle to the UIAxes object.
     % varargin:      Optional name-value pairs for 'YYAxis', 'LineWidth'.
     % YYAxis:        Boolean flag, to handle plots with graphs on the left 
     %                and right y axis, sharing the same x axis.
-    % LineThickness: Positive numeric scalar, to handle the thicknes
+    % LineThickness: Positive numeric scalar, to handle the thickness.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     defaultYYAxis = 'false';
     defaultLineThickness = 1.5;

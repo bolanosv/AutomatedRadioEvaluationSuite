@@ -1,5 +1,25 @@
 function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(app ,inputRFPower)
-
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % This function measures the output RF power, the DC drain power, and 
+    % the DC gate power. Currently the function also accounts for any 
+    % attenuation used in the test setup.
+    % 
+    % INSTRUMENTS
+    % Spectrum Analyzer: N9000B
+    % Signal Generator: SMW200A
+    % DC Power Supply: E36233A / E336234A
+    %
+    % INPUT PARAMETERS
+    % app:          The application object containing the instruments and 
+    %               the settings.
+    % inputRFPower: The input RF power to the signal generator (in dB).
+    %
+    % OUTPUT PARAMETERS
+    % OutputRFPower: The maximum output RF power after accounting for 
+    %                the attenuation in (dB).
+    % DCDrainPower:  The DC power delivered to the drain in (watts).
+    % DCGatePower:  The DC power delivered to the gate in (watts).
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % If an attenuator is used, the function will deal with that.
     attenuation = app.AttenuationValueField.Value;
 

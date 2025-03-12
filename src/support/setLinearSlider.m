@@ -1,11 +1,13 @@
 function setLinearSlider(speedPreset, targetPosition)
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function sets the speed preset of the linear slider, and moves
     % it to the target position specified by the user.
     %
-    % Parameters
+    % INPUT PARAMETERS
     % speedPreset:    Takes integers [1,8] with 8 the maximum speed and 1 
     %                 the minimum speed
     % targetPosition: Position to move linear slider into.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Connect to the device.
     LinearSlider = tcpclient('192.168.0.100', 1206);
