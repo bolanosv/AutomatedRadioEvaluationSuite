@@ -21,7 +21,7 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     % DCGatePower:   The DC power delivered to the gate in (watts).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % If an attenuator is used, the function will deal with that.
-    attenuation = app.AttenuationValueField.Value;
+    attenuation = app.InputAttenuationValueField.Value;
 
     % Set the amplitude of the signal generator
     writeline(app.SignalGenerator, sprintf(':SOURce1:POWer:LEVel:IMMediate:AMPLitude %g', inputRFPower));

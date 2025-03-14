@@ -1,1 +1,0 @@
-function runDualSupplyPAMeasurement(app)
