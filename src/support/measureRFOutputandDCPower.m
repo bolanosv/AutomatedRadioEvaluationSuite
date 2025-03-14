@@ -18,7 +18,7 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     % OutputRFPower: The maximum output RF power after accounting for 
     %                the attenuation in (dB).
     % DCDrainPower:  The DC power delivered to the drain in (watts).
-    % DCGatePower:  The DC power delivered to the gate in (watts).
+    % DCGatePower:   The DC power delivered to the gate in (watts).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % If an attenuator is used, the function will deal with that.
     attenuation = app.AttenuationValueField.Value;
@@ -77,9 +77,5 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
         elseif ismember(channel, app.GateChannels)
             DCGatePower = DCGatePower + channelPower;
         end
-
-        disp(['Reading power for channel: ', channel]);
-        disp(['Voltage: ', num2str(DCVoltage), ' Current: ', num2str(DCCurrent), ' Power: ', num2str(channelPower)]);
-
-    end        
+    end
 end

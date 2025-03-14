@@ -52,7 +52,7 @@ function improveAxesAppearance(axesObj, varargin)
     % Enhance legend appearance (if present)
     if ~isempty(axesObj.Legend)
         axesObj.Legend.FontSize = 10;
-        axesObj.Legend.Location = 'southwest';
+        axesObj.Legend.Location = 'best';
         axesObj.Legend.Box = 'on';
     end
     
@@ -97,7 +97,7 @@ function modifyLineThickness(axesObj, LineThickness)
     % Helper function to adjust line properties
     if ~isempty(axesObj.Children)
         for i = 1:length(axesObj.Children)
-            if isprop(axesObj.Children(i), 'LineThickness')
+            if isprop(axesObj.Children(i), 'LineWidth')
                 axesObj.Children(i).LineWidth = LineThickness;
             end
         end
