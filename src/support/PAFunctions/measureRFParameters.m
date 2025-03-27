@@ -1,4 +1,4 @@
-function [Gain, DE, PAE] = measureRFParameters(inputRFPower, outputRFPower, DCPower)
+function [Gain, DE, PAE] = measureRFParameters(inputRFPower, outputRFPower, DCDrainPower)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function calculates the RF Gain, the Drain Efficiency (DE), and 
     % the Power Added Efficiency (PAE) based on the input/output RF power, 
@@ -10,9 +10,9 @@ function [Gain, DE, PAE] = measureRFParameters(inputRFPower, outputRFPower, DCPo
     % DCPower:         DC power in (watts).
     %
     % OUTPUT PARAMETERS
-    % Gain: RF gain in (dB).
-    % DE:   Drain Efficiency as a percentage.
-    % PAE:  Power Added Efficiency as a percentage.
+    % Gain:            RF gain in (dB).
+    % DE:              Drain Efficiency (%).
+    % PAE:             Power Added Efficiency (%).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % Calculate Gain in dB.
@@ -23,7 +23,7 @@ function [Gain, DE, PAE] = measureRFParameters(inputRFPower, outputRFPower, DCPo
     outputRFPowerW = dBm2W(outputRFPower);
 
     % Calculate the DE and the PAE.
-    DE = (outputRFPowerW ./ DCPower) * 100;
-    PAE = ((outputRFPowerW - inputRFPowerW) ./ DCPower) * 100;
+    DE = (outputRFPowerW ./ DCDrainPower) * 100;
+    PAE = ((outputRFPowerW - inputRFPowerW) ./ DCDrainPower) * 100;
 end
 

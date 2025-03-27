@@ -6,13 +6,13 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     % 
     % INSTRUMENTS
     % Spectrum Analyzer: N9000B
-    % Signal Generator: SMW200A
-    % DC Power Supply: E36233A / E336234A
+    % Signal Generator:  SMW200A
+    % DC Power Supply:   E36233A / E336234A
     %
     % INPUT PARAMETERS
-    % app:          The application object containing the instruments and 
-    %               the settings.
-    % inputRFPower: The input RF power to the signal generator (in dB).
+    % app:           The application object containing the instruments and 
+    %                the settings.
+    % inputRFPower:  The input RF power to the signal generator (in dB).
     %
     % OUTPUT PARAMETERS
     % OutputRFPower: The maximum output RF power after accounting for 
@@ -20,6 +20,7 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     % DCDrainPower:  The DC power delivered to the drain in (watts).
     % DCGatePower:   The DC power delivered to the gate in (watts).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     % If an attenuator is used, the function will deal with that.
     attenuation = app.InputAttenuationValueField.Value;
 
@@ -47,8 +48,16 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     writeline(app.SpectrumAnalyzer, '*CLS');
 
     % Measure DC Power
-    DCDrainPower = 0;
-    DCGatePower = 0;
+    % DCDrainPower = 0;
+    % DCGatePower = 0;
+    %DCDrainPower = [];
+    %DCGatePower = [];
+
+    DCDrainPower = zeros(1, length(app.FilledPSUChannels)); % Preallocate with zeros
+    DCGatePower = zeros(1, length(app.FilledPSUChannels));   % Preallocate with zeros
+
+    drainIndex = 1;
+    gateIndex = 1;
 
     % Read voltage and current from all active channels
     for i = 1:length(app.FilledPSUChannels)
@@ -71,11 +80,26 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
         % Calculate DC Power
         channelPower = DCVoltage * DCCurrent;
 
-        % Accumulate the power based on channel designation
+        % % Accumulate the power based on channel designation
+        % if ismember(channel, app.DrainChannels)
+        %     DCDrainPower = DCDrainPower + channelPower;
+        % elseif ismember(channel, app.GateChannels)
+        %     DCGatePower = DCGatePower + channelPower;
+        % end
+        % Store the power based on channel designation.
+        % if ismember(channel, app.DrainChannels)
+        %     DCDrainPower(end+1) = channelPower;
+        % elseif ismember(channel, app.GateChannels)
+        %     DCGatePower(end+1) = channelPower;
+        % end
+
+        % Store the power based on channel designation.
         if ismember(channel, app.DrainChannels)
-            DCDrainPower = DCDrainPower + channelPower;
+            DCDrainPower(drainIndex) = channelPower;
+            drainIndex = drainIndex + 1;
         elseif ismember(channel, app.GateChannels)
-            DCGatePower = DCGatePower + channelPower;
+            DCGatePower(gateIndex) = channelPower;
+            gateIndex = gateIndex + 1;
         end
     end
 end
