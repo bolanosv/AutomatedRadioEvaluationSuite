@@ -10,7 +10,7 @@ function [Gain, DE, PAE] = measureRFParameters(inputRFPower, outputRFPower, DCDr
     % DCPower:         DC power in (watts).
     %
     % OUTPUT PARAMETERS
-    % Gain:            RF gain in (dB).
+    % Gain:            RF Gain.
     % DE:              Drain Efficiency (%).
     % PAE:             Power Added Efficiency (%).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
