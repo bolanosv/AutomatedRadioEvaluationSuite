@@ -20,9 +20,11 @@ function enablePSUChannels(app, channels, state)
     % Group channels by power supply unit.
     psuAChannels = {};
     psuBChannels = {};
+
     for i = 1:length(channels)
         [deviceChannel, psuName] = strtok(app.ChannelToDeviceMap(channels{i}), ',');
         psuName = psuName(2:end);
+
         % Map channel name to channel index (CH1 -> @1).
         switch deviceChannel
             case {'CH1'}
@@ -30,6 +32,7 @@ function enablePSUChannels(app, channels, state)
             case {'CH2'}
                 channelIndex = '@2';
         end
+        
         if strcmp(psuName, 'PSUA')
             psuAChannels{end + 1} = channelIndex;
         else
