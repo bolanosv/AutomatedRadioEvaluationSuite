@@ -24,9 +24,12 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     % If an attenuator is used, the function will deal with that.
     attenuation = app.InputAttenuationValueField.Value;
 
-    % Set the amplitude of the signal generator
+    % Set the power of the signal generator
     writeline(app.SignalGenerator, sprintf(':SOURce1:POWer:LEVel:IMMediate:AMPLitude %g', inputRFPower));
     app.waitForInstrument(app.SignalGenerator);
+
+    % Turn on the signal generator.
+    writeline(app.SignalGenerator, sprintf(':OUTPut1:STATe %d', 1));
 
     % Initiate the measurement process
     writeline(app.SpectrumAnalyzer, sprintf(':INITiate:CONTinuous %d', 0));
