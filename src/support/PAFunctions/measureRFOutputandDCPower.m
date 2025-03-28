@@ -24,45 +24,39 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     % If an attenuator is used, the function will deal with that.
     attenuation = app.InputAttenuationValueField.Value;
 
-    % Set the power of the signal generator
+    % Set the power of the signal generator.
     writeline(app.SignalGenerator, sprintf(':SOURce1:POWer:LEVel:IMMediate:AMPLitude %g', inputRFPower));
-    app.waitForInstrument(app.SignalGenerator);
+    waitForInstrument(app, app.SignalGenerator);
 
     % Turn on the signal generator.
     writeline(app.SignalGenerator, sprintf(':OUTPut1:STATe %d', 1));
 
-    % Initiate the measurement process
+    % Initiate the measurement process in the spectrum analyzer.
     writeline(app.SpectrumAnalyzer, sprintf(':INITiate:CONTinuous %d', 0));
     writeline(app.SpectrumAnalyzer, ':INITiate:IMMediate');
 
-    % Wait until the spectrum analyzer is ready
+    % Wait until the spectrum analyzer is ready.
     writeline(app.SpectrumAnalyzer, '*WAI');
-    app.waitForInstrument(app.SpectrumAnalyzer); 
-    % flush()
+    waitForInstrument(app, app.SpectrumAnalyzer); 
 
-    % Fetch the trace data
+    % Fetch the trace data.
     writeline(app.SpectrumAnalyzer, sprintf(':TRACe:DATA? %s', 'TRACe1'));
     trace_data = readbinblock(app.SpectrumAnalyzer, 'double');
 
-    % Measure the maximum output power and account for attenuation 
+    % Measure the maximum output power and account for attenuation.
     OutputRFPower = max(trace_data) + attenuation;
 
-    % Clear the status register of the spectrum analyzer
+    % Clear the status register of the spectrum analyzer.
     writeline(app.SpectrumAnalyzer, '*CLS');
 
-    % Measure DC Power
-    % DCDrainPower = 0;
-    % DCGatePower = 0;
-    %DCDrainPower = [];
-    %DCGatePower = [];
-
-    DCDrainPower = zeros(1, length(app.FilledPSUChannels)); % Preallocate with zeros
-    DCGatePower = zeros(1, length(app.FilledPSUChannels));   % Preallocate with zeros
+    % Measure DC Power and intialize outputs.
+    DCDrainPower = zeros(1, length(app.FilledPSUChannels)); 
+    DCGatePower = zeros(1, length(app.FilledPSUChannels));   
 
     drainIndex = 1;
     gateIndex = 1;
 
-    % Read voltage and current from all active channels
+    % Read voltage and current from all active channels.
     for i = 1:length(app.FilledPSUChannels)
         channel = app.FilledPSUChannels{i};
         [deviceChannel, psuName] = strtok(app.ChannelToDeviceMap(channel), ',');
@@ -75,26 +69,13 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
             psu = app.PowerSupplyB;
         end
 
-        % Read Voltage
+        % Read Voltage from PSU
         DCVoltage = str2double(writeread(psu, sprintf(':MEASure:SCALar:VOLTage:DC? %s', deviceChannel)));
-        % Read Current
+        % Read Current from PSU
         DCCurrent = str2double(writeread(psu, sprintf(':MEASure:SCALar:CURRent:DC? %s', deviceChannel)));
 
         % Calculate DC Power
         channelPower = DCVoltage * DCCurrent;
-
-        % % Accumulate the power based on channel designation
-        % if ismember(channel, app.DrainChannels)
-        %     DCDrainPower = DCDrainPower + channelPower;
-        % elseif ismember(channel, app.GateChannels)
-        %     DCGatePower = DCGatePower + channelPower;
-        % end
-        % Store the power based on channel designation.
-        % if ismember(channel, app.DrainChannels)
-        %     DCDrainPower(end+1) = channelPower;
-        % elseif ismember(channel, app.GateChannels)
-        %     DCGatePower(end+1) = channelPower;
-        % end
 
         % Store the power based on channel designation.
         if ismember(channel, app.DrainChannels)
