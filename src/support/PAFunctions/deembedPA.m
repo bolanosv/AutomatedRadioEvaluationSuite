@@ -32,8 +32,8 @@ function [inCal,outCal] = deembedPA(app, freq, RFInputPower)
         SnP_out = sparameters(app.OutputSpFile);
         
         % Interpolate the attenuation at the measurement frequency
-        Att_in = -interp1(SnP_in.Frequencies,A2dB(squeeze(abs(SnP_in.Parameters(2,1,:)))),freq,'spline');
-        Att_out = -interp1(SnP_out.Frequencies,A2dB(squeeze(abs(SnP_out.SnP_in.Parameters(2,1,:)))),freq,'spline');
+        Att_in = -interp1(SnP_in.Frequencies, A2dB(squeeze(abs(SnP_in.Parameters(2,1,:)))), freq, 'spline');
+        Att_out = -interp1(SnP_out.Frequencies, A2dB(squeeze(abs(SnP_out.Parameters(2,1,:)))), freq, 'spline');
 
         % Add the attenuations
         inCal = app.InputAttenuationValueField.Value + Att_in;
