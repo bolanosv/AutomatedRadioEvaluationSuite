@@ -1,8 +1,8 @@
 function [inCal,outCal] = deembedPA(app, freq, RFInputPower)
     %   deembedPA: De-embed PA measurement
     %   Outputs: inCal (input attenuation), outCal (output attenuation)
-    %   + Add the inCal factor [dB] to the input RF power to obtain the correted PA input power.
-    %   - Substract outCal factor from the measured output power to get the PA output power.
+    %   - Subtract the inCal factor [dB] to the input RF power to obtain the correted PA input power.
+    %   + Add outCal factor from the measured output power to get the PA output power.
     %   
     %   Inputs: mode (calibration mode), freq (measurement frequency [Hz]),
     %   RFInputPower (RF input power [dBm]),  {inFixedAtt, outFixedAtt}

@@ -1,8 +1,7 @@
 function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(app ,inputRFPower)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function measures the output RF power, the DC drain power, and 
-    % the DC gate power. Currently the function also accounts for any 
-    % attenuation used in the test setup.
+    % the DC gate power.
     % 
     % INSTRUMENTS
     % Spectrum Analyzer: N9000B
@@ -15,14 +14,10 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     % inputRFPower:  The input RF power to the signal generator (in dB).
     %
     % OUTPUT PARAMETERS
-    % OutputRFPower: The maximum output RF power after accounting for 
-    %                the attenuation in (dB).
+    % OutputRFPower: The maximum output RF power in (dB).
     % DCDrainPower:  The DC power delivered to the drain in (watts).
     % DCGatePower:   The DC power delivered to the gate in (watts).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    % If an attenuator is used, the function will deal with that.
-    attenuation = app.InputAttenuationValueField.Value;
 
     % Set the power of the signal generator.
     writeline(app.SignalGenerator, sprintf(':SOURce1:POWer:LEVel:IMMediate:AMPLitude %g', inputRFPower));
@@ -43,8 +38,8 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     writeline(app.SpectrumAnalyzer, sprintf(':TRACe:DATA? %s', 'TRACe1'));
     trace_data = readbinblock(app.SpectrumAnalyzer, 'double');
 
-    % Measure the maximum output power and account for attenuation.
-    OutputRFPower = max(trace_data) + attenuation;
+    % Measure the maximum output power.
+    OutputRFPower = max(trace_data);
 
     % Clear the status register of the spectrum analyzer.
     writeline(app.SpectrumAnalyzer, '*CLS');
