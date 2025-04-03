@@ -27,9 +27,9 @@ function enablePSUChannels(app, channels, state)
 
         % Map channel name to channel index (CH1 -> @1).
         switch deviceChannel
-            case {'CH1'}
+            case 'CH1'
                 channelIndex = '@1';
-            case {'CH2'}
+            case 'CH2'
                 channelIndex = '@2';
         end
         
