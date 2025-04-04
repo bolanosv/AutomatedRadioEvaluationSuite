@@ -61,6 +61,6 @@ function enablePSUChannels(app, channels, state)
             % Both channels need to be enabled.
             channelList = '@1,2';
         end
-        writeline(app.PowerSupplyB, sprintf(':OUTPut:STATe %d,%s', state, channelList));
+        writeline(app.PowerSupplyB, sprintf(':OUTPut:STATe %d,(%s)', state, channelList));
     end
 end

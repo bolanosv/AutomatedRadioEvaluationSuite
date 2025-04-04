@@ -56,7 +56,7 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
         channel = app.FilledPSUChannels{i};
         [deviceChannel, psuName] = strtok(app.ChannelToDeviceMap(channel), ',');
         psuName = psuName(2:end);
-        
+
         % Select PSU
         if strcmp(psuName, 'PSUA')
             psu = app.PowerSupplyA;
