@@ -55,6 +55,39 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
   - Subnet Mask: 255.255.0.0
   - DNS Servers: Primary 128.210.11.5 and Alternate 128.210.11.57.
 
+
+## Install
+
+### Download
+
+- Download the latest release of the Automated Radio Evaluation Suite from the [releases page](/release).
+  - **For the MATLAB App**: Follow the instructions in the [Packaging and Installing MATLAB Apps Guide](https://www.mathworks.com/videos/packaging-and-installing-matlab-apps-70404.html).
+  - **For the Standalone Desktop Application**: Download the executable files, run the installer, and follow the provided installation instructions.
+
+### Requirements
+
+To run the app, you will need:
+
+- [MATLAB](https://www.mathworks.com/products/matlab.html)
+- [MATLAB Instrument Control Toolbox](https://www.mathworks.com/products/instrument.html) (for VISA control functions)
+- [Keysight Connection Expert](https://www.keysight.com/us/en/lib/software-detail/computer-software/io-libraries-suite-downloads-2175637.html) (for VISA drivers)
+- [NI VISA Driver](https://www.ni.com/en/support/downloads/drivers/download.ni-visa.html#548367)
+
+### Network Connections
+
+1. **WiFi or Ethernet**: Connect to the lab WiFi or an Ethernet port with Virtual LAN (VLAN) access.
+2. **IP Configuration**: Ensure your device’s IP address is set up with the following network settings to connect to the instruments:
+   - **IPV4 Address**: 192.168.0.XXX (where XXX is between 1 and 254).
+   - **Gateway**: 192.168.1.1
+   - **Subnet Mask**: 255.255.0.0
+   - **DNS Servers**: Primary: 128.210.11.5, Alternate: 128.210.11.57.
+
+
+
+
+
+
+
 ## Usage
 
 ### PA Measurement Tutorial
