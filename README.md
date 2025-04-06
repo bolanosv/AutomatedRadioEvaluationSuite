@@ -83,7 +83,7 @@ You can find the detailed tutorial for performing antenna measurements using ARE
 The main application, instrument control code and supporting functions are organized within the **[src](src)** directory. Here’s an overview of the contents:
 
 - **ARES.mlapp**: This is the main application file for ARES, where the graphical user interface (GUI) and core functionality reside.
-- **instrument_address_history.txt**: This text file stores the instruments' names and corresponding IP addresses that users can reference when connecting to instruments via `visadev` to establish connections and send SCPI commands. Example line:
+- **instrument_address_history.txt**: This text file stores the instruments' names and corresponding IP addresses that users can reference when connecting to instruments via `visadev` to establish connections and send SCPI commands. 
 
 In the **[src/support](src/support)** directory, you'll find three subdirectories, each containing functions relevant to specific parts of the app:
 
@@ -98,13 +98,6 @@ Additionally, sample measurement data for plotting is available in the **[data](
 - **[PA](./data/PA)**: Contains sample data related to power amplifier measurements.
 
 You can reference these files and directories to build custom scripts or adapt the existing functionality to suit your specific needs.
-
-
-
-
-The instrument control code, including support scripts for the main application, can be found in the [src](src) directory for the ARES `.mlapp` file and the [src/support](src/support) folder for supporting `.m` files. These can be referenced for custom scripts.  
-
-Sample data for plotting measurements is available in the [data](./data) directory.
 
 ## Compatibility
 
