@@ -4,7 +4,7 @@
 <h1 align="center">Automated Radio Evaluation Suite
 </h1>
 
-Automated Radio Evaluation Suite Toolbox enables automated RF measurements of power amplifiers and antennas. Although commercial software exists, this app is open-source, customizable, and free. This app is still in development, some features might be unavailable at this release.
+The **Automated Radio Evaluation Suite** enables automated RF measurements for power amplifiers and antennas. Unlike commercial software, this app is open-source, customizable, and free. Please note that the app is still in development, and some features may not be available in this release.
 
 ## Features
 
@@ -22,13 +22,16 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 
 ## TODO
 
-- Faster antenna scanning by measuring the positive angles first and returning to the origin at the end of the measurement.
-- Extend the PA DC supplies to enable 1 to 4 supplies with sweeps
-- Create tutorials
-- Error handling, printing out error messages
-- Callback for automatic plotting when changing parameters
-- Measurement progress bars
-- App personalization settings
+- **Faster Antenna Scanning**: Improve scanning by measuring positive angles first and returning to the origin at the end of the measurement.
+- **Create Tutorials**: Add more tutorials for different app functionalities (one tutorial available for now).
+- **Error Handling**: Error handling is in place for the PA side, including error messages displayed in the GUI. An error log function is still needed.
+- **Callback for Automatic Plotting**: Implement automatic plotting when changing parameters (missing).
+- **Measurement Progress Bars**: Progress bars for PA measurements have been implemented.
+- **App Personalization Settings**: Add personalization settings for the app.
+- **How It Works**: Provide an overview of the app's inner workings, explaining how it communicates with instruments, processes measurements, and the general workflow.
+- **Advanced Features**: Highlight advanced options or features that may not be immediately obvious to users, such as custom configurations or unique settings.
+- **Troubleshooting**: Add a section for common issues users might run into, such as connection issues or instrument compatibility, with suggested solutions.
+- **FAQ**: Add a Frequently Asked Questions (FAQ) section to address common user inquiries and difficulties.
 
 ## Install
 
