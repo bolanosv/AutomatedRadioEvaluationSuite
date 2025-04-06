@@ -80,12 +80,26 @@ You can find the detailed tutorial for performing antenna measurements using ARE
 
 ### Reference Code
 
-### Reference Code
-
 The main application, instrument control code and supporting functions are organized within the **[src](src)** directory. Here’s an overview of the contents:
 
 - **ARES.mlapp**: This is the main application file for ARES, where the graphical user interface (GUI) and core functionality reside.
-- **instrument_address_history.txt**: This file stores the instruments' names and corresponding IP addresses that users can reference when connecting to instruments via `visadev` to establish connections and send SCPI commands. Example line:
+- **instrument_address_history.txt**: This text file stores the instruments' names and corresponding IP addresses that users can reference when connecting to instruments via `visadev` to establish connections and send SCPI commands. Example line:
+
+In the **[src/support](src/support)** directory, you'll find three subdirectories, each containing functions relevant to specific parts of the app:
+
+- **[AntennaFunctions](src/support/AntennaFunctions)**: This directory contains functions specific to antenna measurements. It includes code for processing and analyzing antenna data using various methods like Gain Comparison and Gain Transfer.
+
+- **[PAFunctions](src/support/PAFunctions)**: This directory contains functions tailored for power amplifier (PA) testing. It includes code for measuring key PA figures of merit such as Gain, Output Power, Drain Efficiency, and Power Added Efficiency.
+
+- **[SupportFunctions](src/support/SupportFunctions)**: This directory contains utility functions shared across both the antenna and PA measurement modules. It includes functions for data saving/loading, troubleshooting, plotting measurement results, and other app-wide utilities that facilitate interaction with the system.
+
+Additionally, sample measurement data for plotting is available in the **[data](./data)** directory, organized into two subdirectories:
+- **[Antenna](./data/Antenna)**: Contains sample data specific to antenna measurements.
+- **[PA](./data/PA)**: Contains sample data related to power amplifier measurements.
+
+You can reference these files and directories to build custom scripts or adapt the existing functionality to suit your specific needs.
+
+
 
 
 The instrument control code, including support scripts for the main application, can be found in the [src](src) directory for the ARES `.mlapp` file and the [src/support](src/support) folder for supporting `.m` files. These can be referenced for custom scripts.  
