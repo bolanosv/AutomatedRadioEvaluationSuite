@@ -34,32 +34,6 @@ Automated Radio Evaluation Suite Toolbox enables automated RF measurements of po
 
 ### Download
 
-- Download the latest release of the Automated Radio Evaluation Suite from the [releases page](/release)
-  - For the MATLAB App: Follow the instructions in the [Packaging and Installing MATLAB Apps Guide
-    ](https://www.mathworks.com/videos/packaging-and-installing-matlab-apps-70404.html)
-  - For the Standalone Desktop Application: Download the attached files to your system, run the executable, and follow the included installation instructions.
-
-### Requirements
-
-- [MATLAB](https://www.mathworks.com/products/matlab.html) to run the app
-- [MATLAB Instrument Control Toolbox](https://www.mathworks.com/products/instrument.html) for the VISA control functions
-- [Keysight Connection Expert](https://www.keysight.com/us/en/lib/software-detail/computer-software/io-libraries-suite-downloads-2175637.html) for the VISA drivers
-- [NI VISA Driver](https://www.ni.com/en/support/downloads/drivers/download.ni-visa.html#548367)
-
-### Connections
-
-- Connect to the lab WiFi or an ethernet port enabled for Virtual LAN (VLAN) access.
-- Ensure your device's IP address is configured with the following settings to connect to the instruments:
-  - IPV4 address: Starts with 192.168.0.XXX, where XXX is a number between 1 and 254.
-  - Gateway: Router IP address 192.168.1.1
-  - Subnet Mask: 255.255.0.0
-  - DNS Servers: Primary 128.210.11.5 and Alternate 128.210.11.57.
-
-
-## Install
-
-### Download
-
 - Download the latest release of the Automated Radio Evaluation Suite from the [releases page](/release).
   - **For the MATLAB App**: Follow the instructions in the [Packaging and Installing MATLAB Apps Guide](https://www.mathworks.com/videos/packaging-and-installing-matlab-apps-70404.html).
   - **For the Standalone Desktop Application**: Download the executable files, run the installer, and follow the provided installation instructions.
@@ -81,12 +55,6 @@ To run the app, you will need:
    - **Gateway**: 192.168.1.1
    - **Subnet Mask**: 255.255.0.0
    - **DNS Servers**: Primary: 128.210.11.5, Alternate: 128.210.11.57.
-
-
-
-
-
-
 
 ## Usage
 
