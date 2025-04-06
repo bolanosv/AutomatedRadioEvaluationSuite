@@ -103,27 +103,13 @@ You can reference these files and directories to build custom scripts or adapt t
 
 The app is compatible with the following instruments:
 
-- Keysight PNA-L N5235B 4-Port Network Analyzer
-- Keysight E36233A/E36234A Dual Output DC Power Supply
-- Agilent E3634A DC Power Supply
-- Rohde & Schwarz SMW200A Signal Generator
-- Keysight CXA/PXA Signal Analyzer
-- ETS Lindgren EMCenter Position Controller
-- ETS Lindgren Linear Slide
-- Coming Next: Keysight PNA-X 4-Power Network Analyzer
-
-
-## Compatibility
-
-The app is compatible with the following instruments:
-
 - **Keysight PNA-L N5235B** 4-Port Network Analyzer
 - **Keysight E36233A/E36234A** Dual Output DC Power Supply
 - **Agilent E3634A** DC Power Supply
 - **Rohde & Schwarz SMW200A** Signal Generator
 - **Keysight CXA/PXA** Signal Analyzer
 - **ETS Lindgren EMCenter** Position Controller
-- **ETS Lindgren Linear Slide**
+- **ETS Lindgren Linear Slider**
 - **Coming Soon**: **Keysight PNA-X** 4-Port Network Analyzer
 
 ## License
