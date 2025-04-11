@@ -1,8 +1,11 @@
-function measureBoresightGain(app, startFrequency, endFrequency, sweepPoints)
+function measureBoresightGain(app)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function measures the boresight gain of an antenna using a VNA 
     % over a specified frequency range. It computes the antenna gain and 
     % return loss, then saves the results to a file.
+    %
+    % INSTRUMENTS
+    % Vector Network Analyzer: N5232B
     %
     % INPUT PARAMETERS
     % app:             The application object containing VNA and test 
@@ -15,6 +18,11 @@ function measureBoresightGain(app, startFrequency, endFrequency, sweepPoints)
     % OUTPUT PARAMETERS
     % None 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Initialize variables from the application.
+    startFrequency = app.VNAStartFrequency.Value * 1E6;
+    endFrequency = app.VNAEndFrequency.Value * 1E6;
+    sweepPoints = app.VNASweepPoints.Value;
 
     % Measure the S-parameters using the VNA over the specified 
     % frequency range with 2-port configuration.

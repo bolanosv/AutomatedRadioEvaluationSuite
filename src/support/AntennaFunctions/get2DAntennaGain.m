@@ -1,24 +1,20 @@
-function get2DAntennaGain(app, startFrequency, endFrequency, sweepPoints) 
-    app.StopRequested = false;
+function get2DAntennaGain(app) 
+
+    % Initialize variables from the application.
+    startFrequency = app.VNAStartFrequency.Value * 1E6;
+    endFrequency = app.VNAEndFrequency.Value * 1E6;
+    sweepPoints = app.VNASweepPoints.Value;
+
+    app.AntennaStopRequested = false;
 
     if ~isempty(app.ReferenceGainFile)
         ReferenceFreqs = app.ReferenceGainFile.FrequencyHz;
         ReferenceGain = app.ReferenceGainFile.GaindBi;
     end
-
-    if isempty(app.TableSpeedSlider.Value)
-        error('Table Speed cannot be empty.');
-    elseif isempty(app.TableStartAngle.Value)
-        error('Table Start Angle cannot be empty.');
-    elseif isempty(app.TableStepAngle.Value)
-        error('Table Step Angle cannot be empty.');
-    elseif isempty(app.TableEndAngle.Value)
-        error('Table End Angle cannot be empty.');
-    else
-        tableSpeed = app.TableSpeedSlider.Value;
-        tableAngles = app.TableStartAngle.Value:app.TableStepAngle.Value:app.TableEndAngle.Value;
-        arraySize = sweepPoints * length(tableAngles);
-    end
+    
+    tableSpeed = app.TableSpeedSlider.Value;
+    tableAngles = app.TableStartAngle.Value:app.TableStepAngle.Value:app.TableEndAngle.Value;
+    arraySize = sweepPoints * length(tableAngles);
     
     app.S11 = zeros(1, arraySize);
     app.S21 = zeros(1, arraySize);
@@ -26,18 +22,18 @@ function get2DAntennaGain(app, startFrequency, endFrequency, sweepPoints)
     app.AzimuthAngles = zeros(1, arraySize);
     app.TestFrequencies = zeros(1, arraySize);
     app.AntennaGain_dBi = zeros(1, arraySize);
-
-    % Prepare variable names and types for the results table.
-    varNames = {'Azimuth Angles (deg)',...
-                'Frequency (Hz)',...
-                'Gain (dBi)',...
-                'Return Loss (dB)'};
-    varTypes = repmat({'double'}, 1, length(varNames));
-
-    % Create results table
-    ResultsTable = table('Size', [totalMeasurements, length(varNames)], ...
-                         'VariableTypes', varTypes, ...
-                         'VariableNames', varNames);
+    % 
+    % % Prepare variable names and types for the results table.
+    % varNames = {'Azimuth Angles (deg)',...
+    %             'Frequency (Hz)',...
+    %             'Gain (dBi)',...
+    %             'Return Loss (dB)'};
+    % varTypes = repmat({'double'}, 1, length(varNames));
+    % 
+    % % Create results table
+    % ResultsTable = table('Size', [totalMeasurements, length(varNames)], ...
+    %                      'VariableTypes', varTypes, ...
+    %                      'VariableNames', varNames);
 
     try
         % Set speed of the turntable
@@ -55,7 +51,7 @@ function get2DAntennaGain(app, startFrequency, endFrequency, sweepPoints)
                 drawnow;
 
                 % Check if the user requested the test measurement to stop
-                if app.StopRequested
+                if app.AntennaStopRequested
                     writeline(app.EMCenter, '1A:ST');
                     pause(1);
                     break;
@@ -66,7 +62,7 @@ function get2DAntennaGain(app, startFrequency, endFrequency, sweepPoints)
             end
 
             % Exit the outer loop as well if stop was requested
-            if app.StopRequested
+            if app.AntennaStopRequested
                 break;
             end
 
@@ -94,15 +90,12 @@ function get2DAntennaGain(app, startFrequency, endFrequency, sweepPoints)
         writeline(app.EMCenter, sprintf('1A:SK %d', 0));
 
         % If the measurement was not stopped 
-        if ~app.StopRequested
+        if ~app.AntennaStopRequested
             combinedData = [double(app.AzimuthAngles)', double(app.TestFrequencies)', double(app.AntennaGain_dBi)', double(app.S11)'];
             combinedNames = {'Azimuth Angles (deg)', 'Frequency (Hz)', 'Gain (dBi)', 'Return Loss (dB)'};
     
-            % Check if the dataset exceeds the Excel row limit
-            passedLimit = length(app.AzimuthAngles) > app.EXCEL_MAX_ROWS;
-    
             % Save the measurement data
-            saveData(combinedData, combinedNames, passedLimit);
+            saveData(combinedData, combinedNames);
         end
     catch ME
         app.displayError(ME);

@@ -28,7 +28,7 @@ function isValid = validatePSUChannels(app)
     %            is valid (true) or not (false).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % Initialize variables
+    % Initialize variables.
     filledChannels = app.FilledPSUChannels;
     numfilledChannels = length(filledChannels);
     currentMode = app.PSUMode;

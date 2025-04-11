@@ -1,4 +1,4 @@
-function antennaGain = measureAntennaGain(TestFreq, sParameter, Spacing, RefGain, RefFreq)
+function antennaGain = measureAntennaGain(TestFrequency, sParameter, Spacing, ReferenceGain, ReferenceFrequency)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function calculates the gain of a test antenna in decibels 
     % relative to an isotropic radiator (dBi) based on the input frequency,
@@ -25,26 +25,24 @@ function antennaGain = measureAntennaGain(TestFreq, sParameter, Spacing, RefGain
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if nargin < 4
-        RefGain = [];
-        RefFreq = [];
+        ReferenceGain = [];
+        ReferenceFrequency = [];
     end
 
-    % Speed of light (m/s)  
-    c = 3E8;  
-
-    % Wavelength (m)
-    lambda = c ./ TestFreq; 
-
-    % Free Space Path Loss (dB)
+    % Speed of light (m/s). 
+    c = 3E8; 
+    % Wavelength (m).
+    lambda = c ./ TestFrequency; 
+    % Free Space Path Loss (dB).
     FSPL_dB = 20*log10(lambda/(4*pi*Spacing));
 
-    if ~isempty(RefGain)  
-        % Non-identical Antenna Gain (dBi) 
-        interpolatedRefGain = interp1(RefFreq, RefGain, TestFreq, 'spline');
+    if ~isempty(ReferenceGain)  
+        % Non-identical Antenna Gain (dBi).
+        interpolatedRefGain = interp1(ReferenceFrequency, ReferenceGain, TestFrequency, 'spline');
         antennaGain = sParameter - FSPL_dB - interpolatedRefGain;
     else                  
-        % Identical Antennas Gain (dBi)
-        antennaGain = (sParameter-FSPL_dB)/2;
+        % Identical Antenna Gain (dBi).
+        antennaGain = (sParameter - FSPL_dB) / 2;
     end
 
     antennaGain = double(antennaGain);

@@ -1,4 +1,4 @@
-function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq, sweepPts)
+function [sParameters_dB,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq, sweepPts)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function extracts the 2-port or 3-port S-Parameters in (dB) of 
     % a VNA laboratory instrument using SCPI. 
@@ -29,14 +29,14 @@ function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq,
     writeline(VNA, 'DISP:WIND1:STATE ON');
 
     if numPorts == 2
-        sParameters = {'S11', 'S21', 'S22'};
+        sParameters_dB = {'S11', 'S21', 'S22'};
     elseif numPorts == 3
-        sParameters = {'S11', 'S22', 'S33', 'S21', 'S31', 'S32'};
+        sParameters_dB = {'S11', 'S22', 'S33', 'S21', 'S31', 'S32'};
     end
     
     % Create and display measurements for each S-Parameter.
-    for i = 1:length(sParameters)
-        writeline(VNA, sprintf('CALC1:PAR:DEF:EXT "Meas%d",%s', i, sParameters{i}));
+    for i = 1:length(sParameters_dB)
+        writeline(VNA, sprintf('CALC1:PAR:DEF:EXT "Meas%d",%s', i, sParameters_dB{i}));
         writeline(VNA, sprintf('DISP:WIND1:TRAC%d:FEED "Meas%d"', i, i));
     end
     
@@ -54,13 +54,16 @@ function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq,
     writeline(VNA, '*WAI');
     
     % Read S-Parameters.
-    sParameters = cell(1, length(sParameters));
-    for i = 1:length(sParameters)
+    sParameters_dB = cell(1, length(sParameters_dB));
+    for i = 1:length(sParameters_dB)
         writeline(VNA, sprintf('CALC1:PAR:SEL "Meas%d"', i));
         writeline(VNA, 'CALC1:DATA? SDATA');
         data = readbinblock(VNA, 'double');
         complexData = data(1:2:end) + 1i*data(2:2:end);
-        sParameters{i} = 20 * log10(abs(complexData));
+        phaseData = angle(complexData);
+        sParameters_dB{i} = 20 * log10(abs(complexData));
+        sParameters_Phase{i} = 
+
         flush(VNA);
     end
     
