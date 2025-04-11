@@ -5,18 +5,22 @@
 % Model: E36233A
 % Address: TCPIP0::192.168.2.16::5025::SOCKET 
 
-% Manufacturer: Rohde & Schwarz
-% Model: SMW200A
-% Address: TCPIP0::192.168.3.52::hislip0::INSTR
+% Manufacturer: Keysight Technologies
+% Model: N5232B
+% Address: TCPIP0::192.168.1.161::inst0::INSTR
 
 % Manufacturer: Keysight Technologies
 % Model: N9000B
 % Address: TCPIP0::192.168.1.173::inst0::INSTR
 
+% Manufacturer: Hewlett-Packard
+% Model: E4433B
+% Address: GPIB0::19::INSTR
+
+% Manufacturer: Rohde & Schwarz
+% Model: SMW200A
+% Address: TCPIP0::192.168.3.52::hislip0::INSTR
+
 % Manufacturer: ETS Lindgren
 % Model: EMCenter
 % Address: TCPIP0::192.168.2.150::inst0::INSTR
-
-% Manufacturer: Keysight Technologies
-% Model: N5232B
-% Address: TCPIP0::192.168.1.161::inst0::INSTR
