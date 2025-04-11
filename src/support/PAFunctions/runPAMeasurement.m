@@ -10,21 +10,21 @@ function runPAMeasurement(app)
         % Configure the spectrum analyzer.
         writeline(app.SpectrumAnalyzer, sprintf(':SENSe:SWEep:POINts %d', app.SweepPointsValueField.Value));
         writeline(app.SpectrumAnalyzer, sprintf(':DISPlay:WINDow:TRACe:Y:SCALe:RLEVel %g', app.ReferenceLevelValueField.Value));
-        
-        % CHECK IF SPAN THING WORKS HERE
         writeline(app.SpectrumAnalyzer, sprintf(':SENSe:FREQuency:SPAN %g', app.SpanValueField.Value * 1E6));
         writeline(app.SpectrumAnalyzer, sprintf(':FORMat:TRACe:DATA %s,%d', 'REAL', 64));
         writeline(app.SpectrumAnalyzer, sprintf(':FORMat:BORDer %s', 'SWAPped'));
         
-        avgRunTime = 0; % Average measurement time
-        remainingTime = 0; % Remaining test time
+        % Average measurement time.
+        avgRunTime = 0; 
+        % Remaining test time
+        remainingTime = 0;
 
         % Create a progress dialog to inform the user of the progress.
         d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress');
         
         for i = 1:totalMeasurements
             tic;
-            estimatedTime = duration(round(remainingTime/3600),round(remainingTime/60),remainingTime);
+            estimatedTime = duration(round(remainingTime/3600), round(remainingTime/60), remainingTime);
             % Update the progress dialog window.
             d.Value = i / totalMeasurements;
             d.Message = sprintf("Measurement Progress: %d%% \nRemaining Time: %s\n", round(d.Value*100), string(estimatedTime));
@@ -32,7 +32,6 @@ function runPAMeasurement(app)
             % Loop parameters
             RFInputPower = parametersTable.('RF Input Power')(i);
             frequency = parametersTable.Frequency(i);
-
 
             % Set target frequency in the signal generator.
             writeline(app.SignalGenerator, sprintf(':SOURce1:FREQuency:CW %d', frequency));
@@ -46,7 +45,6 @@ function runPAMeasurement(app)
                 current = parametersTable.(sprintf('Channel %d Current', ch))(i);
                 setPSUChannels(app, channelName, voltage, current);
             end
-    
 
             if i == 1
                 % For the first measurement:
@@ -104,8 +102,8 @@ function runPAMeasurement(app)
                 resultsTable.(sprintf('Channel %d Voltages (V)', ch))(i) = parametersTable.(sprintf('Channel %d Voltage', ch))(i);
                 resultsTable.(sprintf('Channel %d DC Power (W)', ch))(i) = DCDrainPower(1,ch);
             end
-            avgRunTime = (avgRunTime*(i-1) + toc)/i;
-            remainingTime = (totalMeasurements-i)*avgRunTime;
+            avgRunTime = (avgRunTime*(i-1) + toc) / i;
+            remainingTime = (totalMeasurements - i) * avgRunTime;
         end
 
         % Close progress dialog.
