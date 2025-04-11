@@ -1,4 +1,4 @@
-function saveData(combinedData, combinedNames, passedExcelLimit)
+function saveData(combinedData, combinedNames)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function saves data from the application into either a CSV or
     % Excel file. The user passes in the combined test data and combined 
@@ -12,8 +12,28 @@ function saveData(combinedData, combinedNames, passedExcelLimit)
     % ExcelLimit:    Boolean flag, signaling if the data to be stored is
     %                bigger than what Excel can handle for a column.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Constants
+    EXCEL_MAX_ROWS = 1048576;  % Maximum number of rows in Excel
+    EXCEL_MAX_COLUMNS = 16384; % Maximum number of columns in Excel
 
-    dataTable = array2table(combinedData, 'VariableNames', combinedNames);
+    if nargin < 2
+        combinedNames = '';
+        passedExcelLimit = true;
+    end
+    
+    if strcmp(class(combinedData), 'table')
+        dataTable = combinedData;
+    else
+        dataTable = array2table(combinedData, 'VariableNames', combinedNames);
+    end
+
+    % Raise flag is there is too much data for an .xlsx file
+    if height(dataTable) >= EXCEL_MAX_ROWS || width(dataTable) > EXCEL_MAX_COLUMNS
+        passedExcelLimit = true;
+    else
+        passedExcelLimit = false;
+    end
+
 
     if passedExcelLimit
         % Prompt the user to save the data into a CSV file

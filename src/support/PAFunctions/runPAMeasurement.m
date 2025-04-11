@@ -15,15 +15,19 @@ function runPAMeasurement(app)
         writeline(app.SpectrumAnalyzer, sprintf(':SENSe:FREQuency:SPAN %g', app.SpanValueField.Value * 1E6));
         writeline(app.SpectrumAnalyzer, sprintf(':FORMat:TRACe:DATA %s,%d', 'REAL', 64));
         writeline(app.SpectrumAnalyzer, sprintf(':FORMat:BORDer %s', 'SWAPped'));
+        
+        avgRunTime = 0; % Average measurement time
+        remainingTime = 0; % Remaining test time
 
-        % Create a progress dialog to inform the user of the
-        % measurement progress.
+        % Create a progress dialog to inform the user of the progress.
         d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress');
-
+        
         for i = 1:totalMeasurements
+            tic;
+            estimatedTime = duration(round(remainingTime/3600),round(remainingTime/60),remainingTime);
             % Update the progress dialog window.
             d.Value = i / totalMeasurements;
-            %d.Message = 
+            d.Message = sprintf("Measurement Progress: %d%% \nRemaining Time: %s\n", round(d.Value*100), string(estimatedTime));
 
             % Loop parameters
             RFInputPower = parametersTable.('RF Input Power')(i);
@@ -100,6 +104,8 @@ function runPAMeasurement(app)
                 resultsTable.(sprintf('Channel %d Voltages (V)', ch))(i) = parametersTable.(sprintf('Channel %d Voltage', ch))(i);
                 resultsTable.(sprintf('Channel %d DC Power (W)', ch))(i) = DCDrainPower(1,ch);
             end
+            avgRunTime = (avgRunTime*(i-1) + toc)/i;
+            remainingTime = (totalMeasurements-i)*avgRunTime;
         end
 
         % Close progress dialog.
@@ -121,8 +127,11 @@ function runPAMeasurement(app)
         % DEBUGGING
         disp(resultsTable);
         writetable(resultsTable, 'PARESULTS.xlsx')
+
+        % Save data
+        saveData(resultsTable);
     catch ME
-        app.displayError(ME);
+        displayError(app,ME);
         % If an error occurs during the PA test measurement, then
         % for safety reasons the instruments will be turned off.
         enablePSUChannels(app, app.FilledPSUChannels, false);
