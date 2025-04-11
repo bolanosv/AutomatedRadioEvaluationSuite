@@ -1,4 +1,4 @@
-% Model: NA
+% Model: None
 % Address: NA
 
 % Manufacturer: Keysight Technologies

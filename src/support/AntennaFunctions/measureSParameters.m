@@ -53,7 +53,7 @@ function [sParameters,freqValues] = measureSParameters(VNA, numPorts, startFreq,
     writeline(VNA, 'SENS1:SWE:MODE CONT');
     writeline(VNA, '*WAI');
     
-    % Read S-Parameters
+    % Read S-Parameters.
     sParameters = cell(1, length(sParameters));
     for i = 1:length(sParameters)
         writeline(VNA, sprintf('CALC1:PAR:SEL "Meas%d"', i));
