@@ -16,6 +16,7 @@ function populatePSUChannels(app)
     % OUTPUT PARAMETERS
     % None
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     filledChannels = {};
     channelNames = fieldnames(app.ChannelNames); 
 
