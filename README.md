@@ -124,7 +124,7 @@ MIT License
 
 Copyright (c) 2024
 
-- Author: Jose Abraham Bolanos Vargas
+- Author: José Abraham Bolaños Vargas
 - Mentor: Alex David Santiago Vargas
 - PI: Dimitrios Peroulis
 - Adaptive Radio Electronics and Sensors Group
