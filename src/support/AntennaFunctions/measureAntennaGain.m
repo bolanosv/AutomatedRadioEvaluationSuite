@@ -38,6 +38,7 @@ function antennaGain = measureAntennaGain(TestFrequency, sParameter, Spacing, Re
 
     if ~isempty(ReferenceGain)  
         % Non-identical Antenna Gain (dBi).
+        % CHECK AFTER NEW EXCEL UPDATE
         interpolatedRefGain = interp1(ReferenceFrequency, ReferenceGain, TestFrequency, 'spline');
         antennaGain = sParameter - FSPL_dB - interpolatedRefGain;
     else                  
