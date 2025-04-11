@@ -1,4 +1,4 @@
-function [sParameters_dB,freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq, sweepPts)
+function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq, sweepPts)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function extracts the 2-port or 3-port S-Parameters in (dB) of 
     % a VNA laboratory instrument using SCPI. 
@@ -15,8 +15,9 @@ function [sParameters_dB,freqValues] = measureSParameters(VNA, numPorts, startFr
     % sweepPts:  Number of points for the VNA frequency sweep.
     %
     % OUTPUT PARAMETERS
-    % sParameters: Measured S-Parameters in (dB).
-    % freqValues:  Frequency values of the sweep.
+    % sParameters_dB:    Magnitude of S-Parameters in (dB).
+    % sParameters_Phase: Phase of S-Parameters in (deg).
+    % freqValues:        Frequency values of the sweep.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Clear the error status register on the VNA.
@@ -30,6 +31,7 @@ function [sParameters_dB,freqValues] = measureSParameters(VNA, numPorts, startFr
 
     if numPorts == 2
         sParameters_dB = {'S11', 'S21', 'S22'};
+        sParameters_Phase = {'S11 (deg)', 'S21 (deg)', 'S22 (deg)'};
     elseif numPorts == 3
         sParameters_dB = {'S11', 'S22', 'S33', 'S21', 'S31', 'S32'};
     end
@@ -62,8 +64,7 @@ function [sParameters_dB,freqValues] = measureSParameters(VNA, numPorts, startFr
         complexData = data(1:2:end) + 1i*data(2:2:end);
         phaseData = angle(complexData);
         sParameters_dB{i} = 20 * log10(abs(complexData));
-        sParameters_Phase{i} = 
-
+        sParameters_Phase{i} = rad2deg(phaseData);
         flush(VNA);
     end
     

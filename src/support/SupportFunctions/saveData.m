@@ -9,9 +9,8 @@ function saveData(combinedData, combinedNames)
     %                variables. Example: {testFrequency, testGain, ...}
     % combinedNames: Cell array containing the titles of the measurement
     %                variables. Example: {'Frequency Hz', 'Gain dB', ...}
-    % ExcelLimit:    Boolean flag, signaling if the data to be stored is
-    %                bigger than what Excel can handle for a column.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     % Constants
     EXCEL_MAX_ROWS = 1048576;  % Maximum number of rows in Excel
     EXCEL_MAX_COLUMNS = 16384; % Maximum number of columns in Excel

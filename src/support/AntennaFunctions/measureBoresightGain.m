@@ -26,20 +26,24 @@ function measureBoresightGain(app)
 
     % Measure the S-parameters using the VNA over the specified 
     % frequency range with 2-port configuration.
-    [SParameters, VNAFreqs] = measureSParameters(app.VNA, 2, startFrequency, endFrequency, sweepPoints);
+    [SParameters_dB, SParameters_Phase, VNAFreqs] = measureSParameters(app.VNA, 2, startFrequency, endFrequency, sweepPoints);
 
     % Compute the antenna boresight gain using the measured S21 and 
     % the setup spacing.
-    BoresightGain_dBi = measureAntennaGain(VNAFreqs, SParameters{2}, app.setupSpacing);
+    BoresightGain_dBi = measureAntennaGain(VNAFreqs, SParameters_dB{2}, app.setupSpacing);
 
     % Prepare the data for file saving.
-    combinedData = [double(VNAFreqs)',...
+    combinedData = [double(VNAFreqs / 1E6)',...
                     double(BoresightGain_dBi)',...
-                    double(SParameters{1})'];
-    combinedNames = {'Frequency (Hz)',... 
+                    double(SParameters_dB{1})',...
+                    double(SParameters_Phase{1})'
+    ];
+    combinedNames = {'Frequency (MHz)',... 
                      'Gain (dBi)',... 
-                     'Return Loss (dB)'};
-
+                     'Return Loss (dB)',...
+                     'Return Loss (deg)'
+    };
+    
     % Save the data to a file using the saveData function.
-    saveData(combinedData, combinedNames, false);
+    saveData(combinedData, combinedNames);
 end

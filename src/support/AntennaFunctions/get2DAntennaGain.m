@@ -70,19 +70,22 @@ function get2DAntennaGain(app)
             pause(app.AntennaMeasurementDelayValueField.Value / 2);
 
             % Get S-Parameters and Frequencies from VNA
-            [SParameters, VNAFrequencies] = measureSParameters(app.VNA, 2, startFrequency, endFrequency, sweepPoints); 
+            [SParameters_dB, SParameters_Phase, VNAFrequencies] = measureSParameters(app.VNA, 2, startFrequency, endFrequency, sweepPoints); 
 
             if ~isempty(app.ReferenceGainFile)
-                Gain_dBi = measureAntennaGain(VNAFrequencies, SParameters{2}, app.setupSpacing, ReferenceGain, ReferenceFreqs);
+                Gain_dBi = measureAntennaGain(VNAFrequencies, SParameters_dB{2}, app.setupSpacing, ReferenceGain, ReferenceFreqs);
             else
-                Gain_dBi = measureAntennaGain(VNAFrequencies, SParameters{2}, app.setupSpacing);
+                Gain_dBi = measureAntennaGain(VNAFrequencies, SParameters_dB{2}, app.setupSpacing);
             end
 
             app.AzimuthAngles(dataPts) = tableAngles(i);
             app.TestFrequencies(dataPts) = VNAFrequencies;
-            app.S11(dataPts) = SParameters{1};
-            app.S21(dataPts) = SParameters{2};
-            app.S22(dataPts) = SParameters{3};
+            app.S11(dataPts) = SParameters_dB{1};
+            app.S21(dataPts) = SParameters_dB{2};
+            app.S22(dataPts) = SParameters_dB{3};
+            app.S11_Phase(dataPts) = SParameters_Phase{1};
+            app.S21_Phase(dataPts) = SParameters_Phase{2};
+            app.S22_Phase(dataPts) = SParameters_Phase{3};
             app.AntennaGain_dBi(dataPts) = Gain_dBi;
         end
 
@@ -91,8 +94,18 @@ function get2DAntennaGain(app)
 
         % If the measurement was not stopped 
         if ~app.AntennaStopRequested
-            combinedData = [double(app.AzimuthAngles)', double(app.TestFrequencies)', double(app.AntennaGain_dBi)', double(app.S11)'];
-            combinedNames = {'Azimuth Angles (deg)', 'Frequency (Hz)', 'Gain (dBi)', 'Return Loss (dB)'};
+            combinedData = [double(app.AzimuthAngles)',... 
+                            double(app.TestFrequencies / 1E6)',...
+                            double(app.AntennaGain_dBi)',...
+                            double(app.S11)',...
+                            double(app.S11_Phase)'
+            ];
+            combinedNames = {'Azimuth Angles (deg)',... 
+                             'Frequency (MHz)',...
+                             'Gain (dBi)',...
+                             'Return Loss (dB)',...
+                             'Return Loss (deg)'
+            };
     
             % Save the measurement data
             saveData(combinedData, combinedNames);
