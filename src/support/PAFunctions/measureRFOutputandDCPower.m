@@ -1,4 +1,4 @@
-function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(app ,inputRFPower)
+function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(app, inputRFPower)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function measures the output RF power, the DC drain power, and 
     % the DC gate power.
