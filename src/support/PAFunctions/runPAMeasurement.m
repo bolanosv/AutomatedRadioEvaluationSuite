@@ -127,13 +127,14 @@ function runPAMeasurement(app)
         writetable(resultsTable, 'PARESULTS.xlsx')
 
         % Save data
-        saveData(resultsTable);
+        fullFilename = saveData(resultsTable);
+        loadData('PA', fullFilename);
     catch ME
         displayError(app,ME);
         % If an error occurs during the PA test measurement, then
         % for safety reasons the instruments will be turned off.
         enablePSUChannels(app, app.FilledPSUChannels, false);
-        writeline(app.SignalGenerator, sprintf(':SOURce1:POWer:LEVel:IMMediate:AMPLitude %d', -145));
+        writeline(app.SignalGenerator, sprintf(':SOURce1:POWer:LEVel:IMMediate:AMPLitude %d', -135));
         writeline(app.SignalGenerator, sprintf(':OUTPut1:STATe %d', 0));
     end
 end

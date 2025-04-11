@@ -20,7 +20,7 @@ function get2DAntennaGain(app)
     app.S21 = zeros(1, arraySize);
     app.S22 = zeros(1, arraySize); 
     app.AzimuthAngles = zeros(1, arraySize);
-    app.TestFrequencies = zeros(1, arraySize);
+    app.Antenna_Frequencies = zeros(1, arraySize);
     app.AntennaGain_dBi = zeros(1, arraySize);
     % 
     % % Prepare variable names and types for the results table.
@@ -79,7 +79,7 @@ function get2DAntennaGain(app)
             end
 
             app.AzimuthAngles(dataPts) = tableAngles(i);
-            app.TestFrequencies(dataPts) = VNAFrequencies;
+            app.Antenna_Frequencies(dataPts) = VNAFrequencies;
             app.S11(dataPts) = SParameters_dB{1};
             app.S21(dataPts) = SParameters_dB{2};
             app.S22(dataPts) = SParameters_dB{3};
@@ -95,7 +95,7 @@ function get2DAntennaGain(app)
         % If the measurement was not stopped 
         if ~app.AntennaStopRequested
             combinedData = [double(app.AzimuthAngles)',... 
-                            double(app.TestFrequencies / 1E6)',...
+                            double(app.Antenna_Frequencies / 1E6)',...
                             double(app.AntennaGain_dBi)',...
                             double(app.S11)',...
                             double(app.S11_Phase)'

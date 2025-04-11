@@ -1,4 +1,4 @@
-function saveData(combinedData, combinedNames)
+function fullFilename = saveData(combinedData, combinedNames)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function saves data from the application into either a CSV or
     % Excel file. The user passes in the combined test data and combined 
@@ -32,7 +32,6 @@ function saveData(combinedData, combinedNames)
     else
         passedExcelLimit = false;
     end
-
 
     if passedExcelLimit
         % Prompt the user to save the data into a CSV file
