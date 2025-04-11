@@ -1,4 +1,4 @@
-function combinedData = loadData(RFcomponent)
+function combinedData = loadData(RFcomponent,FileName)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function loads data in from a CSV or Excel file containing a 
     % single or sweep PA test measurement, or an Antenna test measurement. 
@@ -15,14 +15,17 @@ function combinedData = loadData(RFcomponent)
    
     combinedData = struct();
     
-    [file, path, ~] = uigetfile({'*.csv;*.xls;*.xlsx', 'Data Files (*.csv, *.xls, *.xlsx)'});
-    
-    % Check if the user cancel the file selection
-    if isequal(file, 0) || isequal(path, 0)
-        return;
-    end
+    if nargin < 2
+        [file, path, ~] = uigetfile({'*.csv;*.xls;*.xlsx', 'Data Files (*.csv, *.xls, *.xlsx)'});
+        
+        % Check if the user cancel the file selection
+        if isequal(file, 0) || isequal(path, 0)
+            return;
+        end
 
-    FileName = fullfile(path, file);
+        FileName = fullfile(path, file);
+    end 
+
     FileData = importdata(FileName);
 
     % Check if the imported data is empty
