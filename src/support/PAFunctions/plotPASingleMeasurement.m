@@ -2,6 +2,13 @@ function plotPASingleMeasurement(app)
     % This function plots the data from the single frequency measurement.
     cla(app.SingleFrequencyPAPlot);
     
+    % Index the plot for the selected supply voltages
+    idxAll = true(height(app.PA_DataTable), 1);
+    for i = 1:length(app.PSU_SelectedVoltages)
+        idx = app.PA_DataTable.(sprintf('Channel%dVoltagesV', app.PA_PSU_Channels(i))) == app.PSU_SelectedVoltages(i);
+        idxAll = idxAll & idx;
+    end
+
     peakValues = measureRFParametersPeaks(app);
     %peakValues{1} is saturation power
     %peakValues{5} is the -1db compression point
@@ -9,7 +16,7 @@ function plotPASingleMeasurement(app)
 
     % Plot Gain on the left y-axis
     yyaxis(app.SingleFrequencyPAPlot, 'left');
-    h1 = plot(app.SingleFrequencyPAPlot, app.PA_RFOutputPower, app.PA_Gain, 'k-');
+    h1 = plot(app.SingleFrequencyPAPlot, app.PA_DataTable.RFOutputPowerdBm(idxAll), app.PA_DataTable.Gain(idxAll), 'k-');
     hold(app.SingleFrequencyPAPlot, 'on');
     grid(app.SingleFrequencyPAPlot, 'on');
     ylabel(app.SingleFrequencyPAPlot, 'Gain (dB)', 'FontWeight', 'bold');
@@ -17,8 +24,8 @@ function plotPASingleMeasurement(app)
 
     % Plot DE and PAE on the right y-axis.
     yyaxis(app.SingleFrequencyPAPlot, 'right');
-    h2 = plot(app.SingleFrequencyPAPlot, app.PA_RFOutputPower, app.PA_DE, 'b-');
-    h3 = plot(app.SingleFrequencyPAPlot, app.PA_RFOutputPower, app.PA_PAE, 'r--');
+    h2 = plot(app.SingleFrequencyPAPlot, app.PA_DataTable.RFOutputPowerdBm(idxAll), app.PA_DataTable.DE(idxAll), 'b-');
+    h3 = plot(app.SingleFrequencyPAPlot, app.PA_DataTable.RFOutputPowerdBm(idxAll), app.PA_DataTable.PAE(idxAll), 'r--');
 
     ylabel(app.SingleFrequencyPAPlot, 'Efficiency (%)', 'FontWeight', 'bold');
     %set(app.SingleFrequencyPAPlot, 'YColor', [0.3, 0.3, 0.3]);
@@ -29,7 +36,8 @@ function plotPASingleMeasurement(app)
 
     legendEntries = {'Gain', 'DE', 'PAE'};
     legendHandles = [h1, h2, h3];
-
+    
+    return; % Plotting the compression points is not filtered by supply voltages yet. Use the PA_DataTable instead of individual variables
     % Plot the compresssion points.
     if ~isnan(peakValues{1}) % saturation
         h4 = plot(app.SingleFrequencyPAPlot, app.PA_RFOutputPower, interp1(app.PA_RFOutputPower, app.PA_Gain, peakValues{1}), ...

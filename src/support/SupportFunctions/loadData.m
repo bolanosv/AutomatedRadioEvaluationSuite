@@ -29,46 +29,49 @@ function combinedData = loadData(RFcomponent,FileName)
     % Store the file path in the base workspace, so user can acces it if
     % needed.
     assignin('base', 'loadedFilePath', FileName);
-
-    if strcmp(RFcomponent, 'PA')
-        combinedData = readtable(FileName);
-        combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
-    elseif strcmp(RFcomponent, 'Antenna')
-        FileData = importdata(FileName);
-
-        % Check if the imported data is empty
-        if isempty(FileData) 
-            return;
-        end
-
-        if isfield(FileData, 'textdata') && isfield(FileData, 'data')
-            headers = FileData.textdata(1, :);
-            numColumns = size(FileData.data, 2);
-            numHeaders = min(length(headers), numColumns); 
-            headerValues = cell(numHeaders, 2);
-        
-            for i = 1:numHeaders
-                header = headers{i};
-                headerValues{i, 1} = header;
-                headerValues{i, 2} = FileData.data(:, i);
-            end
-        
-            for i = 1:numHeaders
-                header = headers{i};
-                baseName = regexp(header, '(^[A-Z][0-9]+)', 'match', 'once');
+    try
+        if strcmp(RFcomponent, 'PA')
+            combinedData = readtable(FileName);
+            combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
+        elseif strcmp(RFcomponent, 'Antenna')
+            FileData = importdata(FileName);
     
-                if isempty(baseName)
-                    baseName = regexp(header, '^[^\d_]+', 'match', 'once');
+            % Check if the imported data is empty
+            if isempty(FileData) 
+                return;
+            end
+    
+            if isfield(FileData, 'textdata') && isfield(FileData, 'data')
+                headers = FileData.textdata(1, :);
+                numColumns = size(FileData.data, 2);
+                numHeaders = min(length(headers), numColumns); 
+                headerValues = cell(numHeaders, 2);
+            
+                for i = 1:numHeaders
+                    header = headers{i};
+                    headerValues{i, 1} = header;
+                    headerValues{i, 2} = FileData.data(:, i);
                 end
-                
-                validBaseName = matlab.lang.makeValidName(baseName, 'ReplacementStyle', 'delete');
+            
+                for i = 1:numHeaders
+                    header = headers{i};
+                    baseName = regexp(header, '(^[A-Z][0-9]+)', 'match', 'once');
         
-                if isfield(combinedData, validBaseName)
-                    combinedData.(validBaseName) = [combinedData.(validBaseName), headerValues{i, 2}];
-                else
-                    combinedData.(validBaseName) = headerValues{i, 2};
+                    if isempty(baseName)
+                        baseName = regexp(header, '^[^\d_]+', 'match', 'once');
+                    end
+                    
+                    validBaseName = matlab.lang.makeValidName(baseName, 'ReplacementStyle', 'delete');
+            
+                    if isfield(combinedData, validBaseName)
+                        combinedData.(validBaseName) = [combinedData.(validBaseName), headerValues{i, 2}];
+                    else
+                        combinedData.(validBaseName) = headerValues{i, 2};
+                    end
                 end
             end
         end
+    catch ME
+        app.displayError(ME);
     end
 end

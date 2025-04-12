@@ -8,31 +8,32 @@ function plotPASweepMeasurement(app)
     cla(app.CompressionPointsPlot);
 
     % Nnumber of frequencies.
-    numFreqs = length(app.PA_Frequencies);
-
+    numFreqs = length(unique(app.PA_DataTable.FrequencyMHz));
+    
     % Get peak values from RF measurements.
-    peakValues = measureRFParametersPeaks(app);
+    % peakValues = measureRFParametersPeaks(app);
     
     % 1) Gain vs. Output RF Power
     hold(app.GainvsOutputPowerPlot, 'on'); 
     for i = 1:numFreqs
-        plot(app.GainvsOutputPowerPlot, app.PA_RFOutputPower(i, :), app.PA_Gain(i, :));
+        idx = app.PA_DataTable.FrequencyMHz == app.PA_Frequencies(i);
+        plot(app.GainvsOutputPowerPlot, app.PA_DataTable.RFOutputPowerdBm(idx), app.PA_DataTable.Gain(idx));
     end
     hold(app.GainvsOutputPowerPlot, 'off');
     title(app.GainvsOutputPowerPlot, 'Gain vs. Output Power');
     xlabel(app.GainvsOutputPowerPlot, 'Output Power (dBm)');
     ylabel(app.GainvsOutputPowerPlot, 'Gain (dB)');
-    
+    return; % Needs to filter peak values by supply voltages
     % 2) Peak Gain vs. Frequency
-    plot(app.PeakGainPlot, app.PA_Frequencies / 1E9, peakValues{2}, 'b-o');
+    % plot(app.PeakGainPlot, app.PA_DataTable.FrequencyMHz, peakValues{2}, 'b-o');
     title(app.PeakGainPlot, 'Peak Gain');
     xlabel(app.PeakGainPlot, 'Frequency (GHz)');
     ylabel(app.PeakGainPlot, 'Gain (dB)');
     
     % 3) Peak DE & PAE vs. Frequency
     hold(app.PeakDEPAEPlot, 'on');
-    h1 = plot(app.PeakDEPAEPlot, app.PA_Frequencies / 1E9, peakValues{3}, 'b-o');
-    h2 = plot(app.PeakDEPAEPlot, app.PA_Frequencies / 1E9, peakValues{4}, 'r-o');
+    % h1 = plot(app.PeakDEPAEPlot, app.PA_Frequencies / 1E9, peakValues{3}, 'b-o');
+    % h2 = plot(app.PeakDEPAEPlot, app.PA_Frequencies / 1E9, peakValues{4}, 'r-o');
     hold(app.PeakDEPAEPlot, 'off');
     title(app.PeakDEPAEPlot, 'Peak DE and PAE');
     xlabel(app.PeakDEPAEPlot, 'Frequency (GHz)');
