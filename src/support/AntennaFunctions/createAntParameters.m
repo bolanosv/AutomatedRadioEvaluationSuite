@@ -23,5 +23,6 @@ function paramTable = createAntParameters(Theta,Phi)
     varNames = {"Theta (deg)","Phi (deg)"};
     varNames = horzcat(varNames{:});
 
-    paramTable = array2table(combinations(Theta,Phi),'VariableNames',varNames);
+    paramTable = combinations(Theta,Phi);
+    paramTable.Properties.VariableNames = varNames;
 end
