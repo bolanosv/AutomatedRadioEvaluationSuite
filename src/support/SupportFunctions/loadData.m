@@ -26,43 +26,21 @@ function combinedData = loadData(RFcomponent,FileName)
         FileName = fullfile(path, file);
     end 
 
-    FileData = importdata(FileName);
-
-    % Check if the imported data is empty
-    if isempty(FileData) 
-        return;
-    end
-
     % Store the file path in the base workspace, so user can acces it if
     % needed.
-    assignin('base', 'loadedFilePath', file);
+    assignin('base', 'loadedFilePath', FileName);
 
     if strcmp(RFcomponent, 'PA')
-        if isfield(FileData, 'textdata') && isfield(FileData, 'data')
-            headers = FileData.textdata(1, :);
-            numColumns = size(FileData.data, 2);
-            numHeaders = min(length(headers), numColumns); 
-            headerValues = cell(numHeaders, 2);
-        
-            for i = 1:numHeaders
-                header = headers{i};
-                headerValues{i, 1} = header;
-                headerValues{i, 2} = FileData.data(:, i);
-            end
-        
-            for i = 1:numHeaders
-                header = headers{i};
-                baseName = regexp(header, '^[^\d_]+', 'match', 'once');
-                validBaseName = matlab.lang.makeValidName(baseName, 'ReplacementStyle', 'delete');
-        
-                if isfield(combinedData, validBaseName)
-                    combinedData.(validBaseName) = [combinedData.(validBaseName), headerValues{i, 2}];
-                else
-                    combinedData.(validBaseName) = headerValues{i, 2};
-                end
-            end
-        end
+        combinedData = readtable(FileName);
+        combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
     elseif strcmp(RFcomponent, 'Antenna')
+        FileData = importdata(FileName);
+
+        % Check if the imported data is empty
+        if isempty(FileData) 
+            return;
+        end
+
         if isfield(FileData, 'textdata') && isfield(FileData, 'data')
             headers = FileData.textdata(1, :);
             numColumns = size(FileData.data, 2);

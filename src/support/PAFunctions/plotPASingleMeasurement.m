@@ -2,7 +2,7 @@ function plotPASingleMeasurement(app)
     % This function plots the data from the single frequency measurement.
     cla(app.SingleFrequencyPAPlot);
     
-    peakValues = app.measureRFParametersPeaks();
+    peakValues = measureRFParametersPeaks(app);
     %peakValues{1} is saturation power
     %peakValues{5} is the -1db compression point
     %peakValues{6} is the -3db compression point

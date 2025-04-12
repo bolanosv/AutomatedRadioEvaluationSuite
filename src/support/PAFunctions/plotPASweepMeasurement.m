@@ -11,7 +11,7 @@ function plotPASweepMeasurement(app)
     numFreqs = length(app.PA_Frequencies);
 
     % Get peak values from RF measurements.
-    peakValues = app.measureRFParametersPeaks();          
+    peakValues = measureRFParametersPeaks(app);
     
     % 1) Gain vs. Output RF Power
     hold(app.GainvsOutputPowerPlot, 'on'); 
