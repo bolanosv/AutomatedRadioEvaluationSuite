@@ -1,39 +1,46 @@
-function peakValues = measureRFParametersPeaks(app)
-    % This function calculates the peak values of several RF 
-    % parameters (Gain, DE, PAE, Saturation Power, -1dB and -3dB 
-    % compression points).
-    numFreqs = length(app.PA_Frequencies);
-    peakGain = zeros(numFreqs, 1);
-    peak1dB  = zeros(numFreqs, 1);
-    peak3dB  = zeros(numFreqs, 1);
-
-    for i = 1:numFreqs
-        % Get the peak Gain.
-        peakGain(i) = max(app.PA_Gain(i, :));
-
-        % Get the -1dB compression point.
-        idx_1dB = find(app.PA_Gain(i, :) <= (peakGain(i) - 1), 1, 'first');
-        if ~isempty(idx_1dB)
-            peak1dB(i) = app.PA_RFOutputPower(i, idx_1dB);
-        else
-            peak1dB(i) = NaN;
-        end
-
-        % Get the -3dB compression point.
-        idx_3dB = find(app.PA_Gain(i, :) <= (peakGain(i) - 3), 1, 'first');
-        if ~isempty(idx_3dB)
-            peak3dB(i) = app.PA_RFOutputPower(i, idx_3dB);
-        else
-            peak3dB(i) = NaN;
-        end
-    end    
+function [Psat, peakGain, peakDE, peakPAE, compression1dB, compression3dB] = measureRFParametersPeaks(app,idx)
+    % This function calculates the peak values of several RF parameters:
+    % Saturation Power, Gain, DE, PAE, -1dB, and -3dB compression.
 
     % Get the max output RF power per frequency.
-    saturationPower = max(app.PA_RFOutputPower, [], 2);
-    % Get the max drain efficiency per frequency.
-    peakDE  = max(app.PA_DE, [], 2);
-    % Get the max power-added efficiency per frequency.
-    peakPAE = max(app.PA_PAE, [], 2);
+    Psat = groupsummary(app.PA_DataTable(idx,:),'FrequencyMHz','max','RFOutputPowerdBm');
+    Psat.GroupCount = []; % Drop GroupCount column
+    Psat.Properties.VariableNames = {'FrequencyMHz','RFOutputPowerdBm'};
+    for i = 1:height(Psat)      
+        Psat_DataTable = app.PA_DataTable(idx,:);
+        idx_Psat = (Psat_DataTable.RFOutputPowerdBm == Psat.RFOutputPowerdBm(i));
+        Psat.Gain = Psat_DataTable(idx_Psat,:).Gain;
+    end
 
-    peakValues = {saturationPower, peakGain, peakDE, peakPAE, peak1dB', peak3dB'};
+    % Get the max drain efficiency per frequency.
+    peakDE = groupsummary(app.PA_DataTable,'FrequencyMHz','max','DE');
+    peakDE.GroupCount = []; % Drop GroupCount column
+   
+    % Get the max power-added efficiency per frequency.
+    peakPAE = groupsummary(app.PA_DataTable,'FrequencyMHz','max','PAE');
+    peakPAE.GroupCount = []; % Drop GroupCount column
+
+    peakGain = groupsummary(app.PA_DataTable,'FrequencyMHz','max','Gain');
+    peakGain.GroupCount = []; % Drop GroupCount column
+
+    % Get the compression points
+    freqs = unique(app.PA_DataTable(idx,"FrequencyMHz")); % Iterate by frequency
+    for i = 1:height(freqs)
+        % Get temporary subtable for each frequency
+        freq_DataTable = app.PA_DataTable(idx,:);
+        freq_DataTable = freq_DataTable(freq_DataTable.FrequencyMHz == freqs.FrequencyMHz(i),:);
+        
+        % Select the peak gain corresponding to this frequency
+        peakGain_i = table2array(peakGain(peakGain.FrequencyMHz == freqs.FrequencyMHz(i,:),"max_Gain"));
+
+        % Get the 1 and 
+        compression1dB = freq_DataTable(freq_DataTable.Gain <= (peakGain_i - 1),["FrequencyMHz","RFOutputPowerdBm","Gain"]);
+        compression3dB = freq_DataTable(freq_DataTable.Gain <= (peakGain_i - 3),["FrequencyMHz","RFOutputPowerdBm","Gain"]);
+        if height(compression1dB) > 1
+            compression1dB = compression1dB(1,:);
+        end
+        if height(compression3dB) > 1
+            compression3dB = compression3dB(1,:);
+        end
+    end
 end
