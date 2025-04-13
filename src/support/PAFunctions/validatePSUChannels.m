@@ -112,7 +112,7 @@ function isValid = validatePSUChannels(app)
                     'ListSize', [200, 100]);
                 if tf
                     app.PowerSupplyModeDropDown.Value = validModes{idx};
-                    app.PSUChangeModeHandle([]); 
+                    app.PSUChangeModeHandle(); 
                 end
                 isValid = false;
                 return;

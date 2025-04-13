@@ -25,6 +25,8 @@ function [Psat, peakGain, peakDE, peakPAE, compression1dB, compression3dB] = mea
     peakGain.GroupCount = []; % Drop GroupCount column
 
     % Get the compression points
+    compression1dB = array2table(zeros(0,3),'VariableNames',[{'FrequencyMHz'},{'RFOutputPowerdBm'},{'Gain'}]);
+    compression3dB = compression1dB;
     freqs = unique(app.PA_DataTable(idx,"FrequencyMHz")); % Iterate by frequency
     for i = 1:height(freqs)
         % Get temporary subtable for each frequency
@@ -34,14 +36,14 @@ function [Psat, peakGain, peakDE, peakPAE, compression1dB, compression3dB] = mea
         % Select the peak gain corresponding to this frequency
         peakGain_i = table2array(peakGain(peakGain.FrequencyMHz == freqs.FrequencyMHz(i,:),"max_Gain"));
 
-        % Get the 1 and 
-        compression1dB = freq_DataTable(freq_DataTable.Gain <= (peakGain_i - 1),["FrequencyMHz","RFOutputPowerdBm","Gain"]);
-        compression3dB = freq_DataTable(freq_DataTable.Gain <= (peakGain_i - 3),["FrequencyMHz","RFOutputPowerdBm","Gain"]);
-        if height(compression1dB) > 1
-            compression1dB = compression1dB(1,:);
+        % Get the compression points
+        compression1dB_i = freq_DataTable(freq_DataTable.Gain <= (peakGain_i - 1),["FrequencyMHz","RFOutputPowerdBm","Gain"]);
+        compression3dB_i = freq_DataTable(freq_DataTable.Gain <= (peakGain_i - 3),["FrequencyMHz","RFOutputPowerdBm","Gain"]);
+        if height(compression1dB_i) > 1
+            compression1dB(i,:) = compression1dB_i(1,:);
         end
-        if height(compression3dB) > 1
-            compression3dB = compression3dB(1,:);
+        if height(compression3dB_i) > 1
+            compression3dB(i,:) = compression3dB_i(1,:);
         end
     end
 end

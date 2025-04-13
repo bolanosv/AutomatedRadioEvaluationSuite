@@ -16,7 +16,7 @@ function waitForInstrument(app, Instrument)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Adjust the timeout duration as needed (seconds).
-    timeout = 5; 
+    timeout = 15; 
     tic; 
     while true
         % Query the instrument for its operation status.

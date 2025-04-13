@@ -14,26 +14,25 @@ function runPAMeasurement(app)
         writeline(app.SpectrumAnalyzer, sprintf(':FORMat:TRACe:DATA %s,%d', 'REAL', 64));
         writeline(app.SpectrumAnalyzer, sprintf(':FORMat:BORDer %s', 'SWAPped'));
         
-        % Average measurement time.
-        avgRunTime = 0; 
-        % Remaining test time
-        remainingTime = 0;
-
         % Create a progress dialog to inform the user of the progress.
         d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress');
-        
+        tic; runTime = 0;
         for i = 1:totalMeasurements
-            tic;
-            estimatedTime = duration(round(remainingTime/3600), round(remainingTime/60), remainingTime);
+            runTime = runTime+toc;
+            avgRunTime = (runTime) / i;        % Average measurement time.
+            remainingTime = (totalMeasurements - i) * avgRunTime;        % Remaining test time
+            elapsedTime = string(duration(round(runTime/3600), round(runTime/60), round(runTime)));
+            estimatedTime = string(duration(round(remainingTime/3600), round(remainingTime/60), round(remainingTime)));
+
             % Update the progress dialog window.
             d.Value = i / totalMeasurements;
-            d.Message = sprintf("Measurement Progress: %d%% \nRemaining Time: %s\n", round(d.Value*100), string(estimatedTime));
+            d.Message = sprintf("Measurement Progress: %d%% \nElapsed Time: %s \nRemaining Time: %s", round(d.Value*100), elapsedTime, estimatedTime);
 
             % Loop parameters
             RFInputPower = parametersTable.('RF Input Power')(i);
             frequency = parametersTable.Frequency(i);
 
-            % Set target frequency in the signal generator.
+            % Set target frequency in the signal generator. c
             writeline(app.SignalGenerator, sprintf(':SOURce1:FREQuency:CW %d', frequency));
             % Set center frequency in the signal analyzer.
             writeline(app.SpectrumAnalyzer, sprintf(':SENSe:FREQuency:CENTer %g', frequency));
@@ -102,8 +101,6 @@ function runPAMeasurement(app)
                 resultsTable.(sprintf('Channel %d Voltages (V)', ch))(i) = parametersTable.(sprintf('Channel %d Voltage', ch))(i);
                 resultsTable.(sprintf('Channel %d DC Power (W)', ch))(i) = DCDrainPower(1,ch);
             end
-            avgRunTime = (avgRunTime*(i-1) + toc) / i;
-            remainingTime = (totalMeasurements - i) * avgRunTime;
         end
 
         % Close progress dialog.
@@ -118,17 +115,10 @@ function runPAMeasurement(app)
 
         % Save table as a variable in the app
         app.PAMeasurementsTable = resultsTable;
-
-        % Prepare data for plotting
-        %prepareResultsForPlotting(app);
-
-        % DEBUGGING
-        disp(resultsTable);
-        writetable(resultsTable, 'PARESULTS.xlsx')
-
-        % Save data
+        
+        % Save and plot data
         fullFilename = saveData(resultsTable);
-        loadData('PA', fullFilename);
+        loadData(app,'PA', fullFilename);
     catch ME
         displayError(app,ME);
         % If an error occurs during the PA test measurement, then

@@ -124,7 +124,7 @@ function get2DAntennaGain(app)
     
             % Save the measurement data
             fullFilename = saveData(combinedData, combinedNames);
-            loadData('Antenna', fullFilename);
+            loadData(app,'Antenna', fullFilename);
         end
     catch ME
         app.displayError(ME);

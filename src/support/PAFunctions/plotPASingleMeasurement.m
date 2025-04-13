@@ -61,6 +61,7 @@ function plotPASingleMeasurement(app)
     end
 
     axis(app.SingleFrequencyPAPlot,'tight')
+    improveAxesAppearance(app.SingleFrequencyPAPlot, 'YYAxis', 'true', 'LineThickness', 2);
 
     if numel(legendHandles) == numel(legendEntries)
         lgd = legend(app.SingleFrequencyPAPlot, legendHandles, legendEntries, 'Location', 'west');
@@ -71,25 +72,4 @@ function plotPASingleMeasurement(app)
     end
 
 
-    % Plotting the compression points is not filtered by supply voltages yet. Use the PA_DataTable instead of individual variables
-    % Plot the compresssion points.
-    % if ~isnan(peakValues{1}) % saturation
-    %     h4 = plot(app.SingleFrequencyPAPlot, app.PA_DataTable.RFOutputPowerdBm(idxAll), interp1(app.PA_DataTable.RFOutputPowerdBm(idxAll), app.PA_DataTable.Gain(idxAll), peakValues{1}), ...
-    %       'go', 'MarkerSize', 8, 'LineWidth', 2); % Green circle marker
-    %     legendHandles(end+1) = h4;
-    %     legendEntries{end+1} = 'P_{sat}';
-    % end
-    % if ~isnan(peakValues{5}) % -1db compression
-    %     h5 = plot(app.SingleFrequencyPAPlot, app.PA_DataTable.RFOutputPowerdBm(idxAll), interp1(app.PA_DataTable.RFOutputPowerdBm(idxAll), app.PA_DataTable.Gain(idxAll), peakValues{5}), ...
-    %       'mo', 'MarkerSize', 8, 'LineWidth', 2); % Magenta circle marker
-    %     legendHandles(end+1) = h5; 
-    %     legendEntries{end+1} = 'P_{1dB}';
-    % end
-    % if ~isnan(peakValues{6}) % -3db compression
-    %     h6 = plot(app.SingleFrequencyPAPlot, app.PA_DataTable.RFOutputPowerdBm(idxAll), interp1(app.PA_DataTable.RFOutputPowerdBm(idxAll), app.PA_DataTable.Gain(idxAll), peakValues{6}), ...
-    %       'co', 'MarkerSize', 8, 'LineWidth', 2); % Cyan circle marker
-    %     legendHandles(end+1) = h6; 
-    %     legendEntries{end+1} = 'P_{3dB}';
-    % end
-    % 
 end

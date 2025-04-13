@@ -88,10 +88,9 @@ function plotPASweepMeasurement(app)
         legend(app.CompressionPointsPlot, plotHandles, string(legendLabels), 'Location', 'best');
     end
     
-    % Improves the appearance of each plot, can adjust the line
-    % thickness/width as desired.
+    % Improves the appearance of each plot, can adjust the line thickness/width as desired.
     improveAxesAppearance(app.GainvsOutputPowerPlot, 'YYAxis', 'false', 'LineThickness', 1);
-    improveAxesAppearance(app.PeakGainPlot, 'YYAxis', 'false', 'LineThickness', 1.5);
-    improveAxesAppearance(app.PeakDEPAEPlot, 'YYAxis', 'false', 'LineThickness', 1.5);
-    improveAxesAppearance(app.CompressionPointsPlot, 'YYAxis', 'false', 'LineThickness', 1.5);
+    improveAxesAppearance(app.PeakGainPlot, 'YYAxis', 'false', 'LineThickness', 2);
+    improveAxesAppearance(app.PeakDEPAEPlot, 'YYAxis', 'false', 'LineThickness', 2);
+    improveAxesAppearance(app.CompressionPointsPlot, 'YYAxis', 'false', 'LineThickness', 2);
 end
