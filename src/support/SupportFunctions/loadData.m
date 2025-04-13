@@ -31,10 +31,14 @@ function combinedData = loadData(RFcomponent,FileName)
     assignin('base', 'loadedFilePath', FileName);
     try
         if strcmp(RFcomponent, 'PA')
+            w=warning('off','MATLAB:table:ModifiedAndSavedVarnames');       % turn off annoying warning, save state
             combinedData = readtable(FileName);
+            warning(w);                                                     % reset warning level
             combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
         elseif strcmp(RFcomponent, 'Antenna')
+            w=warning('off','MATLAB:table:ModifiedAndSavedVarnames');       % turn off annoying warning, save state
             FileData = importdata(FileName);
+            warning(w);                                                     % reset warning level
     
             % Check if the imported data is empty
             if isempty(FileData) 

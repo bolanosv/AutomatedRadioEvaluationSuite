@@ -123,7 +123,8 @@ function get2DAntennaGain(app)
             };
     
             % Save the measurement data
-            saveData(combinedData, combinedNames);
+            fullFilename = saveData(combinedData, combinedNames);
+            loadData('Antenna', fullFilename);
         end
     catch ME
         app.displayError(ME);

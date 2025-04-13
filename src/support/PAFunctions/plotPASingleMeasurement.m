@@ -10,6 +10,10 @@ function plotPASingleMeasurement(app)
         idx = idx & idx_i;
     end
 
+
+    idx_freq = (app.PA_DataTable.FrequencyMHz == str2double(app.FrequencySingleDropDown.Value));
+    idx = idx & idx_freq;
+
     % Plot Gain on the left y-axis
     yyaxis(app.SingleFrequencyPAPlot, 'left');
     h1 = plot(app.SingleFrequencyPAPlot, app.PA_DataTable(idx,:).RFOutputPowerdBm, app.PA_DataTable(idx,:).Gain, 'k-');
