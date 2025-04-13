@@ -2,84 +2,92 @@ function plotPASweepMeasurement(app)
     % This function plots the data from the frequency sweep measurement.
 
     % Clear existing plots.
-    cla(app.GainvsOutputPowerPlot);
-    cla(app.PeakGainPlot);
-    cla(app.PeakDEPAEPlot);
-    cla(app.CompressionPointsPlot);
+    cla(app.GainvsOutputPowerPlot,"reset");
+    cla(app.PeakGainPlot,"reset");
+    cla(app.PeakDEPAEPlot,"reset");
+    cla(app.CompressionPointsPlot,"reset");
+    clear legendEntries legendHandles;
 
-    % Nnumber of frequencies.
-    numFreqs = length(unique(app.PA_DataTable.FrequencyMHz));
-    
-    % Get peak values from RF measurements.
-    % peakValues = measureRFParametersPeaks(app);
-    
-    % 1) Gain vs. Output RF Power
-    hold(app.GainvsOutputPowerPlot, 'on'); 
-    for i = 1:numFreqs
-        idx = app.PA_DataTable.FrequencyMHz == app.PA_Frequencies(i);
-        plot(app.GainvsOutputPowerPlot, app.PA_DataTable.RFOutputPowerdBm(idx), app.PA_DataTable.Gain(idx));
+
+    % Index the plot for the selected supply voltages
+    idx = true(height(app.PA_DataTable), 1);
+    for i = 1:length(app.PA_PSU_SelectedVoltages)
+        idx_i = app.PA_DataTable.(sprintf('Channel%dVoltagesV', app.PA_PSU_Channels(i))) == app.PA_PSU_SelectedVoltages(i);
+        idx = idx & idx_i;
     end
+
+    % 1) Plot Gain vs. Pout
+    % Frequencies to iterate over.
+    freqs = unique(app.PA_DataTable(idx,"FrequencyMHz")); % Iterate by frequency
+    hold(app.GainvsOutputPowerPlot, 'on'); 
+    for i = 1:height(freqs)
+        % Get temporary subtable for each frequency
+        freq_DataTable = app.PA_DataTable(idx,:);
+        freq_DataTable = freq_DataTable(freq_DataTable.FrequencyMHz == freqs.FrequencyMHz(i),:);
+        
+        % Plot Gain vs. Pout
+        plot(app.GainvsOutputPowerPlot, freq_DataTable.RFOutputPowerdBm, freq_DataTable.Gain);
+    end
+    % Labels for Gain vs. Pout plot
     hold(app.GainvsOutputPowerPlot, 'off');
     title(app.GainvsOutputPowerPlot, 'Gain vs. Output Power');
     xlabel(app.GainvsOutputPowerPlot, 'Output Power (dBm)');
     ylabel(app.GainvsOutputPowerPlot, 'Gain (dB)');
-    return; % Needs to filter peak values by supply voltages
-    % 2) Peak Gain vs. Frequency
-    % plot(app.PeakGainPlot, app.PA_DataTable.FrequencyMHz, peakValues{2}, 'b-o');
-    title(app.PeakGainPlot, 'Peak Gain');
-    xlabel(app.PeakGainPlot, 'Frequency (GHz)');
-    ylabel(app.PeakGainPlot, 'Gain (dB)');
     
+    % Getting the peak values
+    [Psat, peakGain, peakDE, peakPAE, compression1dB, compression3dB] = measureRFParametersPeaks(app,idx);
+
+    % 2) Peak Gain vs. Frequency
+    plot(app.PeakGainPlot, peakGain.FrequencyMHz, peakGain.max_Gain, 'b-o');
+    title(app.PeakGainPlot, 'Peak Gain');
+    xlabel(app.PeakGainPlot, 'Frequency (MHz)');
+    ylabel(app.PeakGainPlot, 'Gain (dB)');
+
     % 3) Peak DE & PAE vs. Frequency
     hold(app.PeakDEPAEPlot, 'on');
-    % h1 = plot(app.PeakDEPAEPlot, app.PA_Frequencies / 1E9, peakValues{3}, 'b-o');
-    % h2 = plot(app.PeakDEPAEPlot, app.PA_Frequencies / 1E9, peakValues{4}, 'r-o');
+    h1 = plot(app.PeakDEPAEPlot, peakDE.FrequencyMHz, peakDE.max_DE, 'b-o');
+    h2 = plot(app.PeakDEPAEPlot, peakPAE.FrequencyMHz, peakPAE.max_PAE, 'r-o');
     hold(app.PeakDEPAEPlot, 'off');
     title(app.PeakDEPAEPlot, 'Peak DE and PAE');
-    xlabel(app.PeakDEPAEPlot, 'Frequency (GHz)');
+    xlabel(app.PeakDEPAEPlot, 'Frequency (MHz)');
     ylabel(app.PeakDEPAEPlot, 'Efficiency (%)');
     legend(app.PeakDEPAEPlot, [h1, h2], {'DE', 'PAE'}, 'Location', 'best');
-
+    
     % 4) Saturation Power & Compression Points
     hold(app.CompressionPointsPlot, 'on');
-    plotColors = {'k', 'r', 'b'};
-    legendLabels = {'P_{sat}', 'P_{-1dB}', 'P_{-3dB}'};
+    legendLabels = {};
     plotHandles = [];
-    usedLabels = {};
     
     % Plot each metric if it has valid data.
     % Saturation Power
-    validIdx = ~isnan(peakValues{1});
-    if any(validIdx)
-        h1 = plot(app.CompressionPointsPlot, app.PA_Frequencies(validIdx) / 1E9, peakValues{1}(validIdx), [plotColors{1}, '-o']);
+    if height(Psat)>0
+        h1 = plot(app.CompressionPointsPlot, Psat.FrequencyMHz, Psat.RFOutputPowerdBm, '-o', 'Color', 'k');
         plotHandles = [plotHandles, h1];
-        usedLabels{end+1} = legendLabels{1};
+        legendLabels{end+1} = {'P_{sat}'};
     end
     
     % -1dB Compression Point
-    validIdx = ~isnan(peakValues{5});
-    if any(validIdx)
-        h2 = plot(app.CompressionPointsPlot, app.PA_Frequencies(validIdx) / 1E9, peakValues{5}(validIdx), [plotColors{2}, '-o']);
+    if height(compression1dB) > 0
+        h2 = plot(app.CompressionPointsPlot, compression1dB.FrequencyMHz, compression1dB.RFOutputPowerdBm, '-o', 'Color', 'r');
         plotHandles = [plotHandles, h2];
-        usedLabels{end+1} = legendLabels{2};
+        legendLabels{end+1} = {'P_{-1dB}'};
     end
     
     % -3dB Compression Point
-    validIdx = ~isnan(peakValues{6});
-    if any(validIdx)
-        h3 = plot(app.CompressionPointsPlot, app.PA_Frequencies(validIdx) / 1E9, peakValues{6}(validIdx), [plotColors{3}, '-o']);
+    if height(compression3dB) > 0
+        h3 = plot(app.CompressionPointsPlot, compression3dB.FrequencyMHz, compression3dB.RFOutputPowerdBm, '-o', 'Color', 'b');
         plotHandles = [plotHandles, h3];
-        usedLabels{end+1} = legendLabels{3};
+        legendLabels{end+1} = {'P_{-3dB}'};
     end  
 
     title(app.CompressionPointsPlot, 'Saturation Power and Compression Points');
-    xlabel(app.CompressionPointsPlot, 'Frequency (GHz)');
+    xlabel(app.CompressionPointsPlot, 'Frequency (MHz)');
     ylabel(app.CompressionPointsPlot, 'Output Power (dBm)');
     hold(app.CompressionPointsPlot, 'off');
     if ~isempty(plotHandles)
-        legend(app.CompressionPointsPlot, plotHandles, usedLabels, 'Location', 'best');
+        legend(app.CompressionPointsPlot, plotHandles, string(legendLabels), 'Location', 'best');
     end
-   
+    
     % Improves the appearance of each plot, can adjust the line
     % thickness/width as desired.
     improveAxesAppearance(app.GainvsOutputPowerPlot, 'YYAxis', 'false', 'LineThickness', 1);

@@ -4,12 +4,13 @@ function [Psat, peakGain, peakDE, peakPAE, compression1dB, compression3dB] = mea
 
     % Get the max output RF power per frequency.
     Psat = groupsummary(app.PA_DataTable(idx,:),'FrequencyMHz','max','RFOutputPowerdBm');
-    Psat.GroupCount = []; % Drop GroupCount column
-    Psat.Properties.VariableNames = {'FrequencyMHz','RFOutputPowerdBm'};
+    Psat.GroupCount = zeros(height(Psat),1); % Reset column to be used for gain
+    Psat.Properties.VariableNames = {'FrequencyMHz','Gain','RFOutputPowerdBm'}; % Rename
+    Psat = Psat(:,{'FrequencyMHz','RFOutputPowerdBm','Gain'}); % Reorder
     for i = 1:height(Psat)      
         Psat_DataTable = app.PA_DataTable(idx,:);
         idx_Psat = (Psat_DataTable.RFOutputPowerdBm == Psat.RFOutputPowerdBm(i));
-        Psat.Gain = Psat_DataTable(idx_Psat,:).Gain;
+        Psat(i,"Gain") = array2table(Psat_DataTable(idx_Psat,:).Gain);
     end
 
     % Get the max drain efficiency per frequency.
