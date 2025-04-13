@@ -48,27 +48,20 @@ function get2DAntennaGain(app)
             % Move the table and tower to specified position
             writeline(app.EMCenter, sprintf('1A:SK %d', adjustedTheta));
             writeline(app.EMCenter, sprintf('1B:SK %d', adjustedPhi));
-            
-            statusA = writeread(app.EMCenter,"1A:*OPC?");
-            statusB = writeread(app.EMCenter,"1B:*OPC?");
-            statusA = str2double(strtrim(statusA));
-            statusB = str2double(strtrim(statusB));
-
-            while (statusA ~= 1) && (statusB ~= 1)
+            moving = 0;
+            while ~moving
                 drawnow;
-
+                pause(app.AntennaMeasurementDelayValueField.Value);
                 % Check if the user requested the test measurement to stop
                 if app.AntennaStopRequested
                     writeline(app.EMCenter, '1A:ST');
                     writeline(app.EMCenter, '1B:ST');
-                    pause(1);
                     break;
                 end
 
-                statusA = writeread(app.EMCenter,"1A:*OPC?");
-                statusB = writeread(app.EMCenter,"1B:*OPC?");
-                statusA = str2double(strtrim(statusA));
-                statusB = str2double(strtrim(statusB));
+                statusA = str2double(writeread(app.EMCenter,"1A:*OPC?"));
+                statusB = str2double(writeread(app.EMCenter,"1B:*OPC?"));
+                moving = (statusA == 1) & (statusB == 1);
             end
 
             % Exit the outer loop as well if stop was requested
@@ -77,7 +70,7 @@ function get2DAntennaGain(app)
             end
 
             % Small delay.
-            pause(app.AntennaMeasurementDelayValueField.Value / 2);
+            pause(app.AntennaMeasurementDelayValueField.Value);
 
             % Get S-Parameters and Frequencies from VNA
             [SParameters_dB, SParameters_Phase, VNAFrequencies] = measureSParameters(app.VNA, 2, startFrequency, endFrequency, sweepPoints); 
@@ -88,43 +81,28 @@ function get2DAntennaGain(app)
                 Gain_dBi = measureAntennaGain(VNAFrequencies, SParameters_dB{2}, app.setupSpacing);
             end
 
-            app.Theta(dataPts) = parametersTable.("Theta (deg)")(i);
-            app.Phi(dataPts) = parametersTable.("Phi (deg)")(i);
-            app.Antenna_Frequencies(dataPts) = VNAFrequencies;
-            app.S11_Mag_dB(dataPts) = SParameters_dB{1};
-            app.S21_Mag_dB(dataPts) = SParameters_dB{2};
-            app.S22_Mag_dB(dataPts) = SParameters_dB{3};
-            app.S11_Phase_deg(dataPts) = SParameters_Phase{1};
-            app.S21_Phase_deg(dataPts) = SParameters_Phase{2};
-            app.S22_Phase_deg(dataPts) = SParameters_Phase{3};
-            app.AntennaGain_dBi(dataPts) = Gain_dBi;
+            resultsTable(dataPts,"Theta (deg)") = array2table(parametersTable.("Theta (deg)")(i)*ones(numel(dataPts),1));
+            resultsTable(dataPts,"Phi (deg)") = array2table(parametersTable.("Phi (deg)")(i)*ones(numel(dataPts),1));
+            resultsTable(dataPts,"Frequency (MHz)") = array2table(VNAFrequencies'/1E6);
+            resultsTable(dataPts,"Gain (dBi)") = array2table(Gain_dBi');
+            resultsTable(dataPts,"Return Loss (dB)") = array2table(SParameters_dB{3}');
+            resultsTable(dataPts,"Return Loss (deg)") = array2table(SParameters_Phase{3}');
+            resultsTable(dataPts,"Return Loss Reference (dB)") = array2table(SParameters_dB{1}');
+            resultsTable(dataPts,"Return Loss Reference (deg)") = array2table(SParameters_Phase{1}');
+            resultsTable(dataPts,"Path Loss (dB)") = array2table(SParameters_dB{2}');
+            resultsTable(dataPts,"Path Loss (deg)") = array2table(SParameters_dB{2}');
         end
 
         % Return turntable to starting position
         writeline(app.EMCenter, sprintf('1A:SK %d', 0));
-
-
-        return; % Algorithm completed up to this point. Debug load and save data.
-
+        writeline(app.EMCenter, sprintf('1B:SK %d', 0));
 
         % If the measurement was not stopped 
-        if ~app.AntennaStopRequested
-            combinedData = [double(app.Theta)',... 
-                            double(app.Antenna_Frequencies / 1E6)',...
-                            double(app.AntennaGain_dBi)',...
-                            double(app.S11)',...
-                            double(app.S11_Phase)'
-            ];
-            combinedNames = {'Azimuth Angles (deg)',... 
-                             'Frequency (MHz)',...
-                             'Gain (dBi)',...
-                             'Return Loss (dB)',...
-                             'Return Loss (deg)'
-            };
-    
+        if ~app.AntennaStopRequested  
             % Save the measurement data
-            fullFilename = saveData(combinedData, combinedNames);
+            fullFilename = saveData(resultsTable);
             loadData(app,'Antenna', fullFilename);
+            plotAntenna2DMeasurement(app);
         end
     catch ME
         app.displayError(ME);

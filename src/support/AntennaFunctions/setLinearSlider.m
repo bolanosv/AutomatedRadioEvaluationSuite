@@ -9,11 +9,6 @@ function setLinearSlider(speedPreset, targetPosition)
     % targetPosition: Position to move linear slider into.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % Add button to home slider following commands:
-    % if writeread(LinearSlider, 'AXIS1:ZERO?') == 0 % Query if axis has been homed 
-    %   writeread(LinearSlider, 'AXIS1:HOME') % Seek slider home sensor
-    %   writeread(LinearSlider, 'AXIS1:SCAN') % Toggle Scan Mode - move axis up and down between the soft limits
-    % end
 
     % Connect to the device.
     LinearSlider = tcpclient('192.168.0.100', 1206);

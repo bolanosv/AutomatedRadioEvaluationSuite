@@ -12,7 +12,6 @@ function combinedData = loadData(app,RFcomponent,FileName)
     %               the loaded file. User can acces specific data by 
     %               accesing the array's fields.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   
     combinedData = struct();
     
     if nargin < 3
@@ -26,8 +25,7 @@ function combinedData = loadData(app,RFcomponent,FileName)
         FileName = fullfile(path, file);
     end 
 
-    % Store the file path in the base workspace, so user can acces it if
-    % needed.
+    % Store the file path in the base workspace, so user can acces it if needed.
     assignin('base', 'loadedFilePath', FileName);
     try
         if strcmp(RFcomponent, 'PA')
@@ -66,40 +64,50 @@ function combinedData = loadData(app,RFcomponent,FileName)
             end
         elseif strcmp(RFcomponent, 'Antenna')
             w=warning('off','MATLAB:table:ModifiedAndSavedVarnames');       % turn off annoying warning, save state
-            FileData = importdata(FileName);
+            combinedData = readtable(FileName);
             warning(w);                                                     % reset warning level
-    
+            combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
+
             % Check if the imported data is empty
-            if isempty(FileData) 
-                return;
-            end
+            if ~isempty(combinedData) 
+                app.Antenna_Data = combinedData;
+                
+                % Check each required field and add to the list if missing.
+                expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};
+                missingFields = setdiff(expectedVars, app.Antenna_Data.Properties.VariableNames);
     
-            if isfield(FileData, 'textdata') && isfield(FileData, 'data')
-                headers = FileData.textdata(1, :);
-                numColumns = size(FileData.data, 2);
-                numHeaders = min(length(headers), numColumns); 
-                headerValues = cell(numHeaders, 2);
             
-                for i = 1:numHeaders
-                    header = headers{i};
-                    headerValues{i, 1} = header;
-                    headerValues{i, 2} = FileData.data(:, i);
+                % If any fields are missing, raise an error telling the
+                % user which field is missing. 
+                if ~isempty(missingFields)
+                    error(['The antenna gain file is missing the following required field(s): ', strjoin(missingFields, ', ')]);
                 end
-            
-                for i = 1:numHeaders
-                    header = headers{i};
-                    baseName = regexp(header, '(^[A-Z][0-9]+)', 'match', 'once');
-        
-                    if isempty(baseName)
-                        baseName = regexp(header, '^[^\d_]+', 'match', 'once');
-                    end
+            end
+        elseif strcmp(RFcomponent, 'AntennaReference')
+            w=warning('off','MATLAB:table:ModifiedAndSavedVarnames');       % turn off annoying warning, save state
+            combinedData = readtable(FileName);
+            warning(w);                                                     % reset warning level
+            combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
+
+            % Check if the imported data is empty
+            if ~isempty(combinedData) 
+                % Extract antenna measurement parameters from the file.
+                idx = (combinedData.Thetadeg==0) & (combinedData.Phideg==0);
+                if ~any(idx)
+                    error('Boresight Gain is not available in the file (Theta=0 and Phi=0)')
+                else
+                    combinedData = combinedData(idx,:);
+                    app.ReferenceGainFile = combinedData;
                     
-                    validBaseName = matlab.lang.makeValidName(baseName, 'ReplacementStyle', 'delete');
-            
-                    if isfield(combinedData, validBaseName)
-                        combinedData.(validBaseName) = [combinedData.(validBaseName), headerValues{i, 2}];
-                    else
-                        combinedData.(validBaseName) = headerValues{i, 2};
+                    % Check each required field and add to the list if missing.
+                    expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};
+                    missingFields = setdiff(expectedVars, app.ReferenceGainFile.Properties.VariableNames);
+    
+                
+                    % If any fields are missing, raise an error telling the
+                    % user which field is missing. 
+                    if ~isempty(missingFields)
+                        error(['The antenna gain file is missing the following required field(s): ', strjoin(missingFields, ', ')]);
                     end
                 end
             end

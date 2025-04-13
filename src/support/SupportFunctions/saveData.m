@@ -1,4 +1,4 @@
-function fullFilename = saveData(combinedData, combinedNames)
+function fullFilename = saveData(combinedData, csombinedNames)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function saves data from the application into either a CSV or
     % Excel file. The user passes in the combined test data and combined 
@@ -33,12 +33,16 @@ function fullFilename = saveData(combinedData, combinedNames)
         passedExcelLimit = false;
     end
 
-    if passedExcelLimit
-        % Prompt the user to save the data into a CSV file
-        [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)';}, 'Save Data As');
-    else
-        % Prompt the user to save the data into a CSV or Excel file
-        [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)';'*.xlsx', 'Excel Files (*.xlsx)'}, 'Save Data As');
+    try
+        if passedExcelLimit
+            % Prompt the user to save the data into a CSV file
+            [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)';}, 'Save Data As');
+        else
+            % Prompt the user to save the data into a CSV or Excel file
+            [filename, path] = uiputfile({'*.csv', 'CSV Files (*.csv)';'*.xlsx', 'Excel Files (*.xlsx)'}, 'Save Data As');
+        end
+    catch ME
+        error('Data saving was canceled.')
     end
 
     % Handle the user cancelling the prompt
