@@ -47,6 +47,7 @@ function fullFilename = saveData(combinedData, combinedNames)
 
     % Handle the user cancelling the prompt
     if isequal(filename, 0) || isequal(path, 0)
+        fullFilename = '';
         return;
     end
 

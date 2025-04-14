@@ -67,7 +67,8 @@ function get2DAntennaGain(app)
     % Create the parameters table to hold the measurement parameters and
     % create the results table to hold the saved measurement data.
     parametersTable = createAntennaParametersTable(tableAngles, towerAngles);
-    totalMeasurements = height(parametersTable) * sweepPoints;
+    totalPositions = height(parametersTable);
+    totalMeasurements = totalPositions * sweepPoints;
     resultsTable = createAntennaResultsTable(totalMeasurements);
 
     try
@@ -77,7 +78,29 @@ function get2DAntennaGain(app)
         writeline(app.EMCenter, sprintf('1A:SPEED %d', tableSpeed));
         writeline(app.EMCenter, sprintf('1B:SPEED %d', towerSpeed));
 
-        for i = 1:height(parametersTable)
+        % Create a progress dialog to inform the user of the progress.
+        d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress');
+        tic; lastTime = toc; totalTime = 0;
+
+        for i = 1:totalPositions
+            % Update timing info.
+            now = toc; 
+            elapsedTime = now - lastTime; 
+            totalTime = totalTime + elapsedTime; 
+            lastTime = now;
+            
+            % Calculate progress and time estimates.
+            progress = i / totalPositions;
+            avgTime = totalTime / i;
+            remainingTime = avgTime * (totalPositions - i);
+            
+            % Update dialog progress message.
+            d.Value = progress;
+            d.Message = sprintf("Measurement Progress: %d%%\nElapsed Time: %s\nRemaining Time: %s", ...
+                    round(100 * progress), ...
+                    string(duration(0, 0, round(totalTime))), ...
+                    string(duration(0, 0, round(remainingTime))));
+
             dataPts = (i - 1) * sweepPoints + (1:sweepPoints);
 
             % Get measurement corrected angles for (0,360) range
@@ -169,13 +192,16 @@ function get2DAntennaGain(app)
         if ~app.AntennaStopRequested  
             % Save the complete measurement data.
             fullFilename = saveData(resultsTable);
-            loadData(app, 'Antenna', fullFilename);
 
-            % Update dropdown values to match the new data.
-            updateAntennaPlotDropdowns(app);
+            if ~isempty(fullFilename)
+                loadData(app, 'Antenna', fullFilename);
+                
+                % Update dropdown values to match the new data.
+                updateAntennaPlotDropdowns(app);
 
-            % Plot with updated dropdown values.
-            plotAntenna2DRadiationPattern(app);
+                % Plot with updated dropdown values.
+                plotAntenna2DRadiationPattern(app);
+            end
         end
     catch ME
         app.displayError(ME);
