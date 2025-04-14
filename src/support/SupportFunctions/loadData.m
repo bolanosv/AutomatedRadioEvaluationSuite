@@ -1,17 +1,20 @@
-function combinedData = loadData(app,RFcomponent,FileName)
+function combinedData = loadData(app, RFcomponent, FileName)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function loads data in from a CSV or Excel file containing a 
     % single or sweep PA test measurement, or an Antenna test measurement. 
     %
     % PARAMETERS
-    % RFcomponenet: Either 'PA' or 'Antenna' depending on which type of 
-    %               measurement is being loaded.
+    %   RFcomponenet: Either 'PA' or 'Antenna' depending on which type of 
+    %                 measurement is being loaded.
+    %   FileName:     The name of the file that will be loaded into the
+    %                 application.
     %
     % RETURNS
-    % combinedData: A struct containing all the data from each column of 
-    %               the loaded file. User can acces specific data by 
-    %               accesing the array's fields.
+    %   combinedData: A struct containing all the data from each column of 
+    %                 the loaded file. User can acces specific data by 
+    %                 accesing the array's fields.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     combinedData = struct();
     
     if nargin < 3
@@ -27,11 +30,15 @@ function combinedData = loadData(app,RFcomponent,FileName)
 
     % Store the file path in the base workspace, so user can acces it if needed.
     assignin('base', 'loadedFilePath', FileName);
+
     try
         if strcmp(RFcomponent, 'PA')
-            w=warning('off','MATLAB:table:ModifiedAndSavedVarnames');       % turn off annoying warning, save state
+            % Turn off annoying warning, save state.
+            w = warning('off','MATLAB:table:ModifiedAndSavedVarnames');       
             combinedData = readtable(FileName);
-            warning(w);                                                     % reset warning level
+
+            % Reset warning level.
+            warning(w);                                                     
             combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
 
             if ~isempty(combinedData)  
@@ -63,9 +70,12 @@ function combinedData = loadData(app,RFcomponent,FileName)
                 app.PAPlotMeasurementHandle();
             end
         elseif strcmp(RFcomponent, 'Antenna')
-            w=warning('off','MATLAB:table:ModifiedAndSavedVarnames');       % turn off annoying warning, save state
+            % Turn off annoying warning, save state.
+            w = warning('off','MATLAB:table:ModifiedAndSavedVarnames');       
             combinedData = readtable(FileName);
-            warning(w);                                                     % reset warning level
+
+            % Reset warning level.
+            warning(w);                                                    
             combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
 
             % Check if the imported data is empty
@@ -75,7 +85,6 @@ function combinedData = loadData(app,RFcomponent,FileName)
                 % Check each required field and add to the list if missing.
                 expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};
                 missingFields = setdiff(expectedVars, app.Antenna_Data.Properties.VariableNames);
-    
             
                 % If any fields are missing, raise an error telling the
                 % user which field is missing. 
@@ -84,15 +93,19 @@ function combinedData = loadData(app,RFcomponent,FileName)
                 end
             end
         elseif strcmp(RFcomponent, 'AntennaReference')
-            w=warning('off','MATLAB:table:ModifiedAndSavedVarnames');       % turn off annoying warning, save state
+            % Turn off annoying warning, save state.
+            w = warning('off','MATLAB:table:ModifiedAndSavedVarnames');      
             combinedData = readtable(FileName);
-            warning(w);                                                     % reset warning level
+
+            % Reset warning level.
+            warning(w);                                                  
             combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
 
             % Check if the imported data is empty
             if ~isempty(combinedData) 
                 % Extract antenna measurement parameters from the file.
                 idx = (combinedData.Thetadeg==0) & (combinedData.Phideg==0);
+
                 if ~any(idx)
                     error('Boresight Gain is not available in the file (Theta=0 and Phi=0)')
                 else
@@ -102,8 +115,7 @@ function combinedData = loadData(app,RFcomponent,FileName)
                     % Check each required field and add to the list if missing.
                     expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};
                     missingFields = setdiff(expectedVars, app.ReferenceGainFile.Properties.VariableNames);
-    
-                
+       
                     % If any fields are missing, raise an error telling the
                     % user which field is missing. 
                     if ~isempty(missingFields)

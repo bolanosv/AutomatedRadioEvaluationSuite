@@ -3,10 +3,10 @@ function AdB = A2dB(A)
     % A2dB Converts magnitudes (voltage or current) to dB.
     %
     % INPUT PARAMETERS:
-    % A:   Magnitude (voltage or current) in linear scale
+    %   A:   Magnitude (voltage or current) in linear scale
     %
-    % OUTPUT:
-    % AdB: Magnitude in decibels (dB)
+    % OUTPUT PARAMETERS:
+    %   AdB: Magnitude in decibels (dB)
     %
     % Credit: Alex D. Santiago Vargas, PhD
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

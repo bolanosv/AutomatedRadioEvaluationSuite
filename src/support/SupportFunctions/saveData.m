@@ -1,14 +1,14 @@
-function fullFilename = saveData(combinedData, csombinedNames)
+function fullFilename = saveData(combinedData, combinedNames)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function saves data from the application into either a CSV or
     % Excel file. The user passes in the combined test data and combined 
     % test variable names, the function saves and organizes the data.
     %
     % PARAMETERS
-    % combinedData:  Cell array containing the data for all measurement
-    %                variables. Example: {testFrequency, testGain, ...}
-    % combinedNames: Cell array containing the titles of the measurement
-    %                variables. Example: {'Frequency Hz', 'Gain dB', ...}
+    %   combinedData:  Cell array containing the data for all measurement
+    %                  variables. Example: {testFrequency, testGain, ...}
+    %   combinedNames: Cell array containing the titles of the measurement
+    %                  variables. Example: {'Frequency Hz', 'Gain dB', ...}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % Constants
