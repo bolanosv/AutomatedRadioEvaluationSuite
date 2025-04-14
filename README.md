@@ -6,6 +6,21 @@
 
 The **Automated Radio Evaluation Suite** enables automated RF measurements for power amplifiers and antennas. Unlike commercial software, this app is open-source, customizable, and free. Please note that the app is still in development, and some features may not be available in this release.
 
+## Table of Contents
+
+- [Features](#features)
+- [TODO](#todo)
+- [Install](#install)
+  - [Download](#download)
+  - [Requirements](#requirements)
+  - [Network Connections](#network-connections)
+- [Usage](#usage)
+  - [PA Measurement Tutorial](#pa-measurement-tutorial)
+  - [Antenna Measurement Tutorial](#antenna-measurement-tutorial)
+  - [Reference Code](#reference-code)
+- [Compatibility](#compatibility)
+- [License](#license)
+
 ## Features
 
 - VISA Instrument Control for multiple Keysight and ETS-Lindgren instruments by GPIB and LAN
