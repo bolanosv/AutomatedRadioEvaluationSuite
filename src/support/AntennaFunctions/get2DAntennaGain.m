@@ -142,7 +142,7 @@ function get2DAntennaGain(app)
             % Save the measurement data
             fullFilename = saveData(resultsTable);
             loadData(app,'Antenna', fullFilename);
-            plotAntenna2DMeasurement(app);
+            plotAntenna2DRadiationPattern(app);
         end
     catch ME
         app.displayError(ME);
