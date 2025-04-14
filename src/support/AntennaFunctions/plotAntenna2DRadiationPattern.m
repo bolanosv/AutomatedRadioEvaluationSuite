@@ -1,5 +1,23 @@
 function plotAntenna2DRadiationPattern(app)
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % This function plots the 2D antenna measurement data:
+    %   - Gain vs. Frequency at a fixed theta/phi angle
+    %   - Gain vs. Angle at a fixed frequency
+    %   - Return Loss vs. Frequency
+    %   - 2D polar radiation pattern (θ and φ cuts)
+    %
+    % INPUT PARAMETERS:
+    %   app:  Application object containing antenna data and plot handles.
+    %
+    % This function:
+    %   - Extracts data based on selected θ, φ, and frequency values
+    %   - Updates four subplots with corresponding gain and return loss
+    %   - Enhances plot visuals using helper formatting functions
+    %   - Catches and displays errors using the app's error handler
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     try
+        % Clear current plots.
         cla(app.GainvsFrequency2D);
         cla(app.ReturnLoss2D);
         cla(app.GainvsAngle2D);
@@ -10,11 +28,10 @@ function plotAntenna2DRadiationPattern(app)
         idx_phi = (app.Antenna_Data.Phideg==str2double(app.PlotPhiDropDown.Value));
         idx_freq = (app.Antenna_Data.FrequencyMHz==str2double(app.PlotFrequencyMHzDropDown.Value));
         idx_angle = idx_theta & idx_phi; 
-    
-    
+     
         % 1) Antenna Gain vs. Frequency, at specified angle
         plot(app.GainvsFrequency2D, app.Antenna_Data(idx_angle,:).FrequencyMHz, app.Antenna_Data(idx_angle,:).GaindBi);
-        title(app.GainvsFrequency2D, sprintf('Gain vs. Frequency at \\Phi = %s^{\\circ} and \\theta = %s^{\\circ}', app.PlotPhiDropDown.Value,app.PlotPhiDropDown.Value));
+        title(app.GainvsFrequency2D, sprintf('Gain vs. Frequency at \\Phi = %s^{\\circ} and \\theta = %s^{\\circ}', app.PlotPhiDropDown.Value,app.PlotThetaDropDown.Value));
         xlabel(app.GainvsFrequency2D, 'Frequency (MHz)');
         ylabel(app.GainvsFrequency2D, 'Gain (dBi)');
         axis(app.GainvsFrequency2D, 'tight');
@@ -33,8 +50,8 @@ function plotAntenna2DRadiationPattern(app)
     
         % 3) Return Loss (dB) Plot
         plot(app.ReturnLoss2D, app.Antenna_Data(idx_angle,:).FrequencyMHz, app.Antenna_Data(idx_angle,:).ReturnLossdB);
-        title(app.ReturnLoss2D, sprintf('Return Loss at \\Phi = %s^{\\circ} and \\theta = %s^{\\circ}', app.PlotPhiDropDown.Value,app.PlotPhiDropDown.Value));
-        xlabel(app.ReturnLoss2D, 'Frequency (GHz)');
+        title(app.ReturnLoss2D, sprintf('Return Loss at \\Phi = %s^{\\circ} and \\theta = %s^{\\circ}', app.PlotPhiDropDown.Value,app.PlotThetaDropDown.Value));
+        xlabel(app.ReturnLoss2D, 'Frequency (MHz)');
         ylabel(app.ReturnLoss2D, 'RL (dB)');
         axis(app.ReturnLoss2D, 'tight');
     
@@ -51,6 +68,7 @@ function plotAntenna2DRadiationPattern(app)
         improveAxesAppearance(app.ReturnLoss2D, 'LineThickness', 2);
         improveAxesAppearance(app.GainvsAngle2D, 'LineThickness', 2);
         h = findobj(app.RadiationPlot2D, 'Type', 'line');
+        
         for i = 1:numel(h)
             h(i).LineWidth = 2;
         end

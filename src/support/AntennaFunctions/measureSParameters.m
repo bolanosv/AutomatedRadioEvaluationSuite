@@ -4,20 +4,20 @@ function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VN
     % a VNA laboratory instrument using SCPI. 
     %
     % INSTRUMENTS
-    % Vector Network Analyzer: 
+    %   Vector Network Analyzer: PNA-L N5232B
     %
     % INPUT PARAMETERS
-    % VNA:       The instrument object representing the vector network 
-    %            analyzer, used to measure the S-Parameters.
-    % numPorts:  The number of ports (2 or 3) of the VNA to be used.
-    % startFreq: Start frequency of the measurement range in (Hz).
-    % endFreq:   End frequency of the measurement range in (Hz).
-    % sweepPts:  Number of points for the VNA frequency sweep.
+    %   VNA:         The instrument object representing the vector network 
+    %                analyzer, used to measure the S-Parameters.
+    %   numPorts:    The number of ports (2 or 3) of the VNA to be used.
+    %   startFreq:   Start frequency of the measurement range in (Hz).
+    %   endFreq:     End frequency of the measurement range in (Hz).
+    %   sweepPts:    Number of points for the VNA frequency sweep.
     %
     % OUTPUT PARAMETERS
-    % sParameters_dB:    Magnitude of S-Parameters in (dB).
-    % sParameters_Phase: Phase of S-Parameters in (deg).
-    % freqValues:        Frequency values of the sweep.
+    %   sParameters_dB:     Magnitude of S-Parameters in (dB).
+    %   sParameters_Phase:  Phase of S-Parameters in (deg).
+    %   freqValues:         Frequency values of the sweep.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Clear the error status register on the VNA.

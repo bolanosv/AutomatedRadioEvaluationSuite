@@ -1,4 +1,40 @@
 function get2DAntennaGain(app) 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % This function executes a full 2D antenna gain measurement sweep by 
+    % controlling a dual-axis positioner (Theta and Phi) and capturing RF 
+    % gain and return loss data from a VNA across a defined frequency 
+    % range.
+    %
+    % INPUT PARAMETERS:
+    %   app:  Application object containing: hardware interfaces,
+    %   user-defined settings, UI components, and other setup parameters.
+    %
+    % PROCESS OVERVIEW:
+    %   1. Initializes sweep parameters based on UI input:
+    %       - Frequency range and sweep points
+    %       - Theta and Phi angle vectors
+    %   2. Generates a parameter sweep table for all Theta/Phi 
+    %      combinations.
+    %   3. For each test position:
+    %       - Rotates the table and tower to the specified angles
+    %       - Waits for motors to finish moving
+    %       - Checks for user stop request
+    %       - Measures S-parameters using the VNA
+    %       - Calculates antenna gain
+    %       - Stores results: frequency, gain, return loss, path loss
+    %   4. Returns the positioners to 0°.
+    %   5. If not stopped by the user:
+    %       - Saves results to disk
+    %       - Loads data back into the app
+    %       - Plots the 2D antenna gain measurement
+    %
+    % OUTPUT PARAMETERS:
+    %   None 
+    %
+    % ERROR HANDLING:
+    %   Any error is caught and displayed via the app interface. 
+    %   Positioners are stopped safely on user interruption or error.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Initialize variables from the application.
     startFrequency = app.VNAStartFrequency.Value * 1E6;
@@ -20,6 +56,7 @@ function get2DAntennaGain(app)
     else
         tableAngles = app.TableStartAngle;
     end
+
     % Get tower speed and phi angles
     towerSpeed = app.TowerSpeedSlider.Value;
     if strcmp(app.PhiSingleSweepSwitch.Value,'Sweep')
@@ -44,6 +81,9 @@ function get2DAntennaGain(app)
             % Get measurement corrected angles for (0,360) range
             adjustedTheta = table2array(mod(parametersTable(i, "Theta (deg)"), 360));
             adjustedPhi = table2array(mod(parametersTable(i, "Phi (deg)"), 360));
+
+            % adjustedTheta = mod(parametersTable.("Theta (deg)")(i), 360);
+            % adjustedPhi = mod(parametersTable.("Phi (deg)")(i), 360);
             
             % Move the table and tower to specified position
             writeline(app.EMCenter, sprintf('1A:SK %d', adjustedTheta));
@@ -83,14 +123,14 @@ function get2DAntennaGain(app)
 
             resultsTable(dataPts,"Theta (deg)") = array2table(parametersTable.("Theta (deg)")(i)*ones(numel(dataPts),1));
             resultsTable(dataPts,"Phi (deg)") = array2table(parametersTable.("Phi (deg)")(i)*ones(numel(dataPts),1));
-            resultsTable(dataPts,"Frequency (MHz)") = array2table(VNAFrequencies'/1E6);
+            resultsTable(dataPts,"Frequency (MHz)") = array2table(VNAFrequencies' / 1E6);
             resultsTable(dataPts,"Gain (dBi)") = array2table(Gain_dBi');
             resultsTable(dataPts,"Return Loss (dB)") = array2table(SParameters_dB{3}');
             resultsTable(dataPts,"Return Loss (deg)") = array2table(SParameters_Phase{3}');
             resultsTable(dataPts,"Return Loss Reference (dB)") = array2table(SParameters_dB{1}');
             resultsTable(dataPts,"Return Loss Reference (deg)") = array2table(SParameters_Phase{1}');
             resultsTable(dataPts,"Path Loss (dB)") = array2table(SParameters_dB{2}');
-            resultsTable(dataPts,"Path Loss (deg)") = array2table(SParameters_dB{2}');
+            resultsTable(dataPts,"Path Loss (deg)") = array2table(SParameters_Phase{2}');
         end
 
         % Return turntable to starting position

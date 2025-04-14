@@ -28,6 +28,9 @@ function runPAMeasurement(app)
     %   4. Provides a progress UI with estimated time updates.
     %   5. Saves the results and loads them back into the application.
     %
+    % OUTPUT PARAMETERS
+    %   None
+    %
     % ERROR HANDLING:
     %   In case of an exception, instruments are safely turned off and 
     %   the error is displayed via the application interface.

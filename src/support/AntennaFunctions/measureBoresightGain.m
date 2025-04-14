@@ -5,18 +5,18 @@ function measureBoresightGain(app)
     % return loss, then saves the results to a file.
     %
     % INSTRUMENTS
-    % Vector Network Analyzer: N5232B
+    %   Vector Network Analyzer: PNA-L N5232B
     %
     % INPUT PARAMETERS
-    % app:             The application object containing VNA and test 
-    %                  setup configuration.
-    % startFrequency:  Start frequency of the sweep in (Hz).
-    % endFrequency:    End frequency of the sweep in (Hz).
-    % sweepPoints:     Number of sweep points between start and end 
-    %                  frequency.
+    %   app:             The application object containing VNA and test 
+    %                    setup configuration.
+    %   startFrequency:  Start frequency of the sweep in (Hz).
+    %   endFrequency:    End frequency of the sweep in (Hz).
+    %   sweepPoints:     Number of sweep points between start and end 
+    %                    frequency.
     %
     % OUTPUT PARAMETERS
-    % None 
+    %   None 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Initialize variables from the application.

@@ -1,4 +1,4 @@
-function antennaGain = measureAntennaGain(TestFrequency, sParameter, Spacing, ReferenceGain, ReferenceFrequency)
+function antennaGain = measureAntennaGain(TestFrequency, sParameter_dB, Spacing, ReferenceGain, ReferenceFrequency)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function calculates the gain of a test antenna in decibels 
     % relative to an isotropic radiator (dBi) based on the input frequency,
@@ -9,19 +9,19 @@ function antennaGain = measureAntennaGain(TestFrequency, sParameter, Spacing, Re
     % reference gain and frequency.
     %
     % INPUT PARAMETERS
-    % TestFreq:    A scalar or vector of frequency values in (Hz) at which
-    %              the antenna gain is measured. 
-    % sParameter:  A scalar or vector of S21 in (dB) values representing 
-    %              the magnitude of power transfer between two antennas.
-    % Spacing:     A scalar, the distance in (m) between the two antennas 
-    %              being tested.
-    % RefGain:     A scalar or vector containing the reference antenna
-    %              gain.
-    % RefFreq:     A scalar or vector containing the reference frequencies. 
+    %   TestFrequency:  A scalar or vector of frequency values in (Hz) at 
+    %                   which the antenna gain is measured. 
+    %   sParameter_dB:  A scalar or vector of S21 in (dB) values 
+    %                   representing the magnitude of power transfer 
+    %                   between two antennas.
+    %   Spacing:        A scalar, the distance in (m) between the two 
+    %                   antennas being tested.
+    %   RefGain:        A vector containing the reference antenna gain.
+    %   RefFreq:        A vector containing the reference frequencies. 
     %
     % OUTPUT PARAMETERS 
-    % antennaGain: Vector containing the antenna gain in (dBi) of the test 
-    %              antenna.
+    %   antennaGain:    Vector containing the antenna gain in (dBi) of the 
+    %                   test antenna.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if nargin < 4
@@ -38,12 +38,11 @@ function antennaGain = measureAntennaGain(TestFrequency, sParameter, Spacing, Re
 
     if ~isempty(ReferenceGain)  
         % Non-identical Antenna Gain (dBi).
-        % CHECK AFTER NEW EXCEL UPDATE
         interpolatedRefGain = interp1(ReferenceFrequency, ReferenceGain, TestFrequency, 'spline');
-        antennaGain = sParameter - FSPL_dB - interpolatedRefGain;
+        antennaGain = sParameter_dB - FSPL_dB - interpolatedRefGain;
     else                  
         % Identical Antenna Gain (dBi).
-        antennaGain = (sParameter - FSPL_dB) / 2;
+        antennaGain = (sParameter_dB - FSPL_dB) / 2;
     end
 
     antennaGain = double(antennaGain);

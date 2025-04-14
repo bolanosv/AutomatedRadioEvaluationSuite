@@ -18,12 +18,12 @@ function isValid = validateAntennaMeasurement(app)
     % EMCenter
     %
     % INPUT PARAMETERS
-    % app:       The application object containing the antenna setup 
-    %            configuration and associated parameters.
+    %   app:       The application object containing the antenna setup 
+    %              configuration and associated parameters.
     %
     % OUTPUT PARAMETERS
-    % isValid:   A boolean value indicating whether the antenna setup 
-    %            configuration is valid (true) or not (false).
+    %   isValid:   A boolean value indicating whether the antenna setup 
+    %              configuration is valid (true) or not (false).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Initialize variables.
