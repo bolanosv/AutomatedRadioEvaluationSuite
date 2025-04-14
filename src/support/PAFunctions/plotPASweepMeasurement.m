@@ -1,5 +1,26 @@
 function plotPASweepMeasurement(app)
-    % This function plots the data from the frequency sweep measurement.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % This function plots performance metrics from a frequency 
+    % sweep power amplifier (PA) measurement, including gain, saturation 
+    % power, efficiency, and compression points.
+    %
+    % INPUT PARAMETERS:
+    %   app:   Application object containing PA measurement data and UI 
+    %          plotting components.
+    %
+    % This function filters the PA dataset based on user-selected supply 
+    % voltages, and generates four plots:
+    %
+    %   1. Gain vs. Output Power for each frequency (GainvsOutputPowerPlot)
+    %   2. Peak Gain vs. Frequency (PeakGainPlot)
+    %   3. Peak Drain Efficiency (DE) and Power-Added Efficiency (PAE) vs. 
+    %      Frequency (PeakDEPAEPlot)
+    %   4. Psat and -1 dB / -3 dB compression points vs. Frequency 
+    %      (CompressionPointsPlot)
+    %
+    % Data points are highlighted with markers for easier interpretation.
+    % All axes are styled for readability.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Clear existing plots.
     cla(app.GainvsOutputPowerPlot,"reset");
@@ -9,7 +30,7 @@ function plotPASweepMeasurement(app)
     clear legendEntries legendHandles;
 
 
-    % Index the plot for the selected supply voltages
+    % Index the plot for the selected supply voltages.
     idx = true(height(app.PA_DataTable), 1);
     for i = 1:length(app.PA_PSU_SelectedVoltages)
         idx_i = app.PA_DataTable.(sprintf('Channel%dVoltagesV', app.PA_PSU_Channels(i))) == app.PA_PSU_SelectedVoltages(i);
@@ -20,21 +41,23 @@ function plotPASweepMeasurement(app)
     % Frequencies to iterate over.
     freqs = unique(app.PA_DataTable(idx,"FrequencyMHz")); % Iterate by frequency
     hold(app.GainvsOutputPowerPlot, 'on'); 
+
     for i = 1:height(freqs)
-        % Get temporary subtable for each frequency
+        % Get temporary subtable for each frequency.
         freq_DataTable = app.PA_DataTable(idx,:);
         freq_DataTable = freq_DataTable(freq_DataTable.FrequencyMHz == freqs.FrequencyMHz(i),:);
         
         % Plot Gain vs. Pout
         plot(app.GainvsOutputPowerPlot, freq_DataTable.RFOutputPowerdBm, freq_DataTable.Gain);
     end
-    % Labels for Gain vs. Pout plot
+
+    % Labels for Gain vs. Pout plot.
     hold(app.GainvsOutputPowerPlot, 'off');
     title(app.GainvsOutputPowerPlot, 'Gain vs. Output Power');
     xlabel(app.GainvsOutputPowerPlot, 'Output Power (dBm)');
     ylabel(app.GainvsOutputPowerPlot, 'Gain (dB)');
     
-    % Getting the peak values
+    % Getting the peak values.
     [Psat, peakGain, peakDE, peakPAE, compression1dB, compression3dB] = measureRFParametersPeaks(app,idx);
 
     % 2) Peak Gain vs. Frequency

@@ -1,4 +1,38 @@
 function runPAMeasurement(app)
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % This function executes a full RF power amplifier (PA) measurement 
+    % sweep across defined power levels and frequencies, including:
+    %   - Instrument control (PSU, Signal Generator, Signal Analyzer)
+    %   - Calibration/de-embedding
+    %   - Data acquisition and processing
+    %   - PA figures of merit calculation
+    %   - Real-time progress monitoring and visualization
+    %
+    % INPUT PARAMETERS:
+    %   app:  Application object containing hardware interfaces, 
+    %         user-defined settings, and UI components.
+    %
+    % PROCESS OVERVIEW:
+    %   1. Generates test parameter combinations and initializes the 
+    %      results table.
+    %   2. Configures the spectrum analyzer and initializes the measurement
+    %      loop.
+    %   3. For each test point:
+    %       - Sets frequency and signal level
+    %       - Configures PSU voltages and currents
+    %       - Measures RF output power and DC power
+    %       - Applies calibration factors (de-embedding)
+    %       - Calculates Gain, DE (Drain Efficiency), and 
+    %         PAE (Power Added Efficiency)
+    %       - Stores results in a structured table
+    %   4. Provides a progress UI with estimated time updates.
+    %   5. Saves the results and loads them back into the application.
+    %
+    % ERROR HANDLING:
+    %   In case of an exception, instruments are safely turned off and 
+    %   the error is displayed via the application interface.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     try
         % Create the PA test parameters table.
         parametersTable = createPAParametersTable(app);
@@ -17,10 +51,15 @@ function runPAMeasurement(app)
         % Create a progress dialog to inform the user of the progress.
         d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress');
         tic; runTime = 0;
+
         for i = 1:totalMeasurements
-            runTime = runTime+toc;
-            avgRunTime = (runTime) / i;        % Average measurement time.
-            remainingTime = (totalMeasurements - i) * avgRunTime;        % Remaining test time
+            runTime = runTime + toc;
+
+            % Average measurement time.
+            avgRunTime = (runTime) / i;     
+
+            % Remaining test time.
+            remainingTime = (totalMeasurements - i) * avgRunTime;        
             elapsedTime = string(duration(round(runTime/3600), round(runTime/60), round(runTime)));
             estimatedTime = string(duration(round(remainingTime/3600), round(remainingTime/60), round(remainingTime)));
 
@@ -28,11 +67,11 @@ function runPAMeasurement(app)
             d.Value = i / totalMeasurements;
             d.Message = sprintf("Measurement Progress: %d%% \nElapsed Time: %s \nRemaining Time: %s", round(d.Value*100), elapsedTime, estimatedTime);
 
-            % Loop parameters
+            % Loop RF parameters.
             RFInputPower = parametersTable.('RF Input Power')(i);
             frequency = parametersTable.Frequency(i);
 
-            % Set target frequency in the signal generator. c
+            % Set target frequency in the signal generator.
             writeline(app.SignalGenerator, sprintf(':SOURce1:FREQuency:CW %d', frequency));
             % Set center frequency in the signal analyzer.
             writeline(app.SpectrumAnalyzer, sprintf(':SENSe:FREQuency:CENTer %g', frequency));
@@ -95,7 +134,8 @@ function runPAMeasurement(app)
             resultsTable.Gain(i) = Gain;
             resultsTable.("Total DC Drain Power (W)")(i) = TotalDCDrainPower;
             resultsTable.("DE (%)")(i) = DE;
-            resultsTable.("PAE (%)")(i) = PAE;            
+            resultsTable.("PAE (%)")(i) = PAE;   
+            
             for ch = 1:length(app.FilledPSUChannels)
                 channelName = app.FilledPSUChannels{ch};
                 resultsTable.(sprintf('Channel %d Voltages (V)', ch))(i) = parametersTable.(sprintf('Channel %d Voltage', ch))(i);

@@ -6,19 +6,19 @@ function setPSUChannels(app, deviceChannel, voltage, current)
     % current values to that channel.
     %
     % INSTRUMENTS
-    % DC Power Supplies A/B: E36233A / E336234A
+    %   DC Power Supplies A/B: E36233A / E336234A
     %
     % INPUT PARAMETERS
-    % app:           The application object containing the power supply 
-    %                configurations and channel-to-device mapping.
-    % deviceChannel: The name of the channel (e.g., 'CH1', 'CH2').
-    % voltage:       The voltage to set for the specified channel, given 
-    %                as a numeric value or a string.
-    % current:       The current to set for the specified channel, given 
-    %                as a numeric value or a string.
+    %   app:           The application object containing the power supply 
+    %                  configurations and channel-to-device mapping.
+    %   deviceChannel: The name of the channel (e.g., 'CH1', 'CH2').
+    %   voltage:       The voltage to set for the specified channel, given 
+    %                  as a numeric value or a string.
+    %   current:       The current to set for the specified channel, given 
+    %                  as a numeric value or a string.
     %
     % OUTPUT PARAMETERS
-    % None
+    %   None
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Get the correct PSU object and channel number.

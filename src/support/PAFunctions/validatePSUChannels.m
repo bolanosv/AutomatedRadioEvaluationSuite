@@ -16,15 +16,15 @@ function isValid = validatePSUChannels(app)
     % configuration.
     %
     % INSTRUMENTS
-    % DC Power Supplies A/B: E36233A / E336234A
+    %   DC Power Supplies A/B: E36233A / E336234A
     %
     % INPUT PARAMETERS
-    % app:       The application object containing the power supply 
+    %   app:     The application object containing the power supply 
     %            configurations, the current mode, and the list of filled 
     %            channels.
     %
     % OUTPUT PARAMETERS
-    % isValid:   A boolean value indicating whether the PSU configuration 
+    %   isValid: A boolean value indicating whether the PSU configuration 
     %            is valid (true) or not (false).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

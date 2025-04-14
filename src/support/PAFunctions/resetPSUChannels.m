@@ -8,13 +8,14 @@ function resetPSUChannels(app)
     % configuration.
     %
     % INSTRUMENTS
-    % DC Power Supplies A/B: E36233A / E336234A
+    %   DC Power Supplies A/B: E36233A / E336234A
     %
     % INPUT PARAMETERS
-    % None
+    %   app:       The application object containing the channel 
+    %              configurations.
     %
     % OUTPUT PARAMETERS
-    % None
+    %   None
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Loop through all the channel and set the default values.

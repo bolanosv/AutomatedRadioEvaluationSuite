@@ -5,15 +5,15 @@ function ResultsTable = createPAResultsTable(app, totalMeasurements)
     % number of active power supply channels.
     %
     % INPUT PARAMETERS
-    % app:               The application object containing configuration
-    %                    details, including the active PSU channels.
-    % totalMeasurements: Total number of measurements to be recorded in
-    %                    the table.
+    %   app:               The application object containing configuration
+    %                      details, including the active PSU channels.
+    %   totalMeasurements: Total number of measurements to be recorded in
+    %                      the table.
     %
     % OUTPUT PARAMETERS
-    % ResultsTable:   The PA results table initialized with appropriate 
-    %                 columns for storing frequency, voltage, RF power,
-    %                 DC power, gain, and efficiency metrics.
+    %   ResultsTable:      PA results table initialized with appropriate 
+    %                      columns for storing frequency, voltage, RF 
+    %                      power, DC power, gain, and efficiency metrics.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Add frequency column.

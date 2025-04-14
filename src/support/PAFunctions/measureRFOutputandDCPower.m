@@ -4,19 +4,19 @@ function [OutputRFPower, DCDrainPower, DCGatePower] = measureRFOutputandDCPower(
     % the DC gate power.
     % 
     % INSTRUMENTS
-    % Spectrum Analyzer: N9000B
-    % Signal Generator:  SMW200A
-    % DC Power Supply:   E36233A / E336234A
+    %   Spectrum Analyzer: N9000B
+    %   Signal Generator:  SMW200A
+    %   DC Power Supply:   E36233A / E336234A
     %
     % INPUT PARAMETERS
-    % app:           The application object containing the instruments and 
-    %                the settings.
-    % inputRFPower:  The input RF power to the signal generator (in dB).
+    %   app:           The application object containing the instruments 
+    %                  and the settings.
+    %   inputRFPower:  The input RF power to the signal generator (in dB).
     %
     % OUTPUT PARAMETERS
-    % OutputRFPower: The maximum output RF power in (dB).
-    % DCDrainPower:  The DC power delivered to the drain in (watts).
-    % DCGatePower:   The DC power delivered to the gate in (watts).
+    %   OutputRFPower: The maximum output RF power in (dB).
+    %   DCDrainPower:  The DC power delivered to the drain in (watts).
+    %   DCGatePower:   The DC power delivered to the gate in (watts).
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Set the power of the signal generator.

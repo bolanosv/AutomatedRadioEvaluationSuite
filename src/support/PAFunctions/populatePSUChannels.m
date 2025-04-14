@@ -7,14 +7,14 @@ function populatePSUChannels(app)
     % interaction with the power supply units.
     % 
     % INSTRUMENTS
-    % DC Power Supplies A/B: E36233A / E336234A
+    %   DC Power Supplies A/B: E36233A / E336234A
     % 
     % INPUT PARAMETERS
-    % app:       The application object containing the channel 
+    %   app:       The application object containing the channel 
     %            configurations and the channel-to-device mapping.
     %
     % OUTPUT PARAMETERS
-    % None
+    %   None
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     filledChannels = {};

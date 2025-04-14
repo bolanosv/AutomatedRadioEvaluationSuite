@@ -1,22 +1,22 @@
-function [inCal, outCal] = deembedPA(app, testfreq, RFInputPower)
+function [inCal, outCal] = deembedPA(app, testFreq, RFInputPower)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function de-embeds PA measurements by removing the effects of 
     % passive and active devices. It generates calibration factors in dB 
     % to correct the PA input and output RF power.
     %
     % INPUT PARAMETERS
-    % app:          The application object containing calibration settings 
-    %               and attenuation values.
-    % freq:         Measurement frequency [Hz].
-    % RFInputPower: RF input power [dBm].
+    %   app:           The application object containing calibration 
+    %                  settings and attenuation values.
+    %   testFreq:      Measurement frequency [Hz].
+    %   RFInputPower:  RF input power [dBm].
     %
     % OUTPUT PARAMETERS
-    % inCal:    Input attenuation calibration factor [dB].
-    %           Subtract this from the input RF power to obtain the 
-    %           corrected PA input power.
-    % outCal:   Output attenuation calibration factor [dB].
-    %           Add this to the measured output power to get the PA 
-    %           output power.
+    %   inCal:    Input attenuation calibration factor [dB].
+    %             Subtract this from the input RF power to obtain the 
+    %             corrected PA input power.
+    %   outCal:   Output attenuation calibration factor [dB].
+    %             Add this to the measured output power to get the PA 
+    %             output power.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     calMode = app.CalibrationModeDropDown.Value;
@@ -41,8 +41,8 @@ function [inCal, outCal] = deembedPA(app, testfreq, RFInputPower)
             SnP_out = sparameters(app.OutputSpFile);
             
             % Interpolate the attenuation at the measurement frequency.
-            Att_in = -interp1(SnP_in.Frequencies, A2dB(squeeze(abs(SnP_in.Parameters(2,1,:)))), testfreq, 'spline');
-            Att_out = -interp1(SnP_out.Frequencies, A2dB(squeeze(abs(SnP_out.Parameters(2,1,:)))), testfreq, 'spline');
+            Att_in = -interp1(SnP_in.Frequencies, A2dB(squeeze(abs(SnP_in.Parameters(2,1,:)))), testFreq, 'spline');
+            Att_out = -interp1(SnP_out.Frequencies, A2dB(squeeze(abs(SnP_out.Parameters(2,1,:)))), testFreq, 'spline');
     
             % Add the attenuations.
             inCal = app.InputAttenuationValueField.Value + Att_in;
@@ -56,8 +56,8 @@ function [inCal, outCal] = deembedPA(app, testfreq, RFInputPower)
             SnP_out = sparameters(app.OutputSpFile);
     
             % Interpolate the attenuation at the measurement frequency.
-            Att_in = -interp1(SnP_in.Frequencies, A2dB(squeeze(abs(SnP_in.Parameters(2,1,:)))), testfreq, 'spline');
-            Att_out = -interp1(SnP_out.Frequencies, A2dB(squeeze(abs(SnP_out.Parameters(2,1,:)))), testfreq, 'spline');
+            Att_in = -interp1(SnP_in.Frequencies, A2dB(squeeze(abs(SnP_in.Parameters(2,1,:)))), testFreq, 'spline');
+            Att_out = -interp1(SnP_out.Frequencies, A2dB(squeeze(abs(SnP_out.Parameters(2,1,:)))), testFreq, 'spline');
     
             % Add the attenuations.
             inCal = app.InputAttenuationValueField.Value + Att_in;
@@ -71,7 +71,7 @@ function [inCal, outCal] = deembedPA(app, testfreq, RFInputPower)
             driverPower = unique(driver.('RF Input Power (dBm)'));
             
             % Interpolate the measurement frequency with driver data.
-            driverFreq = interp1(driverFreq, driverFreq, testfreq, 'nearest', 'extrap');
+            driverFreq = interp1(driverFreq, driverFreq, testFreq, 'nearest', 'extrap');
     
             % Interpolate the measurement RF input power with driver data.
             driverPower = interp1(driverPower, driverPower, RFInputPower - inCal, 'nearest', 'extrap');
