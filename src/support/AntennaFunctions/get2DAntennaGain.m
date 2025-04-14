@@ -37,19 +37,18 @@ function get2DAntennaGain(app)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Initialize variables from the application.
+    app.AntennaStopRequested = false;
+
     startFrequency = app.VNAStartFrequency.Value * 1E6;
     endFrequency = app.VNAEndFrequency.Value * 1E6;
     sweepPoints = app.VNASweepPoints.Value;
-    frequencies = linspace(startFrequency,endFrequency,sweepPoints);
-
-    app.AntennaStopRequested = false;
 
     if ~isempty(app.ReferenceGainFile)
         ReferenceFreqs = app.ReferenceGainFile.FrequencyMHz;
         ReferenceGain = app.ReferenceGainFile.GaindBi;
     end
     
-    % Get table speed and theta angles
+    % Get table speed and theta angles.
     tableSpeed = app.TableSpeedSlider.Value;
     if strcmp(app.ThetaSingleSweepSwitch.Value,'Sweep')
         tableAngles = app.TableStartAngle.Value:app.TableStepAngle.Value:app.TableEndAngle.Value;
@@ -57,7 +56,7 @@ function get2DAntennaGain(app)
         tableAngles = app.TableStartAngle;
     end
 
-    % Get tower speed and phi angles
+    % Get tower speed and phi angles.
     towerSpeed = app.TowerSpeedSlider.Value;
     if strcmp(app.PhiSingleSweepSwitch.Value,'Sweep')
         towerAngles = app.TowerStartAngle.Value:app.TowerStepAngle.Value:app.TowerEndAngle.Value;
@@ -65,33 +64,35 @@ function get2DAntennaGain(app)
         towerAngles = app.TowerStartAngle.Value;
     end
     
-    parametersTable = createAntParameters(tableAngles,towerAngles);
+    % Create the parameters table to hold the measurement parameters and
+    % create the results table to hold the saved measurement data.
+    parametersTable = createAntennaParametersTable(tableAngles, towerAngles);
     totalMeasurements = height(parametersTable) * sweepPoints;
     resultsTable = createAntennaResultsTable(totalMeasurements);
 
     try
         app.AntennaStopRequested = false;
 
-        % Set speed of the turntable
+        % Set speed of the turntable and tower.
         writeline(app.EMCenter, sprintf('1A:SPEED %d', tableSpeed));
         writeline(app.EMCenter, sprintf('1B:SPEED %d', towerSpeed));
 
         for i = 1:height(parametersTable)
-            dataPts = (i-1)*sweepPoints + (1:sweepPoints);
-            % Get measurement corrected angles for (0,360) range
-            adjustedTheta = table2array(mod(parametersTable(i, "Theta (deg)"), 360));
-            adjustedPhi = table2array(mod(parametersTable(i, "Phi (deg)"), 360));
+            dataPts = (i - 1) * sweepPoints + (1:sweepPoints);
 
-            % adjustedTheta = mod(parametersTable.("Theta (deg)")(i), 360);
-            % adjustedPhi = mod(parametersTable.("Phi (deg)")(i), 360);
+            % Get measurement corrected angles for (0,360) range
+            adjustedTheta = mod(parametersTable.("Theta (deg)")(i), 360);
+            adjustedPhi = mod(parametersTable.("Phi (deg)")(i), 360);
             
-            % Move the table and tower to specified position
+            % Move the turntable and tower to specified position.
             writeline(app.EMCenter, sprintf('1A:SK %d', adjustedTheta));
             writeline(app.EMCenter, sprintf('1B:SK %d', adjustedPhi));
             moving = 0;
+
             while ~moving
                 drawnow;
                 pause(app.AntennaMeasurementDelayValueField.Value);
+
                 % Check if the user requested the test measurement to stop
                 if app.AntennaStopRequested
                     writeline(app.EMCenter, '1A:ST');
@@ -106,6 +107,33 @@ function get2DAntennaGain(app)
 
             % Exit the outer loop as well if stop was requested
             if app.AntennaStopRequested
+                % Check if any data results have been recorded in the 
+                % measurement.
+                validIndices = resultsTable.("Frequency (MHz)") > 0;
+                filteredResults = resultsTable(validIndices, :);
+
+                % Save any data that might have been recorded.
+                if height(filteredResults) > 0
+                    % Ask the user if they want to save the collected data.
+                    question = 'Do you want to save collected data?';
+                    choice = uiconfirm(app.UIFigure, question, 'Stop Test', 'Options', {'Yes', 'No'}, 'DefaultOption', 1);
+
+                    if strcmp(choice, 'Yes')
+                        % Save the partial data
+                        fullFilename = saveData(filteredResults);
+
+                        % Load the saved data into the application.
+                        if ~isempty(fullFilename)
+                            loadData(app, 'Antenna', fullFilename);
+                            
+                            % Update dropdown values to match the data.
+                            updateAntennaPlotDropdowns(app);
+                            
+                            % Plot with updated dropdown values.
+                            plotAntenna2DRadiationPattern(app);
+                        end
+                    end
+                end
                 break;
             end
 
@@ -133,15 +161,20 @@ function get2DAntennaGain(app)
             resultsTable(dataPts,"Path Loss (deg)") = array2table(SParameters_Phase{2}');
         end
 
-        % Return turntable to starting position
+        % Return turntable and tower to starting position.
         writeline(app.EMCenter, sprintf('1A:SK %d', 0));
         writeline(app.EMCenter, sprintf('1B:SK %d', 0));
 
-        % If the measurement was not stopped 
+        % If the measurement was not stopped.
         if ~app.AntennaStopRequested  
-            % Save the measurement data
+            % Save the complete measurement data.
             fullFilename = saveData(resultsTable);
-            loadData(app,'Antenna', fullFilename);
+            loadData(app, 'Antenna', fullFilename);
+
+            % Update dropdown values to match the new data.
+            updateAntennaPlotDropdowns(app);
+
+            % Plot with updated dropdown values.
             plotAntenna2DRadiationPattern(app);
         end
     catch ME

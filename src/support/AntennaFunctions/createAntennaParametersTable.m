@@ -1,4 +1,4 @@
-function paramTable = createAntennaParametersTable(Theta,Phi)
+function paramTable = createAntennaParametersTable(Theta, Phi)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function creates a parameter sweep table for antenna testing,
     % generating all possible combinations of Theta and Phi.
