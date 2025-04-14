@@ -19,7 +19,7 @@ function setPSUChannels(app, deviceChannel, voltage, current)
     %
     % OUTPUT PARAMETERS
     % None
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Get the correct PSU object and channel number.
     [physicalChannel, psuName] = strtok(app.ChannelToDeviceMap(deviceChannel), ',');

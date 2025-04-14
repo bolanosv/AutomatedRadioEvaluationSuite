@@ -1,4 +1,4 @@
-function plotAntenna2DMeasurement(app)
+function plotAntenna2DRadiationPattern(app)
     try
         cla(app.GainvsFrequency2D);
         cla(app.ReturnLoss2D);

@@ -18,13 +18,13 @@ function ParametersTable = createPAParametersTable(app)
 
     % Frequency settings.
     if strcmp(app.TypeFreqMeasurementMode, 'Sweep Frequencies')
-        frequencies = app.StartFrequency.Value*1E6:app.FrequencyStep.Value*1E6:app.EndFrequency.Value*1E6;
+        frequencies = app.StartFrequency.Value*1E6:app.StepFrequency.Value*1E6:app.EndFrequency.Value*1E6;
     else
         frequencies = app.StartFrequency.Value * 1E6;
     end
 
     % RF power settings.
-    RFInputPower = app.StartPower.Value:app.PowerStep.Value:app.EndPower.Value;
+    RFInputPower = app.StartPower.Value : app.PowerStep.Value : app.EndPower.Value;
 
     % Number of active PSU channels that will be used and voltage/current
     % containers.
@@ -35,7 +35,8 @@ function ParametersTable = createPAParametersTable(app)
     % Build the variable names dynamically depnding on the number of
     % channels that will be used in the PA test.
     varNames = [{'Frequency', 'RF Input Power'},... 
-               arrayfun(@(i) {sprintf('Channel %d Voltage', i), sprintf('Channel %d Current', i) }, ...
+               arrayfun(@(i) {sprintf('Channel %d Voltage', i), ...
+                              sprintf('Channel %d Current', i) }, ...
                1:numChannels, 'UniformOutput', false)];
     varNames = horzcat(varNames{:});
     
@@ -46,7 +47,7 @@ function ParametersTable = createPAParametersTable(app)
         settings = app.ChannelNames.(channel);
     
         if strcmp(settings.Mode, 'Sweep')
-            voltageSets{i} = settings.Start:settings.Step:settings.Stop;
+            voltageSets{i} = settings.Start : settings.Step : settings.Stop;
         else
             voltageSets{i} = settings.Start; 
         end

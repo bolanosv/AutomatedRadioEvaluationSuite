@@ -19,7 +19,7 @@ function [inCal, outCal] = deembedPA(app, testfreq, RFInputPower)
     %           output power.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    calMode = app.CalibrationMode;
+    calMode = app.CalibrationModeDropDown.Value;
 
     switch calMode
         case 'None'
@@ -73,14 +73,8 @@ function [inCal, outCal] = deembedPA(app, testfreq, RFInputPower)
             % Interpolate the measurement frequency with driver data.
             driverFreq = interp1(driverFreq, driverFreq, testfreq, 'nearest', 'extrap');
     
-            % Interpolate the measurement RF input power with driver data
+            % Interpolate the measurement RF input power with driver data.
             driverPower = interp1(driverPower, driverPower, RFInputPower - inCal, 'nearest', 'extrap');
-
-            % % Obtain the driver large signal gain for given measurement
-            % driverGain = driver(driver.('Frequency (MHz)') == driverFreq && driver.('RF Input Power (dBm)') == driverPower);
-            % 
-            % driverGain = table2array(driverGain.Gain); 
-            % driverGain = driverGain(1); % Convert to number
 
             % Find rows matching the frequency and input power criteria.
             freqMatch = driver.('Frequency (MHz)') == driverFreq/1E6;

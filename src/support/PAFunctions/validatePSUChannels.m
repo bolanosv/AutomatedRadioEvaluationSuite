@@ -5,8 +5,8 @@ function isValid = validatePSUChannels(app)
     %
     % It checks for the following conditions:
     %   - Whether power supplies are connected.
-    %   - Whether the selected supply mode is compatible with the number of 
-    %     connected power supplies.
+    %   - Whether the selected supply mode is compatible with the number
+    %     of connected power supplies.
     %   - Whether enough channels are configured for the selected mode.
     %   - Whether the number of configured channels exceeds the allowed 
     %     number for the selected mode.
@@ -84,7 +84,7 @@ function isValid = validatePSUChannels(app)
             maxChannels = 0;
     end
 
-    % Check if too many channels are selected for the chosen mode
+    % Check if too many channels are selected for the chosen mode.
     if numfilledChannels > maxChannels
         message = sprintf(['Current mode %s allows %d channel(s).\n\n' ...
             'Configured channels: %s\n\n' ...
