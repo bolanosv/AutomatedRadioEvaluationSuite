@@ -37,12 +37,14 @@ The **Automated Radio Evaluation Suite** enables automated RF measurements for p
 ## TODO
 
 - **Faster Antenna Scanning**: Improve scanning by measuring positive angles first and returning to the origin at the end of the measurement.
+- **Stop button**: for PA tests.
+- **3D Radiation Pattern**: Include 3D patterns if more than two cuts are included.
+- **Measurement Progress Bars**: Progress bars for PA measurements have been implemented.
 - **Create Tutorials**: Add more tutorials for different app functionalities (one tutorial available for now).
 - **Error Handling**: Error handling is in place for the PA side, including error messages displayed in the GUI. An error log function is still needed.
-- **Callback for Automatic Plotting**: Implement automatic plotting when changing parameters (missing).
-- **Measurement Progress Bars**: Progress bars for PA measurements have been implemented.
+- **Export Plots**: Save images in standard formats and in tikz for publication.
 - **How It Works**: Provide an overview of the app's inner workings, explaining how it communicates with instruments, processes measurements, and the general workflow.
-- **Advanced Features**: Highlight advanced options or features that may not be immediately obvious to users, such as custom configurations or unique settings.
+- **Advanced Features**: Save and load test parameters with custom configurations and unique app settings with JSON file. Add MATLAB style toolbar and resizable pannels. 
 - **Troubleshooting**: Add a section for common issues users might encounter, such as connection issues or instrument compatibility, with suggested solutions.
 - **FAQ**: Add a Frequently Asked Questions (FAQ) section to address common user inquiries and difficulties.
 
