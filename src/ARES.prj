@@ -1,11 +1,15 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="2814015529" file="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\ARES.prj" location="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src" name="ARES" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="3110464343" file="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\ARES.prj" location="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src" name="ARES" target="target.mlapps" target-name="Package App">
     <param.appname>ARES</param.appname>
     <param.authnamewatermark>Jose Abraham Bolanos Vargas</param.authnamewatermark>
     <param.email />
     <param.company>Purdue University</param.company>
-    <param.icon />
-    <param.icons />
+    <param.icon>${PROJECT_ROOT}\ARES_resources\icon_24.png</param.icon>
+    <param.icons>
+      <file>${PROJECT_ROOT}\ARES_resources\icon_48.png</file>
+      <file>${PROJECT_ROOT}\ARES_resources\icon_24.png</file>
+      <file>${PROJECT_ROOT}\ARES_resources\icon_16.png</file>
+    </param.icons>
     <param.summary>Automated Radio Evaluation System</param.summary>
     <param.description>The Automated Radio Evaluation Suite enables automated RF measurements for power amplifiers and antennas. Unlike commercial software, this app is open-source, customizable, and free.</param.description>
     <param.screenshot>C:\Users\davis\AppData\Local\Temp\tp8ce3a27f_267c_47fe_a9f9_90a47e4486d1.png</param.screenshot>
@@ -30,8 +34,6 @@
     <param.guid>6dac4b77-706e-43a3-99b5-8315815bcf1e</param.guid>
     <unset>
       <param.email />
-      <param.icon />
-      <param.icons />
       <param.platforms />
     </unset>
     <fileset.main>
