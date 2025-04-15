@@ -39,7 +39,6 @@ The **Automated Radio Evaluation Suite** enables automated RF measurements for p
 - **Faster Antenna Scanning**: Improve scanning by measuring positive angles first and returning to the origin at the end of the measurement.
 - **Stop button**: for PA tests.
 - **3D Radiation Pattern**: Include 3D patterns if more than two cuts are included.
-- **Measurement Progress Bars**: Progress bars for PA measurements have been implemented.
 - **Create Tutorials**: Add more tutorials for different app functionalities (one tutorial available for now).
 - **Error Handling**: Error handling is in place for the PA side, including error messages displayed in the GUI. An error log function is still needed.
 - **Export Plots**: Save images in standard formats and in tikz for publication.
@@ -54,7 +53,6 @@ The **Automated Radio Evaluation Suite** enables automated RF measurements for p
 
 - Download the latest release of the Automated Radio Evaluation Suite from [releases](https://github.com/bolanosv/AutomatedRadioEvaluationSuite/releases).
   - **For the MATLAB App**: Follow the instructions in the [Packaging and Installing MATLAB Apps Guide](https://www.mathworks.com/videos/packaging-and-installing-matlab-apps-70404.html).
-  - **For the Standalone Desktop Application**: Download the executable files, run the installer, and follow the provided installation instructions.
 
 ### Requirements
 
