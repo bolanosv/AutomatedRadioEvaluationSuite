@@ -52,7 +52,7 @@ function runPAMeasurement(app)
         writeline(app.SpectrumAnalyzer, sprintf(':FORMat:BORDer %s', 'SWAPped'));
         
         % Create a progress dialog to inform the user of the progress.
-        d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress');
+        d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress', 'Cancelable', 'on');
         tic; runTime = 0;
 
         for i = 1:totalMeasurements

@@ -13,6 +13,10 @@
 % Model: N9000B
 % Address: TCPIP0::192.168.1.173::inst0::INSTR
 
+% Manufacturer: Agilent Technologies
+% Model: E5072A
+% Address: TCPIP0::192.168.3.95::inst0::INSTR
+
 % Manufacturer: Hewlett-Packard
 % Model: E4433B
 % Address: GPIB0::19::INSTR
@@ -26,5 +30,5 @@
 % Address: TCPIP0::192.168.2.150::inst0::INSTR
 
 % Manufacturer: ETS Lindgren
-% Model: Linear Slider
+% Model: EMSlider
 % Address: TCPIP::192.168.0.100::1206::SOCKET
