@@ -20,7 +20,8 @@ function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VN
     %   freqValues:         Frequency values of the sweep.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % Clear the error status register on the VNA.
+    % Clear any pending reads, then clear the status register on the VNA.
+    flush(VNA);
     writeline(VNA, '*CLS');
     
     % Delete any existing measurements on the VNA.
@@ -30,15 +31,14 @@ function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VN
     writeline(VNA, 'DISP:WIND1:STATE ON');
 
     if numPorts == 2
-        sParameters_dB = {'S11', 'S21', 'S22'};
-        sParameters_Phase = {'S11 (deg)', 'S21 (deg)', 'S22 (deg)'};
+        measLabels = {'S11', 'S21', 'S22'};
     elseif numPorts == 3
-        sParameters_dB = {'S11', 'S22', 'S33', 'S21', 'S31', 'S32'};
+        measLabels = {'S11', 'S22', 'S33', 'S21', 'S31', 'S32'};
     end
     
     % Create and display measurements for each S-Parameter.
-    for i = 1:length(sParameters_dB)
-        writeline(VNA, sprintf('CALC1:PAR:DEF:EXT "Meas%d",%s', i, sParameters_dB{i}));
+    for i = 1:length(measLabels)
+        writeline(VNA, sprintf('CALC1:PAR:DEF:EXT "Meas%d",%s', i, measLabels{i}));
         writeline(VNA, sprintf('DISP:WIND1:TRAC%d:FEED "Meas%d"', i, i));
     end
     
@@ -52,19 +52,24 @@ function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VN
     writeline(VNA, 'FORM:DATA REAL,64');
     
     % Perform a single continuos sweep and wait for the VNA to finish.
-    writeline(VNA, 'SENS1:SWE:MODE CONT');
+    writeline(VNA, 'SENS1:SWE:MODE SING');
     writeline(VNA, '*WAI');
     
     % Read S-Parameters.
-    sParameters_dB = cell(1, length(sParameters_dB));
-    for i = 1:length(sParameters_dB)
+    sParameters_dB = cell(1, length(measLabels));
+    sParameters_Phase = cell(1, length(measLabels));
+    for i = 1:length(measLabels)
+        % Request the data from the VNA.
         writeline(VNA, sprintf('CALC1:PAR:SEL "Meas%d"', i));
         writeline(VNA, 'CALC1:DATA? SDATA');
+
+        % Extract and process the data from the VNA.
         data = readbinblock(VNA, 'double');
         complexData = data(1:2:end) + 1i*data(2:2:end);
-        phaseData = angle(complexData);
         sParameters_dB{i} = 20 * log10(abs(complexData));
-        sParameters_Phase{i} = rad2deg(phaseData);
+        sParameters_Phase{i} = rad2deg(angle(complexData));
+
+        % Clean up before the next data read.
         flush(VNA);
     end
     

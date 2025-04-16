@@ -157,6 +157,7 @@ function runPAMeasurement(app)
         enablePSUChannels(app, app.FilledPSUChannels, false);
 
         % Save table as a variable in the app
+        % TEST IF NEEDED
         app.PAMeasurementsTable = resultsTable;
         
         % Save and plot data

@@ -37,8 +37,6 @@ function get2DAntennaGain(app)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Initialize variables from the application.
-    app.AntennaStopRequested = false;
-
     startFrequency = app.VNAStartFrequency.Value * 1E6;
     endFrequency = app.VNAEndFrequency.Value * 1E6;
     sweepPoints = app.VNASweepPoints.Value;
@@ -72,14 +70,12 @@ function get2DAntennaGain(app)
     resultsTable = createAntennaResultsTable(totalMeasurements);
 
     try
-        app.AntennaStopRequested = false;
-
         % Set speed of the turntable and tower.
         writeline(app.EMCenter, sprintf('1A:SPEED %d', tableSpeed));
         writeline(app.EMCenter, sprintf('1B:SPEED %d', towerSpeed));
 
         % Create a progress dialog to inform the user of the progress.
-        d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress');
+        d = uiprogressdlg(app.UIFigure, 'Title', 'Measurement Progress', 'Cancelable', 'on');
         tic; lastTime = toc; totalTime = 0;
 
         for i = 1:totalPositions
@@ -96,10 +92,11 @@ function get2DAntennaGain(app)
             
             % Update dialog progress message.
             d.Value = progress;
+            d.CancelText = 'Stop Test';
             d.Message = sprintf("Measurement Progress: %d%%\nElapsed Time: %s\nRemaining Time: %s", ...
-                    round(100 * progress), ...
-                    string(duration(0, 0, round(totalTime))), ...
-                    string(duration(0, 0, round(remainingTime))));
+                        round(100 * progress), ...
+                        string(duration(0, 0, round(totalTime))), ...
+                        string(duration(0, 0, round(remainingTime))));
 
             dataPts = (i - 1) * sweepPoints + (1:sweepPoints);
 
@@ -117,7 +114,7 @@ function get2DAntennaGain(app)
                 pause(app.AntennaMeasurementDelayValueField.Value);
 
                 % Check if the user requested the test measurement to stop
-                if app.AntennaStopRequested
+                if d.CancelRequested  
                     writeline(app.EMCenter, '1A:ST');
                     writeline(app.EMCenter, '1B:ST');
                     break;
@@ -129,7 +126,7 @@ function get2DAntennaGain(app)
             end
 
             % Exit the outer loop as well if stop was requested
-            if app.AntennaStopRequested
+            if d.CancelRequested
                 % Check if any data results have been recorded in the 
                 % measurement.
                 validIndices = resultsTable.("Frequency (MHz)") > 0;
@@ -188,8 +185,8 @@ function get2DAntennaGain(app)
         writeline(app.EMCenter, sprintf('1A:SK %d', 0));
         writeline(app.EMCenter, sprintf('1B:SK %d', 0));
 
-        % If the measurement was not stopped.
-        if ~app.AntennaStopRequested  
+        % If the measurement was not canceled.
+        if ~d.CancelRequested
             % Save the complete measurement data.
             fullFilename = saveData(resultsTable);
 
