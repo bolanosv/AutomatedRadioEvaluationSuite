@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="3110464343" file="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\ARES.prj" location="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src" name="ARES" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="1701193037" file="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src\ARES.prj" location="C:\Users\davis\Documents\GitHub\AutomatedRadioEvaluationSuite\src" name="ARES" target="target.mlapps" target-name="Package App">
     <param.appname>ARES</param.appname>
     <param.authnamewatermark>Jose Abraham Bolanos Vargas</param.authnamewatermark>
     <param.email />
@@ -12,8 +12,8 @@
     </param.icons>
     <param.summary>Automated Radio Evaluation System</param.summary>
     <param.description>The Automated Radio Evaluation Suite enables automated RF measurements for power amplifiers and antennas. Unlike commercial software, this app is open-source, customizable, and free.</param.description>
-    <param.screenshot>C:\Users\davis\AppData\Local\Temp\tp8ce3a27f_267c_47fe_a9f9_90a47e4486d1.png</param.screenshot>
-    <param.version>0.9.1</param.version>
+    <param.screenshot>C:\Users\davis\AppData\Local\Temp\tp35312b83_d168_44d2_a88a_bee6bae03628.png</param.screenshot>
+    <param.version>0.9.2</param.version>
     <param.products.name>
       <item>MATLAB</item>
       <item>Instrument Control Toolbox</item>
@@ -43,9 +43,8 @@
       <file>${PROJECT_ROOT}\instrument_address_history.txt</file>
       <file>${PROJECT_ROOT}\support\AntennaFunctions\createAntennaParametersTable.m</file>
       <file>${PROJECT_ROOT}\support\AntennaFunctions\createAntennaResultsTable.m</file>
-      <file>${PROJECT_ROOT}\support\AntennaFunctions\get2DAntennaGain.m</file>
+      <file>${PROJECT_ROOT}\support\AntennaFunctions\measure2DAntennaGain.m</file>
       <file>${PROJECT_ROOT}\support\AntennaFunctions\measureAntennaGain.m</file>
-      <file>${PROJECT_ROOT}\support\AntennaFunctions\measureBoresightGain.m</file>
       <file>${PROJECT_ROOT}\support\AntennaFunctions\measureSParameters.m</file>
       <file>${PROJECT_ROOT}\support\AntennaFunctions\plotAntenna2DRadiationPattern.m</file>
       <file>${PROJECT_ROOT}\support\AntennaFunctions\plotReferenceAntenna.m</file>
