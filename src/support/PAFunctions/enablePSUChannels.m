@@ -20,47 +20,59 @@ function enablePSUChannels(app, channels, state)
     % Group channels by power supply unit.
     psuAChannels = {};
     psuBChannels = {};
+    
+    if state == 1
+        % Turn on all gate biases first, then all drain supplies
+        channelModes = [app.GateChannels,app.DrainChannels];
+    else
+        % Turn off all drain supplies first, then all gate biases
+        channelModes = [app.DrainChannels,app.GateChannels];
+    end
 
-    for i = 1:length(channels)
-        [deviceChannel, psuName] = strtok(app.ChannelToDeviceMap(channels{i}), ',');
-        psuName = psuName(2:end);
-
-        % Map channel name to channel index (CH1 -> @1).
-        switch deviceChannel
-            case 'CH1'
-                channelIndex = '@1';
-            case 'CH2'
-                channelIndex = '@2';
-        end
+    for channelMode = channelModes
+        for i = 1:length(channels)
+            if ismember(channels{i},channelMode)
+                [deviceChannel, psuName] = strtok(app.ChannelToDeviceMap(channels{i}), ',');
+                psuName = psuName(2:end);
         
-        if strcmp(psuName, 'PSUA')
-            psuAChannels{end + 1} = channelIndex;
-        else
-            psuBChannels{end + 1} = channelIndex;
+                % Map channel name to channel index (CH1 -> @1).
+                switch deviceChannel
+                    case 'CH1'
+                        channelIndex = '@1';
+                    case 'CH2'
+                        channelIndex = '@2';
+                end
+                
+                if strcmp(psuName, 'PSUA')
+                    psuAChannels{end + 1} = channelIndex;
+                else
+                    psuBChannels{end + 1} = channelIndex;
+                end
+            end
+        
+            % Enable channels on PSU A
+            if ~isempty(psuAChannels)
+                if isscalar(psuAChannels)
+                    % Single channel needs to be enabled.
+                    channelList = psuAChannels{1};
+                else
+                    % Both channels need to be enabled.
+                    channelList = '@1,2'; 
+                end
+                writeline(app.PowerSupplyA, sprintf(':OUTPut:STATe %d,(%s)', state, channelList));
+            end
+        
+            % Enable channels on PSU B
+            if ~isempty(psuBChannels)
+                if isscalar(psuBChannels)
+                    % Single channel needs to be enabled.
+                    channelList = psuBChannels{1}; 
+                else
+                    % Both channels need to be enabled.
+                    channelList = '@1,2';
+                end
+                writeline(app.PowerSupplyB, sprintf(':OUTPut:STATe %d,(%s)', state, channelList));
+            end
         end
-    end
-
-    % Enable channels on PSU A
-    if ~isempty(psuAChannels)
-        if isscalar(psuAChannels)
-            % Single channel needs to be enabled.
-            channelList = psuAChannels{1};
-        else
-            % Both channels need to be enabled.
-            channelList = '@1,2'; 
-        end
-        writeline(app.PowerSupplyA, sprintf(':OUTPut:STATe %d,(%s)', state, channelList));
-    end
-
-    % Enable channels on PSU B
-    if ~isempty(psuBChannels)
-        if isscalar(psuBChannels)
-            % Single channel needs to be enabled.
-            channelList = psuBChannels{1}; 
-        else
-            % Both channels need to be enabled.
-            channelList = '@1,2';
-        end
-        writeline(app.PowerSupplyB, sprintf(':OUTPut:STATe %d,(%s)', state, channelList));
     end
 end
