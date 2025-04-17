@@ -34,7 +34,7 @@ function antennaGain = measureAntennaGain(TestFrequency, sParameter_dB, Spacing,
     % Wavelength (m).
     lambda = c ./ TestFrequency; 
     % Free Space Path Loss (dB).
-    FSPL_dB = 20*log10(lambda/(4*pi*Spacing));
+    FSPL_dB = 20 * log10(lambda / (4*pi*Spacing));
 
     if ~isempty(ReferenceGain)  
         % Non-identical Antenna Gain (dBi).

@@ -42,7 +42,7 @@ function get2DAntennaGain(app)
     sweepPoints = app.VNASweepPoints.Value;
 
     if ~isempty(app.ReferenceGainFile)
-        ReferenceFreqs = app.ReferenceGainFile.FrequencyMHz;
+        ReferenceFreqs = app.ReferenceGainFile.FrequencyMHz / 1E6;
         ReferenceGain = app.ReferenceGainFile.GaindBi;
     end
     
