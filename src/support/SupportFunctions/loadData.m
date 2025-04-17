@@ -111,6 +111,7 @@ function combinedData = loadData(app, RFcomponent, FileName)
                 else
                     combinedData = combinedData(idx,:);
                     app.ReferenceGainFile = combinedData;
+                    app.ReferenceGainFilePath = FileName;
                     
                     % Check each required field and add to the list if missing.
                     expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};

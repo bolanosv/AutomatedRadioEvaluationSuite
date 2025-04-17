@@ -1,4 +1,4 @@
-function get2DAntennaGain(app) 
+function measure2DAntennaGain(app) 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function executes a full 2D antenna gain measurement sweep by 
     % controlling a dual-axis positioner (Theta and Phi) and capturing RF 
@@ -42,7 +42,7 @@ function get2DAntennaGain(app)
     sweepPoints = app.VNASweepPoints.Value;
 
     if ~isempty(app.ReferenceGainFile)
-        ReferenceFreqs = app.ReferenceGainFile.FrequencyMHz / 1E6;
+        ReferenceFreqs = app.ReferenceGainFile.FrequencyMHz * 1E6;
         ReferenceGain = app.ReferenceGainFile.GaindBi;
     end
     
