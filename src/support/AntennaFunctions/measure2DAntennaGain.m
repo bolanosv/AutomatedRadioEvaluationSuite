@@ -51,7 +51,7 @@ function measure2DAntennaGain(app)
     if strcmp(app.ThetaSingleSweepSwitch.Value,'Sweep')
         tableAngles = app.TableStartAngle.Value:app.TableStepAngle.Value:app.TableEndAngle.Value;
     else
-        tableAngles = app.TableStartAngle;
+        tableAngles = app.TableStartAngle.Value;
     end
 
     % Get tower speed and phi angles.
@@ -196,10 +196,28 @@ function measure2DAntennaGain(app)
                 % Update dropdown values to match the new data.
                 updateAntennaPlotDropdowns(app);
 
-                % Plot with updated dropdown values.
-                plotAntenna2DRadiationPattern(app);
+                idx = (data.Thetadeg == 0) & (data.Phideg == 0);
+
+                if any(idx)
+                    IsReference = true;  
+                else
+                    IsReference = false;  
+                end
+
+                %% FIX THIS, PLOTTING BASED ON IF ITS REFERENCE OR FULL FILE
+                
+                if IsReference
+                    % Plot for reference data.
+                    plotAntennaReference2DRadiationPattern(app);
+                else
+                    % Plot for regular antenna data.
+                    plotAntenna2DRadiationPattern(app);
+                end
             end
         end
+
+        % Close progress dialog.
+        close(d);
     catch ME
         app.displayError(ME);
     end

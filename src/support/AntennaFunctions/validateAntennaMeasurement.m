@@ -36,6 +36,9 @@ function isValid = validateAntennaMeasurement(app)
     tableStepAngle = app.TableStepAngle.Value;
     tableEndAngle = app.TableEndAngle.Value;
 
+    ThetaSwitch = app.ThetaSingleSweepSwitch.Value;
+    %PhiSwitch = app.
+
     %% Validation Checks
     % Check if start and end frequencies are set and different.
     if isempty(startFrequency) || isempty(endFrequency) || (startFrequency == endFrequency)
@@ -63,15 +66,15 @@ function isValid = validateAntennaMeasurement(app)
         uialert(app.UIFigure, 'Table speed cannot be empty.', 'Invalid Table Speed');
         isValid = false;
         return;
-    elseif isempty(tableStartAngle)
+    elseif isempty(tableStartAngle) 
         uialert(app.UIFigure, 'Table start angle cannot be empty.', 'Invalid Table Start Angle');
         isValid = false;
         return;
-    elseif isempty(tableStepAngle)
+    elseif isempty(tableStepAngle) && strcmp(ThetaSwitch, 'Sweep')
         uialert(app.UIFigure, 'Table step angle cannot be empty.', 'Invalid Table Step Angle');
         isValid = false;
         return;
-    elseif isempty(tableEndAngle)
+    elseif isempty(tableEndAngle) && strcmp(ThetaSwitch, 'Sweep')
         uialert(app.UIFigure, 'Table end angle cannot be empty.', 'Invalid Table End Angle');
         isValid = false;
         return;

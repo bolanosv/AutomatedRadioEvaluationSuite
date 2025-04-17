@@ -17,8 +17,8 @@ function ParametersTable = createPAParametersTable(app)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Frequency settings.
-    if strcmp(app.TypeFreqMeasurementMode, 'Sweep Frequencies')
-        frequencies = app.StartFrequency.Value*1E6:app.StepFrequency.Value*1E6:app.EndFrequency.Value*1E6;
+    if strcmp(app.PAFrequencyMeasurementMode, 'Sweep Frequencies')
+        frequencies = app.StartFrequency.Value*1E6 : app.StepFrequency.Value*1E6 : app.EndFrequency.Value*1E6;
     else
         frequencies = app.StartFrequency.Value * 1E6;
     end

@@ -44,6 +44,4 @@ function antennaGain = measureAntennaGain(TestFrequency, sParameter_dB, Spacing,
         % Identical Antenna Gain (dBi).
         antennaGain = (sParameter_dB - FSPL_dB) / 2;
     end
-
-    antennaGain = double(antennaGain);
 end

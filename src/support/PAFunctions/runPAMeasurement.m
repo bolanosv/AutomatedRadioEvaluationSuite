@@ -68,7 +68,52 @@ function runPAMeasurement(app)
 
             % Update the progress dialog window.
             d.Value = i / totalMeasurements;
-            d.Message = sprintf("Measurement Progress: %d%% \nElapsed Time: %s \nRemaining Time: %s", round(d.Value*100), elapsedTime, estimatedTime);
+            d.CancelText = 'Stop Test';
+            d.Message = sprintf("Measurement Progress: %d%% \nElapsed Time: %s \nRemaining Time: %s",...
+                                round(d.Value*100),...
+                                elapsedTime,...
+                                estimatedTime);
+
+            if d.CancelRequested
+                % If the user stops the PA test measurement, then for
+                % safety reasons the instruments will be turned off.
+                enablePSUChannels(app, app.FilledPSUChannels, false);
+                writeline(app.SignalGenerator, sprintf(':SOURce1:POWer:LEVel:IMMediate:AMPLitude %d', -135));
+                writeline(app.SignalGenerator, sprintf(':OUTPut1:STATe %d', 0));
+
+                % Check if any data results have been recorded in the 
+                % measurement.
+                validIndices = resultsTable.("Frequency (MHz)") > 0;
+                filteredResults = resultsTable(validIndices, :);
+
+                % Save any data that might have been recorded.
+                if height(filteredResults) > 0
+                    % Ask the user if they want to save the collected data.
+                    question = 'Do you want to save collected data?';
+                    choice = uiconfirm(app.UIFigure, question, 'Stop Test', 'Options', {'Yes', 'No'}, 'DefaultOption', 1);
+
+                    if strcmp(choice, 'Yes')
+                        % Save the partial data
+                        fullFilename = saveData(filteredResults);
+
+                        % Load the saved data into the application.
+                        if ~isempty(fullFilename)
+                            loadData(app, 'PA', fullFilename);
+                            
+                            % Update dropdown values to match the data.
+                            updatePAPlotDropdowns(app);
+                            
+                            % Plot with updated dropdown values.
+                            plotPASingleMeasurement(app);
+                            plotPASweepMeasurement(app);
+                        end
+                    end
+                end
+                
+                % Close progress dialog.
+                close(d);
+                return;
+            end
 
             % Loop RF parameters.
             RFInputPower = parametersTable.('RF Input Power')(i);
@@ -140,7 +185,6 @@ function runPAMeasurement(app)
             resultsTable.("PAE (%)")(i) = PAE;   
             
             for ch = 1:length(app.FilledPSUChannels)
-                channelName = app.FilledPSUChannels{ch};
                 resultsTable.(sprintf('Channel %d Voltages (V)', ch))(i) = parametersTable.(sprintf('Channel %d Voltage', ch))(i);
                 resultsTable.(sprintf('Channel %d DC Power (W)', ch))(i) = DCDrainPower(1,ch);
             end
@@ -159,12 +203,19 @@ function runPAMeasurement(app)
         % Save table as a variable in the app
         % TEST IF NEEDED
         app.PAMeasurementsTable = resultsTable;
-        
-        % Save and plot data
+
+        % Save the complete measurement data.
         fullFilename = saveData(resultsTable);
-        loadData(app,'PA', fullFilename);
+        loadData(app, 'PA', fullFilename);
+                
+        % Update dropdown values to match the data.
+        updatePAPlotDropdowns(app);
+        
+        % Plot with updated dropdown values.
+        plotPASingleMeasurement(app);
+        plotPASweepMeasurement(app);
     catch ME
-        displayError(app,ME);
+        app.displayError(ME);
         % If an error occurs during the PA test measurement, then
         % for safety reasons the instruments will be turned off.
         enablePSUChannels(app, app.FilledPSUChannels, false);
