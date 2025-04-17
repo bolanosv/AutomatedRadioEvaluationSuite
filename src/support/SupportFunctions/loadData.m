@@ -62,26 +62,26 @@ function combinedData = loadData(app, RFcomponent, FileName)
             end
         elseif strcmp(RFcomponent, 'Antenna')
              % Turn off annoying warning, save state.
+             w = warning('off','MATLAB:table:ModifiedAndSavedVarnames');       
+             combinedData = readtable(FileName);
  
-             % Check if the imported data is empty
+             % Reset warning level.
+             warning(w);                                                    
+             combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
+
+             % Check if the imported data is empty.
              if ~isempty(combinedData) 
                  app.Antenna_Data = combinedData;
-                 % Check if the imported data is for a reference file.
-                 idx = (combinedData.Thetadeg==0) & (combinedData.Phideg==0);
- 
-                 if ~any(idx)
-                     % Reference Gain File
-                     combinedData = combinedData(idx,:);
-                     app.ReferenceGainFile = combinedData;
-                     app.ReferenceGainFilePath = FileName;
-                 else
-                     % Regular Gain File
-                     app.Antenna_Data = combinedData;
-                 end
- 
+
                  % Check each required field and add to the list if missing.
                  expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};
-                 error(['The antenna gain file is missing the following required field(s): ', strjoin(missingFields, ', ')]);
+                 missingFields = setdiff(expectedVars, app.Antenna_Data.Properties.VariableNames);
+ 
+                 % If any fields are missing, raise an error telling the
+                 % user which field is missing. 
+                 if ~isempty(missingFields)
+                     error(['The antenna gain file is missing the following required field(s): ', strjoin(missingFields, ', ')]);
+                 end
              end
         elseif strcmp(RFcomponent, 'AntennaReference')
              % Turn off annoying warning, save state.
