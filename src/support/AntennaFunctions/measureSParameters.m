@@ -1,7 +1,7 @@
 function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq, sweepPts)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % This function extracts the 2-port or 3-port S-Parameters in (dB) of 
-    % a VNA laboratory instrument using SCPI. 
+    % This function extracts the 2-port or 3-port S-Parameters magnitude in
+    % (dB) and phase in (degrees) a VNA laboratory instrument using SCPI. 
     %
     % INSTRUMENTS
     %   Vector Network Analyzer: PNA-L N5232B
@@ -19,6 +19,11 @@ function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VN
     %   sParameters_Phase:  Phase of S-Parameters in (deg).
     %   freqValues:         Frequency values of the sweep.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %%
+    %writeline(VNA, sprintf(':CALCulate:SMOothing:STATe %d', 1));
+    %writeline(VNA, sprintf(':CALCulate:SMOothing:APERture %g', aperture_percentage));
+    %%
 
     % Clear any pending reads, then clear the status register on the VNA.
     flush(VNA);

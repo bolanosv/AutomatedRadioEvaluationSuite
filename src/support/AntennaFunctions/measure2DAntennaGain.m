@@ -196,23 +196,8 @@ function measure2DAntennaGain(app)
                 % Update dropdown values to match the new data.
                 updateAntennaPlotDropdowns(app);
 
-                idx = (data.Thetadeg == 0) & (data.Phideg == 0);
-
-                if any(idx)
-                    IsReference = true;  
-                else
-                    IsReference = false;  
-                end
-
-                %% FIX THIS, PLOTTING BASED ON IF ITS REFERENCE OR FULL FILE
-                
-                if IsReference
-                    % Plot for reference data.
-                    plotAntennaReference2DRadiationPattern(app);
-                else
-                    % Plot for regular antenna data.
-                    plotAntenna2DRadiationPattern(app);
-                end
+                % Plot for regular antenna data.
+                plotAntenna2DRadiationPattern(app);
             end
         end
 
