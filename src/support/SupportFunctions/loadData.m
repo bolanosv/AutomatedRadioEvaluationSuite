@@ -61,41 +61,62 @@ function combinedData = loadData(app, RFcomponent, FileName)
                 end
             end
         elseif strcmp(RFcomponent, 'Antenna')
-            % Turn off annoying warning, save state.
-            w = warning('off','MATLAB:table:ModifiedAndSavedVarnames');       
-            combinedData = readtable(FileName);
-
-            % Reset warning level.
-            warning(w);                                                    
-            combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
-
-            % Check if the imported data is empty
-            if ~isempty(combinedData) 
-                % Check if the imported data is for a reference file.
-                idx = (combinedData.Thetadeg==0) & (combinedData.Phideg==0);
-
-                if ~any(idx)
-                    % Reference Gain File
-                    combinedData = combinedData(idx,:);
-                    app.ReferenceGainFile = combinedData;
-                    app.ReferenceGainFilePath = FileName;
-                else
-                    % Regular Gain File
-                    app.Antenna_Data = combinedData;
-                end
-                
-                % Check each required field and add to the list if missing.
-                expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};
-                missingFields = setdiff(expectedVars, app.Antenna_Data.Properties.VariableNames);
-            
-                % If any fields are missing, raise an error telling the
-                % user which field is missing. 
-                if ~isempty(missingFields)
-                    error(['The antenna gain file is missing the following required field(s): ', strjoin(missingFields, ', ')]);
-                end
-            end
+             % Turn off annoying warning, save state.
+ 
+             % Check if the imported data is empty
+             if ~isempty(combinedData) 
+                 app.Antenna_Data = combinedData;
+                 % Check if the imported data is for a reference file.
+                 idx = (combinedData.Thetadeg==0) & (combinedData.Phideg==0);
+ 
+                 if ~any(idx)
+                     % Reference Gain File
+                     combinedData = combinedData(idx,:);
+                     app.ReferenceGainFile = combinedData;
+                     app.ReferenceGainFilePath = FileName;
+                 else
+                     % Regular Gain File
+                     app.Antenna_Data = combinedData;
+                 end
+ 
+                 % Check each required field and add to the list if missing.
+                 expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};
+                 error(['The antenna gain file is missing the following required field(s): ', strjoin(missingFields, ', ')]);
+             end
+        elseif strcmp(RFcomponent, 'AntennaReference')
+             % Turn off annoying warning, save state.
+             w = warning('off','MATLAB:table:ModifiedAndSavedVarnames');      
+             combinedData = readtable(FileName);
+        
+             % Reset warning level.
+             warning(w);                                                  
+             combinedData.Properties.VariableNames = regexprep(combinedData.Properties.VariableNames, '_', '');
+        
+             % Check if the imported data is empty
+             if ~isempty(combinedData) 
+                 % Extract antenna measurement parameters from the file.
+                 idx = (combinedData.Thetadeg==0) & (combinedData.Phideg==0);
+        
+                 if ~any(idx)
+                     error('Boresight Gain is not available in the file (Theta=0 and Phi=0)')
+                 else
+                     combinedData = combinedData(idx,:);
+                     app.ReferenceGainFile = combinedData;
+                     app.ReferenceGainFilePath = FileName;
+                     
+                     % Check each required field and add to the list if missing.
+                     expectedVars = {'Thetadeg', 'Phideg', 'FrequencyMHz', 'GaindBi', 'ReturnLossdB', 'ReturnLossdeg'};
+                     missingFields = setdiff(expectedVars, app.ReferenceGainFile.Properties.VariableNames);
+        
+                     % If any fields are missing, raise an error telling the
+                     % user which field is missing. 
+                     if ~isempty(missingFields)
+                         error(['The antenna gain file is missing the following required field(s): ', strjoin(missingFields, ', ')]);
+                     end
+                 end
+             end
         end
-    catch ME
-        app.displayError(ME);
+     catch ME
+         app.displayError(ME);
     end
 end
