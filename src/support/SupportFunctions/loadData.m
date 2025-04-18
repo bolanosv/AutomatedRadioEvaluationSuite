@@ -59,6 +59,13 @@ function combinedData = loadData(app, RFcomponent, FileName)
                     app.PA_PSU_Voltages.(chName) = unique(app.PA_DataTable.(chName));
                     app.PA_PSU_SelectedVoltages(chNum) = app.PA_PSU_Voltages.(chName)(1);
                 end
+
+                % Update dropdown values to match the data.
+                updatePAPlotDropdowns(app);
+                
+                % Plot with updated dropdown values.
+                plotPASingleMeasurement(app);
+                plotPASweepMeasurement(app);
             end
         elseif strcmp(RFcomponent, 'Antenna')
              % Turn off annoying warning, save state.

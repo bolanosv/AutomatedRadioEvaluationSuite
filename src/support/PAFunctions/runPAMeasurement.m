@@ -99,13 +99,6 @@ function runPAMeasurement(app)
                         % Load the saved data into the application.
                         if ~isempty(fullFilename)
                             loadData(app, 'PA', fullFilename);
-                            
-                            % Update dropdown values to match the data.
-                            updatePAPlotDropdowns(app);
-                            
-                            % Plot with updated dropdown values.
-                            plotPASingleMeasurement(app);
-                            plotPASweepMeasurement(app);
                         end
                     end
                 end
