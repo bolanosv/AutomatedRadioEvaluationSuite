@@ -37,8 +37,6 @@ function measure2DAntennaGain(app)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Initialize variables from the application.
-    startFrequency = app.VNAStartFrequency.Value * 1E6;
-    endFrequency = app.VNAEndFrequency.Value * 1E6;
     sweepPoints = app.VNASweepPoints.Value;
 
     if ~isempty(app.ReferenceGainFile)
@@ -49,7 +47,7 @@ function measure2DAntennaGain(app)
     % Get table speed and theta angles.
     tableSpeed = app.TableSpeedSlider.Value;
     if strcmp(app.ThetaSingleSweepSwitch.Value,'Sweep')
-        tableAngles = app.TableStartAngle.Value:app.TableStepAngle.Value:app.TableEndAngle.Value;
+        tableAngles = app.TableStartAngle.Value : app.TableStepAngle.Value : app.TableEndAngle.Value;
     else
         tableAngles = app.TableStartAngle.Value;
     end
@@ -57,7 +55,7 @@ function measure2DAntennaGain(app)
     % Get tower speed and phi angles.
     towerSpeed = app.TowerSpeedSlider.Value;
     if strcmp(app.PhiSingleSweepSwitch.Value,'Sweep')
-        towerAngles = app.TowerStartAngle.Value:app.TowerStepAngle.Value:app.TowerEndAngle.Value;
+        towerAngles = app.TowerStartAngle.Value : app.TowerStepAngle.Value : app.TowerEndAngle.Value;
     else
         towerAngles = app.TowerStartAngle.Value;
     end
@@ -161,7 +159,7 @@ function measure2DAntennaGain(app)
             pause(app.AntennaMeasurementDelayValueField.Value);
 
             % Get S-Parameters and Frequencies from VNA
-            [SParameters_dB, SParameters_Phase, VNAFrequencies] = measureSParameters(app.VNA, 2, startFrequency, endFrequency, sweepPoints); 
+            [SParameters_dB, SParameters_Phase, VNAFrequencies] = measureSParameters(app.VNA); 
 
             if ~isempty(app.ReferenceGainFile)
                 Gain_dBi = measureAntennaGain(VNAFrequencies, SParameters_dB{2}, app.setupSpacing, ReferenceGain, ReferenceFreqs);
@@ -169,16 +167,16 @@ function measure2DAntennaGain(app)
                 Gain_dBi = measureAntennaGain(VNAFrequencies, SParameters_dB{2}, app.setupSpacing);
             end
 
-            resultsTable(dataPts,"Theta (deg)") = array2table(parametersTable.("Theta (deg)")(i)*ones(numel(dataPts),1));
-            resultsTable(dataPts,"Phi (deg)") = array2table(parametersTable.("Phi (deg)")(i)*ones(numel(dataPts),1));
-            resultsTable(dataPts,"Frequency (MHz)") = array2table(VNAFrequencies' / 1E6);
-            resultsTable(dataPts,"Gain (dBi)") = array2table(Gain_dBi');
-            resultsTable(dataPts,"Return Loss (dB)") = array2table(SParameters_dB{3}');
-            resultsTable(dataPts,"Return Loss (deg)") = array2table(SParameters_Phase{3}');
-            resultsTable(dataPts,"Return Loss Reference (dB)") = array2table(SParameters_dB{1}');
-            resultsTable(dataPts,"Return Loss Reference (deg)") = array2table(SParameters_Phase{1}');
-            resultsTable(dataPts,"Path Loss (dB)") = array2table(SParameters_dB{2}');
-            resultsTable(dataPts,"Path Loss (deg)") = array2table(SParameters_Phase{2}');
+            resultsTable(dataPts, "Theta (deg)") = array2table(parametersTable.("Theta (deg)")(i)*ones(numel(dataPts),1));
+            resultsTable(dataPts, "Phi (deg)") = array2table(parametersTable.("Phi (deg)")(i)*ones(numel(dataPts),1));
+            resultsTable(dataPts, "Frequency (MHz)") = array2table(VNAFrequencies' / 1E6);
+            resultsTable(dataPts, "Gain (dBi)") = array2table(Gain_dBi');
+            resultsTable(dataPts, "Return Loss (dB)") = array2table(SParameters_dB{3}');
+            resultsTable(dataPts, "Return Loss (deg)") = array2table(SParameters_Phase{3}');
+            resultsTable(dataPts, "Return Loss Reference (dB)") = array2table(SParameters_dB{1}');
+            resultsTable(dataPts, "Return Loss Reference (deg)") = array2table(SParameters_Phase{1}');
+            resultsTable(dataPts, "Path Loss (dB)") = array2table(SParameters_dB{2}');
+            resultsTable(dataPts, "Path Loss (deg)") = array2table(SParameters_Phase{2}');
         end
 
         % Return turntable and tower to starting position.

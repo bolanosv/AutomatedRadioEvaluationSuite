@@ -1,4 +1,4 @@
-function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VNA, numPorts, startFreq, endFreq, sweepPts)
+function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VNA)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % This function extracts the 2-port or 3-port S-Parameters magnitude in
     % (dB) and phase in (degrees) a VNA laboratory instrument using SCPI. 
@@ -20,41 +20,11 @@ function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VN
     %   freqValues:         Frequency values of the sweep.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    %%
-    %writeline(VNA, sprintf(':CALCulate:SMOothing:STATe %d', 1));
-    %writeline(VNA, sprintf(':CALCulate:SMOothing:APERture %g', aperture_percentage));
-    %%
-
     % Clear any pending reads, then clear the status register on the VNA.
     flush(VNA);
     writeline(VNA, '*CLS');
-    
-    % Delete any existing measurements on the VNA.
-    writeline(VNA, 'CALC:PAR:DEL:ALL');
-    
-    % Create a window on the VNA
-    writeline(VNA, 'DISP:WIND1:STATE ON');
 
-    if numPorts == 2
-        measLabels = {'S11', 'S21', 'S22'};
-    elseif numPorts == 3
-        measLabels = {'S11', 'S22', 'S33', 'S21', 'S31', 'S32'};
-    end
-    
-    % Create and display measurements for each S-Parameter.
-    for i = 1:length(measLabels)
-        writeline(VNA, sprintf('CALC1:PAR:DEF:EXT "Meas%d",%s', i, measLabels{i}));
-        writeline(VNA, sprintf('DISP:WIND1:TRAC%d:FEED "Meas%d"', i, i));
-    end
-    
-    % Set the start and stop frequencies, and the number of sweep points.
-    writeline(VNA, sprintf('SENS1:FREQ:START %g', startFreq));
-    writeline(VNA, sprintf('SENS1:FREQ:STOP %g', endFreq));
-    writeline(VNA, sprintf('SENS1:SWE:POIN %d', sweepPts));
-    
-    % Set the data format for data collection.
-    writeline(VNA, 'FORM:BORD SWAP');
-    writeline(VNA, 'FORM:DATA REAL,64');
+    measLabels = {'S11', 'S21', 'S22'};
     
     % Perform a single continuos sweep and wait for the VNA to finish.
     writeline(VNA, 'SENS1:SWE:MODE SING');
