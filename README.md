@@ -37,7 +37,9 @@ The **Automated Radio Evaluation Suite (ARES)** enables automated RF measurement
   - Output Power
   - Drain Efficiency
   - Power Added Efficiency
-- Measure antenna gain characteristics by the Gain Comparison Method (i.e., Two-Antenna Method) and the Gain Transfer Method (i.e., Comparison Antenna Method) using a reference gain file
+- Measure antenna gain characteristics by:
+  - Gain Comparison Method (i.e., Two-Antenna Method)
+  - Gain Transfer Method (i.e., Comparison Antenna Method) using a reference measurement
 - Measure antenna return loss (magnitude and phase)
 - Save and recall measurements in standardized file formats for data analysis
 - Plot measurement results within the app for quick visualization
@@ -55,7 +57,7 @@ The **Automated Radio Evaluation Suite (ARES)** enables automated RF measurement
 
 ## Install
 
-[Getting Started Guide](https://aresio.readthedocs.io/en/latest/getting_started.html) available in the documentation.
+[Getting Started Guide](https://aresio.readthedocs.io/en/latest/getting_started.html) is available in the documentation.
 
 ### Download
 
