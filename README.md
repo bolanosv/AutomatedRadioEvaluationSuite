@@ -86,7 +86,7 @@ You can find the detailed tutorial for performing antenna measurements using ARE
 <p \>
   
 - Author: José Abraham Bolaños Vargas ([@bolanosv](http://github.com/bolanosv))
-- Mentor: Alex David Santiago Vargas ([@AlexDCode](http://github.com/AlexDCode))
-- PI: Dimitrios Peroulis
+- Mentor: Alex David Santiago Vargas ([@AlexDCode](http://github.com/AlexDCode), [Google Scholar](https://scholar.google.com/citations?user=n_pFUoEAAAAJ&hl=en))
+- PI: Dimitrios Peroulis ([Google Scholar](https://scholar.google.com/citations?user=agc3kMMAAAAJ&hl=en&oi=ao))
 - Adaptive Radio Electronics and Sensors Group
 - Purdue University
