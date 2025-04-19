@@ -8,6 +8,7 @@ The **Automated Radio Evaluation Suite** enables automated RF measurements for p
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Features](#features)
 - [TODO](#todo)
 - [Install](#install)
@@ -19,7 +20,7 @@ The **Automated Radio Evaluation Suite** enables automated RF measurements for p
   - [Antenna Measurement Tutorial](#antenna-measurement-tutorial)
   - [Reference Code](#reference-code)
 - [Compatibility](#compatibility)
-- [License](#license)
+- [Contributions](#contributions)
 
 ## Features
 
@@ -95,23 +96,23 @@ Coming Soon...
   <img src="/docs/assets/ARES_Antenna_Demo_2DRadiationPattern.png" width="720"/>
 <p \>
  
-You can find the detailed tutorial for performing antenna measurements using ARES [here](docs/Antenna_Measurement_Tutorial.pdf).
+You can find the detailed tutorial for performing antenna measurements using ARES [here](docs/assets/Tutorials/Antenna Tutorial.pdf).
 
 
 ### Reference Code
 
-The main application, instrument control code, and supporting functions are organized within the **[src](src)** directory. Here’s an overview of the contents:
+The main application, instrument control code, and supporting functions are organized within the **[src](./src)** directory. Here’s an overview of the contents:
 
 - **ARES.mlapp**: This is the main application file for ARES, where the graphical user interface (GUI) and core functionality reside.
 - **instrument_address_history.txt**: This text file stores the names of instruments and their corresponding IP addresses (or other connection details, like USB addresses). The app reads this file each time it is loaded to display available instruments and their addresses in the instrument blocks. Users can add, modify, or remove instrument addresses either through the app interface or by directly editing the **instrument_address_history.txt** file. The app handles the `visadev` connections internally and requires only the correct addresses to connect to the instruments.
 
-In the **[src/support](src/support)** directory, you'll find three subdirectories, each containing functions relevant to specific parts of the app:
+In the **[src/support](./src/support)** directory, you'll find three subdirectories, each containing functions relevant to specific parts of the app:
 
-- **[AntennaFunctions](src/support/AntennaFunctions)**: This directory contains functions related to antenna measurements, including the calculation of antenna gain using methods like gain comparison and gain transfer, S-parameters, and setting up necessary hardware like linear sliders. 
+- **[AntennaFunctions](./src/support/AntennaFunctions)**: This directory contains functions related to antenna measurements, including the calculation of antenna gain using methods like gain comparison and gain transfer, S-parameters, and setting up necessary hardware like linear sliders. 
 
-- **[PAFunctions](src/support/PAFunctions)**: This directory contains functions specific to power amplifier (PA) testing. It includes functions for measuring RF output, Gain, and DC Power, controlling power supply units (PSUs), deembedding PA characteristics, and validating and configuring PSU channels.
+- **[PAFunctions](./src/support/PAFunctions)**: This directory contains functions specific to power amplifier (PA) testing. It includes functions for measuring RF output, Gain, and DC Power, controlling power supply units (PSUs), deembedding PA characteristics, and validating and configuring PSU channels.
 
-- **[SupportFunctions](src/support/SupportFunctions)**: This directory contains utility functions that are used across both antenna and PA modules. These include functions for data conversion, saving/loading measurement data, improving plot appearance, and ensuring smooth instrument communication, and other app-wide utilities that facilitate interaction with the system.
+- **[SupportFunctions](./src/support/SupportFunctions)**: This directory contains utility functions that are used across both antenna and PA modules. These include functions for data conversion, saving/loading measurement data, improving plot appearance, and ensuring smooth instrument communication, and other app-wide utilities that facilitate interaction with the system.
 
 Additionally, sample measurement data for plotting is available in the **[data](./data)** directory, organized into two subdirectories:
 - **[Antenna](./data/Antenna)**: Contains sample data specific to antenna measurements.
@@ -134,7 +135,7 @@ The app is compatible with the following instruments:
 - **ETS Lindgren Linear Slider**
 - **Coming Soon**: **Keysight PNA-X** 4-Port Network Analyzer
 
-## License
+## Contributions
 
 <p align="center">
   <img src="/docs/assets/ARES%20logo.jpg" width="240"/>
@@ -145,25 +146,3 @@ The app is compatible with the following instruments:
 - PI: Dimitrios Peroulis
 - Adaptive Radio Electronics and Sensors Group
 - Purdue University
-
-MIT License
-
-Copyright (c) 2024-2025
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
