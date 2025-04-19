@@ -6,6 +6,8 @@
 
 The **Automated Radio Evaluation Suite** enables automated RF measurements for power amplifiers and antennas. Unlike commercial software, this app is open-source, customizable, and free. Please note that the app is still in development, and some features may not be available in this release.
 
+All the documentation is hosted on [Read the Docs](https://aresio.readthedocs.io/).
+
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
@@ -63,7 +65,6 @@ To run the app, you will need:
 - [MATLAB Instrument Control Toolbox](https://www.mathworks.com/products/instrument.html) (for VISA control functions)
 - [MATLAB RF Toolbox](https://www.mathworks.com/products/rftoolbox.html) (to read and analyze S-parameter data)
 - [Keysight Connection Expert](https://www.keysight.com/us/en/lib/software-detail/computer-software/io-libraries-suite-downloads-2175637.html) (for VISA drivers; Install the pre-requisite first, then the main installer)
-- [NI VISA Driver](https://www.ni.com/en/support/downloads/drivers/download.ni-visa.html#548367)
 
 ### Network Connections
 
@@ -141,8 +142,8 @@ The app is compatible with the following instruments:
   <img src="/docs/assets/ARES%20logo.jpg" width="240"/>
 <p \>
   
-- Author: José Abraham Bolaños Vargas
-- Mentor: Alex David Santiago Vargas
+- Author: José Abraham Bolaños Vargas (@bolanosv)
+- Mentor: Alex David Santiago Vargas (@AlexDCode)
 - PI: Dimitrios Peroulis
 - Adaptive Radio Electronics and Sensors Group
 - Purdue University
