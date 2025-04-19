@@ -79,24 +79,10 @@ To run the app, you will need:
 
 ### PA Measurement Tutorial
 
-<p align="center">
-  <img src="/docs/assets/ARES_PA_Demo_Single.png" width="720"/>
-<p \>
-<p align="center">
-  <img src="/docs/assets/ARES_PA_Demo_Sweep.png" width="720"/>
-<p \>
 Coming Soon...
 
 ### Antenna Measurement Tutorial
 
-<p align="center">
-  <img src="/docs/assets/ARES_Antenna_Demo_Reference.png" width="720"/>
-<p \>
-
-<p align="center">
-  <img src="/docs/assets/ARES_Antenna_Demo_2DRadiationPattern.png" width="720"/>
-<p \>
- 
 You can find the detailed tutorial for performing antenna measurements using ARES [here](docs/assets/Tutorials/Antenna Tutorial.pdf).
 
 
