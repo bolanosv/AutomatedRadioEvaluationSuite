@@ -1,7 +1,7 @@
 function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VNA)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % This function extracts the 2-port or 3-port S-Parameters magnitude in
-    % (dB) and phase in (degrees) a VNA laboratory instrument using SCPI. 
+    % This function extracts the 2-port S-Parameters magnitude in (dB)
+    % and phase in (degrees) using a VNA laboratory instrument using SCPI. 
     %
     % INSTRUMENTS
     %   Vector Network Analyzer: PNA-L N5232B
@@ -9,10 +9,6 @@ function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VN
     % INPUT PARAMETERS
     %   VNA:         The instrument object representing the vector network 
     %                analyzer, used to measure the S-Parameters.
-    %   numPorts:    The number of ports (2 or 3) of the VNA to be used.
-    %   startFreq:   Start frequency of the measurement range in (Hz).
-    %   endFreq:     End frequency of the measurement range in (Hz).
-    %   sweepPts:    Number of points for the VNA frequency sweep.
     %
     % OUTPUT PARAMETERS
     %   sParameters_dB:     Magnitude of S-Parameters in (dB).
@@ -24,6 +20,7 @@ function [sParameters_dB, sParameters_Phase, freqValues] = measureSParameters(VN
     flush(VNA);
     writeline(VNA, '*CLS');
 
+    % Create the 2-Port measurement labels.
     measLabels = {'S11', 'S21', 'S22'};
     
     % Perform a single continuos sweep and wait for the VNA to finish.
