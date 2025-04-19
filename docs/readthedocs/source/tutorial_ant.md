@@ -1,10 +1,7 @@
 # Antenna Tutorial
 
-<p align="center">
-  <img src="./assets/Ant/demo_refAnt.png" width="720"/>
-<p \>
+Reference Antenna View
+![Reference Antenna](./assets/Ant/demo_refAnt.png)
 
-<p align="center">
-  <img src="./assets/Ant/demo_2Dpattern.png" width="720"/>
-<p \>
- 
+Measured Antenna View
+![Antenna Radiation Pattern](./assets/Ant/demo_2Dpattern.png)

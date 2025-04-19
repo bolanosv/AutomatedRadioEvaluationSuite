@@ -4,45 +4,30 @@ Power Amplifier (PA) measurements can be performed with frequency, RF power, and
 
 ### 1. Connect to the instruments
 
-<p align="center">
-  <img src="./assets/PA/connect_inst.png" width="720"/>
-<p \>
+![Connect Insruments](./assets/PA/connect_inst.png)
 
-
-<p align="center">
-  <img src="./assets/PA/connected_inst.png" width="720"/>
-<p \>
+![Connected Insruments](./assets/PA/connected_inst.png)
 
 ### 2. Configure the DC power supplies
 
-<p align="center">
-  <img src="./assets/PA/psu_mode.png" width="720"/>
-<p \>
+![DC Power Supply Mode](./assets/PA/psu_mode.png)
 
-<p align="center">
-  <img src="./assets/PA/psu_config.png" width="720"/>
-<p \>
+![DC Power Supply Mode](./assets/PA/psu_config.png)
+
 
 ### 3. Configure the signal generator and analyzer
 
-<p align="center">
-  <img src="./assets/PA/signal_config.png" width="720"/>
-<p \>
+![Signal Analysis Configuration](./assets/PA/signal_config.png)
 
 ### 4. Configure the measurement calibration
 
-<p align="center">
-  <img src="./assets/PA/calibration.png" width="720"/>
-<p \>
+![Signal Analysis Configuration](./assets/PA/calibration.png)
+
 
 ### 4. Run the test and plot the results
 Single Results View
-<p align="center">
-  <img src="./assets/PA/demo_single.png" width="720"/>
-<p \>
+![Signal Analysis Configuration](./assets/PA/demo_single.png)
 
 Sweep Results View
-<p align="center">
-  <img src="./assets/PA/demo_sweep.png" width="720"/>
-<p \>
+![Signal Analysis Configuration](./assets/PA/demo_sweep.png)
 

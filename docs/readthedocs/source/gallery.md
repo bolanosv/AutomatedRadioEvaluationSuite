@@ -1,22 +1,16 @@
 # Example Gallery
 
 ## Antenna Example Data
-<p align="center">
-  <img src="./assets/Ant/demo_refAnt.png" width="720"/>
-<p \>
+Reference Antenna View
+![Reference Antenna](./assets/Ant/demo_refAnt.png)
 
-<p align="center">
-  <img src="./assets/Ant/demo_2Dpattern.png" width="720"/>
-<p \>
- 
+Measured Antenna View
+![Antenna Radiation Pattern](./assets/Ant/demo_2Dpattern.png)
 
 ## PA Example Data
-<p align="center">
-  <img src="./assets/PA/demo_single.png" width="720"/>
-<p \>
+Single Results View
+![Signal Analysis Configuration](./assets/PA/demo_single.png)
 
 Sweep Results View
-<p align="center">
-  <img src="./assets/PA/demo_sweep.png" width="720"/>
-<p \>
+![Signal Analysis Configuration](./assets/PA/demo_sweep.png)
 
