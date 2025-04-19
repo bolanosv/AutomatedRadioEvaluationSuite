@@ -125,7 +125,7 @@ The app is compatible with the following instruments:
 ## Contributions
 
 <p align="center">
-  <img src="/docs/assets/ARES%20logo.jpg" width="240"/>
+  <img src="/docs/assets/ARES_logo.jpg" width="240"/>
 <p \>
   
 - Author: José Abraham Bolaños Vargas (@bolanosv)
