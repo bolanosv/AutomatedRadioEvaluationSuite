@@ -1,10 +1,10 @@
-# Antenna Measurement Tutorial
+# Antenna Tutorial
 
 <p align="center">
-  <img src="./assets/ARES_Antenna_Demo_Reference.png" width="720"/>
+  <img src="./assets/Ant/demo_refAnt.png" width="720"/>
 <p \>
 
 <p align="center">
-  <img src="./assets/ARES_Antenna_Demo_2DRadiationPattern.png" width="720"/>
+  <img src="./assets/Ant/demo_2Dpattern.png" width="720"/>
 <p \>
  
