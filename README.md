@@ -70,7 +70,7 @@ To run the app, you will need:
 
 ### [Antenna Measurement Tutorial](https://aresio.readthedocs.io/en/latest/tutorial_ant.html)
 
-You can find the detailed tutorial for performing antenna measurements using ARES [here](docs/assets/Tutorials/Antenna Tutorial.pdf).
+You can find the detailed tutorial for performing antenna measurements using ARES [here](docs/assets/Tutorials/Antenna%20Tutorial.pdf).
 
 ## Contributions
 
@@ -78,8 +78,8 @@ You can find the detailed tutorial for performing antenna measurements using ARE
   <img src="./docs/assets/ARES_logo.jpg" width="240"/>
 <p \>
   
-- Author: José Abraham Bolaños Vargas (@bolanosv)
-- Mentor: Alex David Santiago Vargas (@AlexDCode)
+- Author: José Abraham Bolaños Vargas ([@bolanosv](http://github.com/bolanosv))
+- Mentor: Alex David Santiago Vargas ([@AlexDCode](http://github.com/AlexDCode))
 - PI: Dimitrios Peroulis
 - Adaptive Radio Electronics and Sensors Group
 - Purdue University
