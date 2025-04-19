@@ -28,6 +28,8 @@ myst_enable_extensions = [
     "attrs_inline",  # Allows inline attributes
 ]
 
+latex_engine = 'pdflatex'
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
