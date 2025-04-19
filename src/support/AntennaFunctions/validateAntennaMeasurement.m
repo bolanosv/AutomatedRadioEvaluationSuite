@@ -7,7 +7,9 @@ function isValid = validateAntennaMeasurement(app)
     %   - Whether the start and end frequencies are set and different.
     %   - Whether the number of sweep points is set.
     %   - Whether the antenna physical size is specified.
-    %   - Whether the turntable settings (speed, start angle, step angle, 
+    %   - Whether the turntable settings (scan mode, start angle, step 
+    %     angle, end angle) are configured.
+    %   - Whether the tower settings (scan mode, start angle, step angle, 
     %     end angle) are configured.
     %
     % If any of these conditions fail, the function will display 
@@ -15,7 +17,9 @@ function isValid = validateAntennaMeasurement(app)
     % configuration.
     %
     % INSTRUMENTS
-    % EMCenter
+    %   Vector Network Analyzer: PNA-L N5232B
+    %   EMCenter
+    %   EMSlider
     %
     % INPUT PARAMETERS
     %   app:       The application object containing the antenna setup 
@@ -31,13 +35,14 @@ function isValid = validateAntennaMeasurement(app)
     endFrequency = app.VNAEndFrequency.Value;
     sweepPoints = app.VNASweepPoints.Value;
     antennaSize = app.AntennaPhysicalSize.Value;
-    tableSpeed = app.TableSpeedSlider.Value;
     tableStartAngle = app.TableStartAngle.Value;
     tableStepAngle = app.TableStepAngle.Value;
     tableEndAngle = app.TableEndAngle.Value;
-
     ThetaSwitch = app.ThetaSingleSweepSwitch.Value;
-    %PhiSwitch = app.
+    towerStartAngle = app.TowerStartAngle.Value;
+    towerStepAngle = app.TowerStepAngle.Value;
+    towerEndAngle = app.TowerEndAngle.Value;
+    PhiSwitch = app.PhiSingleSweepSwitch.Value;
 
     %% Validation Checks
     % Check if start and end frequencies are set and different.
@@ -62,20 +67,31 @@ function isValid = validateAntennaMeasurement(app)
     end
 
     % Check if turntable settings are properly configured.
-    if isempty(tableSpeed)
-        uialert(app.UIFigure, 'Table speed cannot be empty.', 'Invalid Table Speed');
-        isValid = false;
-        return;
-    elseif isempty(tableStartAngle) 
-        uialert(app.UIFigure, 'Table start angle cannot be empty.', 'Invalid Table Start Angle');
+    if isempty(tableStartAngle) 
+        uialert(app.UIFigure, 'Turntable start angle cannot be empty.', 'Invalid Table Start Angle');
         isValid = false;
         return;
     elseif isempty(tableStepAngle) && strcmp(ThetaSwitch, 'Sweep')
-        uialert(app.UIFigure, 'Table step angle cannot be empty.', 'Invalid Table Step Angle');
+        uialert(app.UIFigure, 'Turntable step angle cannot be empty when the sweep mode is active.', 'Invalid Turntable Sweep Settings');
         isValid = false;
         return;
     elseif isempty(tableEndAngle) && strcmp(ThetaSwitch, 'Sweep')
-        uialert(app.UIFigure, 'Table end angle cannot be empty.', 'Invalid Table End Angle');
+        uialert(app.UIFigure, 'Turntable end angle cannot be empty when the sweep mode is active.', 'Invalid Turntable Sweep Settings');
+        isValid = false;
+        return;
+    end
+
+    % Check if tower settings are properly configured.
+    if isempty(towerStartAngle) 
+        uialert(app.UIFigure, 'Tower start angle cannot be empty.', 'Invalid Tower Start Angle');
+        isValid = false;
+        return;
+    elseif isempty(towerStepAngle) && strcmp(PhiSwitch, 'Sweep')
+        uialert(app.UIFigure, 'Tower step angle cannot be empty when the sweep mode is active.', 'Invalid Tower Sweep Settings');
+        isValid = false;
+        return;
+    elseif isempty(towerEndAngle) && strcmp(PhiSwitch, 'Sweep')
+        uialert(app.UIFigure, 'Tower end angle cannot be empty when the sweep mode is active.', 'Invalid Tower Sweep Settings');
         isValid = false;
         return;
     end
