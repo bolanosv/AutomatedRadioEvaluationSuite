@@ -40,7 +40,6 @@ All the documentation is hosted on [Read the Docs](https://aresio.readthedocs.io
 ## TODO
 
 - **Faster Antenna Scanning**: Improve scanning by measuring positive angles first and returning to the origin at the end of the measurement.
-- **Stop button**: for PA tests.
 - **3D Radiation Pattern**: Include 3D patterns if more than two cuts are included.
 - **Create Tutorials**: Add more tutorials for different app functionalities (one tutorial available for now).
 - **Error Handling**: Error handling is in place for the PA side, including error messages displayed in the GUI. An error log function is still needed.
