@@ -43,7 +43,7 @@ GitHub Repository <https://github.com/AlexDCode/AutomatedRadioEvaluationSuite>
 
 ## Contributors
 
-![ARES Logo](./../../../docs/assets/ARES_logo.jpg){witdh=240px align=center}
+![ARES Logo](./../../../docs/assets/ARES_logo.jpg){witdh=240px, align=center}
 
 - Author: José Abraham Bolaños Vargas ([@bolanosv](http://github.com/bolanosv))
 - Mentor: Alex David Santiago Vargas ([@AlexDCode](http://github.com/AlexDCode), [Google Scholar](https://scholar.google.com/citations?user=n_pFUoEAAAAJ&hl=en))

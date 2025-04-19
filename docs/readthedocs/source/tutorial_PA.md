@@ -26,8 +26,10 @@ Power Amplifier (PA) measurements can be performed with frequency, RF power, and
 
 ### 4. Run the test and plot the results
 Single Results View
+
 ![Signal Analysis Configuration](./assets/PA/demo_single.png){witdh=1920px align=center}
 
 Sweep Results View
+
 ![Signal Analysis Configuration](./assets/PA/demo_sweep.png){witdh=1920px align=center}
 
