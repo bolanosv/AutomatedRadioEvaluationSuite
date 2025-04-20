@@ -16,14 +16,14 @@ function plotReferenceAntenna(app)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % Clear current plots.
-    cla(app.GainvsFrequencyBoresightGain);
-    cla(app.ReturnLossBoresightGain);
+    cla(app.GainvsFrequencyBoresight);
+    cla(app.ReturnLossBoresight);
 
     % Plot the parameters onto the plots.
-    plot(app.GainvsFrequencyBoresightGain, app.ReferenceGainFile.FrequencyMHz, app.ReferenceGainFile.GaindBi);
-    plot(app.ReturnLossBoresightGain, app.ReferenceGainFile.FrequencyMHz, app.ReferenceGainFile.ReturnLossdB);
+    plot(app.GainvsFrequencyBoresight, app.ReferenceGainFile.FrequencyMHz, app.ReferenceGainFile.GaindBi);
+    plot(app.ReturnLossBoresight, app.ReferenceGainFile.FrequencyMHz, app.ReferenceGainFile.ReturnLossdB);
 
     % Improves the plot appeareance, line thickness can be modified.
-    improveAxesAppearance(app.GainvsFrequencyBoresightGain, 'LineThickness', 2);
-    improveAxesAppearance(app.ReturnLossBoresightGain, 'LineThickness', 2);
+    improveAxesAppearance(app.GainvsFrequencyBoresight, 'LineThickness', 2);
+    improveAxesAppearance(app.ReturnLossBoresight, 'LineThickness', 2);
 end

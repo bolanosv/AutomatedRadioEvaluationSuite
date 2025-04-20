@@ -4,6 +4,7 @@ function isValid = validateAntennaMeasurement(app)
     % settings based on the user's inputs.
     %
     % It checks for the following conditions:
+    %   - Whether the VNA, EMCenter, EMSlider are connected.
     %   - Whether the start and end frequencies are set and different.
     %   - Whether the number of sweep points is set.
     %   - Whether the antenna physical size is specified.
@@ -45,6 +46,13 @@ function isValid = validateAntennaMeasurement(app)
     PhiSwitch = app.PhiSingleSweepSwitch.Value;
 
     %% Validation Checks
+    % Check if antenna relevant instruments are connected.
+    if isempty(app.VNA) && isempty(app.EMCenter) && isempty(app.EMSlider)
+        uialert(app.UIFigure, 'No antenna relevant instruments connected. Please connect them before proceeding.', 'No Devices Connected');
+        isValid = false;
+        return;
+    end
+
     % Check if start and end frequencies are set and different.
     if isempty(startFrequency) || isempty(endFrequency) || (startFrequency == endFrequency)
         uialert(app.UIFigure, 'Invalid frequency values. Start and end frequencies must be set and different.', 'Invalid Frequency Settings');
