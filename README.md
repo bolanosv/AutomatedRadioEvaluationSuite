@@ -40,9 +40,9 @@ The **Automated Radio Evaluation Suite (ARES)** enables automated RF measurement
 - Measure antenna gain characteristics by:
   - Gain Comparison Method (i.e., Two-Antenna Method)
   - Gain Transfer Method (i.e., Comparison Antenna Method) using a reference measurement
-- Measure antenna return loss (magnitude and phase)
-- Save and recall measurements in standardized file formats for data analysis
-- Plot measurement results within the app for quick visualization
+- Measure antenna return loss (magnitude and phase).
+- Save and recall measurements in standardized file formats for data analysis.
+- Plot measurement results within the app for quick visualization.
 
 ## TODO
 
