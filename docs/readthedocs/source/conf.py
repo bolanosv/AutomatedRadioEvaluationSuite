@@ -8,8 +8,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'ARES'
-copyright = '2025, Alex Santiago'
-author = 'Alex Santiago'
+copyright = '2025, Alex D. Santiago-Vargas, José Abraham Bolaños Vargas'
+author = 'Alex D. Santiago-Vargas, José Abraham Bolaños Vargas'
 release = '1.0'
 ARES_logo = './../../../src/support/ARES Icon.png'
 
@@ -27,6 +27,8 @@ myst_enable_extensions = [
     "html_image",  # Allows HTML images
     "attrs_inline",  # Allows inline attributes
 ]
+
+latex_engine = 'pdflatex'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
